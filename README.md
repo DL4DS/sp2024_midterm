@@ -89,6 +89,12 @@ metrics although they use CIDr-D as their primary evaluation.
 They reference the BLUE metric, but there are limitations to that metric as
 described in [3] below.
 
+**TODO** Explain how to get validation results from your own run.
+
+**TODO** Explain how to submit test json to evaluation server to get test results.
+
+**TODO** Set test result threshold that must be passed.
+
 References:
 1. [CIDEr: Consensus-based image description evaluation](https://ieeexplore.ieee.org/document/7299087)
 2. [BLEU: A Misunderstood Metric from Another Age](https://towardsdatascience.com/bleu-a-misunderstood-metric-from-another-age-d434e18f1b37), Medium Post
