@@ -1,0 +1,15 @@
+*json
+*.safetensors
+*.pt
+*.pyc
+wandb/*
+
+__pycache__/
+
+*.log
+
+# Ignore SCC qsub status files
+*.sh.e*
+*.sh.o*
+*.sh.pe*
+*.sh.po*
