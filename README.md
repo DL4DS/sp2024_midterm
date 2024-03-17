@@ -40,6 +40,8 @@ python path/to/train.py
 ### qsub -pe omp 4 -P ds598 -l gpus=1 train.sh
 ```
 
+Note that there are train and test scripts for the two folders already.
+
 ## Run Example Scripts
 
 When you run the example scripts, make sure to add the path to the repo
