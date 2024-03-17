@@ -87,7 +87,7 @@ In the VizWiz challenge evaluation they refer to five different evaluation
 metrics although they use CIDr-D as their primary evaluation.
 
 They reference the BLUE metric, but there are limitations to that metric as
-described in [3] below.
+described in [2] below.
 
 **TODO** Explain how to get validation results from your own run.
 
@@ -100,11 +100,5 @@ References:
 2. [BLEU: A Misunderstood Metric from Another Age](https://towardsdatascience.com/bleu-a-misunderstood-metric-from-another-age-d434e18f1b37), Medium Post
 3. [BLEU Metric](https://huggingface.co/spaces/evaluate-metric/bleu), HuggingFace space
 
-## Other References
 
-Some possible repos to look at for examples of Transformer based image captioning
-models.
-
-* CLIP - GPT Implementation from: https://github.com/jmisilo/clip-gpt-captioning/tree/main
-* GIT Implementation from: https://github.com/NielsRogge/Transformers-Tutorials/blob/master/GIT/Fine_tune_GIT_on_an_image_captioning_dataset.ipynb
 
