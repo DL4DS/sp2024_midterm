@@ -89,13 +89,26 @@ metrics although they use CIDr-D as their primary evaluation.
 They reference the BLUE metric, but there are limitations to that metric as
 described in [2] below.
 
-**TODO** Explain how to get validation results from your own run.
+### Validation Results
 
-**TODO** Explain how to submit test json to evaluation server to get test results.
+Validation set results are reported in the CNN-LSTM example and code for reporting validation results are in the demo model code.
 
-**TODO** Set test result threshold that must be passed.
+### Test Results
 
-References:
+As is typically the case, the test dataset labels are withheld, and so the only way to get test results is to produce predicted captions and
+then submit them to the VizWiz Image Captioning [Evaluation Server](https://eval.ai/web/challenges/challenge-page/739/overview). There are
+scripts in both model directories to create the test submission file, although the demo model test script will have to be updated with model 
+information.
+
+Create an account on the [Evaluation Server](https://eval.ai/web/challenges/challenge-page/739/overview) and submit your test predictions
+to get your result.
+
+Step-by-step instructions will be added here shortly.
+
+State-of-the-art CIDEr-D scores on VizWiz Image Captioning is ~125. We're asking that you get a **minimum CIDEr-D test score of 50**.
+
+## References
+
 1. [CIDEr: Consensus-based image description evaluation](https://ieeexplore.ieee.org/document/7299087)
 2. [BLEU: A Misunderstood Metric from Another Age](https://towardsdatascience.com/bleu-a-misunderstood-metric-from-another-age-d434e18f1b37), Medium Post
 3. [BLEU Metric](https://huggingface.co/spaces/evaluate-metric/bleu), HuggingFace space
