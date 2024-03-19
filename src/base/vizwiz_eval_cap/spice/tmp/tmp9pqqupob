@@ -1,0 +1,1042 @@
+[
+  {
+    "image_id": 23431,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a computer screen shows a repair prompt on the screen",
+      "a computer screen with a repair automatically pop up",
+      "partial computer screen showing the need of repairs",
+      "part of a computer monitor showing a computer repair message",
+      "the top of a laptop with a blue background and dark blue text"
+    ]
+  },
+  {
+    "image_id": 23432,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a person is holding a bottle that has medicine for the night time",
+      "a bottle of medication has a white twist top",
+      "night time medication bottle being held by someone",
+      "a person holding a small black bottle of night time",
+      "a bottle of what appears to be cough syrup held in hand"
+    ]
+  },
+  {
+    "image_id": 23433,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a white paper showing an image of black and brown dog",
+      "a library book with pictures of two dogs on the cover on a wooden table",
+      "a book with a black and a tan dog walking down a snowy street",
+      "the book cover shows two dogs in the snow",
+      "a book cover title dog years with an image of a black and brown dog walking up the street on the left side it has a due date sticker from a library"
+    ]
+  },
+  {
+    "image_id": 23434,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a white box is to the left of a blue box on a wooden table",
+      "a small rectangular red and white box next to a small rectangular blue box on a wooden surface",
+      "two boxes of medicine one white and red and the other blue sitting on a table",
+      "two boxes that appear to contain medication or eye drops",
+      "two boxes of pharmaceutical products left in a table"
+    ]
+  },
+  {
+    "image_id": 23435,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "close up of a computer monitor that is powered on",
+      "a monitor has a message displayed on it",
+      "pictured here is a screenshot that shows an error message from an app",
+      "computer screen displaying an error saying the display driver is not supported by zoom text",
+      "a screenshot of someone 's monitor that is having issues"
+    ]
+  },
+  {
+    "image_id": 23436,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a dell laptop computer screen showing window 7 home premium",
+      "a computer screen with a windows dialogue box containing the login",
+      "computer screen showing a windows 7 home premium window with a dell logo on it",
+      "a dell laptop with windows 7 home screen",
+      "window screen of dell desktop or laptop showed box of windows 7"
+    ]
+  },
+  {
+    "image_id": 23438,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a close-up of a package of a computer-related item",
+      "a device with microsoft and hewlett packard logos but too blurry to tell what it is"
+    ]
+  },
+  {
+    "image_id": 23439,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a bottle of lotion on the table in front of someone sitting down wearing shorts",
+      "a small bottle of lotion on a table above a person 's lap"
+    ]
+  },
+  {
+    "image_id": 23440,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "the interior of a bus has a horizontal bar near the ceiling for passengers to hold on to and behind it there is a sign regarding handicapped passengers",
+      "a curving metal handrail with a horizontal cross piece about a foot from the bus ceiling is directly in front of the handicap exit",
+      "the overhead handrails on a bus in the city are shown with a building right outside the window below them",
+      "a vehicle has a window and a gray bar",
+      "a gray frame around a window that indicates seating for disabled people"
+    ]
+  },
+  {
+    "image_id": 23441,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a view of a building with a picture of a man on it with a couple big trees in front of it",
+      "sky view snapshot of trees in front of a giant billboard",
+      "view of trees and a nearby sign promoting istikrar sursun",
+      "downtown photo of several buildings trees people and automobiles",
+      "white building with a brick colored roof and a sign that reads istikrarsursun"
+    ]
+  },
+  {
+    "image_id": 23442,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a white object with elastic sides sitting on a wooden surface",
+      "a baby diaper keep in the table shown by the image",
+      "a opened up diaper laying on a wooden surface",
+      "clean maxi pad over a dark wooden surface"
+    ]
+  },
+  {
+    "image_id": 23443,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "appears to be a picture of prepaid card",
+      "large orange and white label with a person 's hand holding it",
+      "someone is holding a white envelope with an orange strip down the length of it",
+      "the package contains information about the enclosed medication",
+      "pictured is the top left corner of a parcel of mail"
+    ]
+  },
+  {
+    "image_id": 23444,
+    "test": "a person is holding a white object in their hand",
+    "refs": [
+      "a white piece of paper with a blue emblem off to the side"
+    ]
+  },
+  {
+    "image_id": 23445,
+    "test": "a person is holding a bag of food",
+    "refs": [
+      "a bright blinding light is obstructing all view"
+    ]
+  },
+  {
+    "image_id": 23446,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a set of hand held electronic children 's learning devices one for puzzles and a dictionary",
+      "two packages with children 's calculators in them are on the wooden table",
+      "two kids learning toys still in package laying on a table",
+      "two electronic learning toys for children both in plastic packaging"
+    ]
+  },
+  {
+    "image_id": 23447,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a picture of what appears to be some kind of food label",
+      "obstructed view of some type of microwavable or frozen food",
+      "package of frozen food on top of a white surface",
+      "some package food looks like some kind of meat or pasta"
+    ]
+  },
+  {
+    "image_id": 23448,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "an image of a windows seven disk plate on the floor",
+      "a windows 7 ultimate edition cd on a black counter top",
+      "windows 7 ultimate dvd and 64-bit software disc",
+      "human stand beside table and cd titles windows 7",
+      "i see a disk for windows 7 ultimate"
+    ]
+  },
+  {
+    "image_id": 23449,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a laptop screen with system dialog on the screen",
+      "the corner of a black computer with type of the screen and white type on the keyboard",
+      "partial view of laptop showing upper right portion of keyboard starting with f8 key all the way to the delete key and the screen is the right hand portion showing approximately half of the screen",
+      "a black laptop with the computer 's specs on the screen",
+      "part of the keyboard and screen on a laptop"
+    ]
+  },
+  {
+    "image_id": 23450,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "the underside of a dell inspiron laptop showing the device label including the text inspiron 1545",
+      "a black substance that has letters of the commodity",
+      "the back of a dell laptop which shows the label and serial number",
+      "a dell computer number and information on the side of a computer tower",
+      "part of a laptop 's specs and barcode are shown on stickers attached to the back of the laptop"
+    ]
+  },
+  {
+    "image_id": 23451,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "point of sale food or deli possibly inside of the mall or other retail outlet",
+      "gloomy snapshot of a snack bar site",
+      "some small mall food court restaurant is shown with two workers behind the counter and no one in line",
+      "the entrance of a restaurant with a lighted sign above a counter",
+      "an image of a fast food restaurant like one seen in a mall"
+    ]
+  },
+  {
+    "image_id": 23452,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "part of the white sweater whose brand is uspa",
+      "appears to be a picture of a shirt",
+      "the logo for the united states parachute association decorates this shirt",
+      "the logo that has been sewn onto a white shirt a uspca logo",
+      "a brown embroidered uspa logo on white fabric"
+    ]
+  },
+  {
+    "image_id": 23453,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a bright colored pillow case with a bottle and dropper on it",
+      "a essential oil bottle with a dropper is on a white fabric",
+      "an herbal dietary supplement from walgreen 's in a glass bottle with dropper"
+    ]
+  },
+  {
+    "image_id": 23454,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "computer monitor currently on a wooden computer desk",
+      "a computer monitor reflects a camera flash wires surround it",
+      "a computer monitor starting up resting on a desk with a mouse and cd cases",
+      "a squared computer monitor sitting on a desk with wires near it",
+      "a computer monitor showing windows starting on a desk with cables around"
+    ]
+  },
+  {
+    "image_id": 23455,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a blue computer screen with white text showing stages of verifying files",
+      "the computer features a blue screen notifying the user that the disk needs to be checked and the status of verifying the files and a dirty screen",
+      "blue screen on computer with a bunch of white text on it",
+      "a sideways picture of a computer screen or tv with codes that appear to be loading something",
+      "computer monitor with a windows blue error screen on it"
+    ]
+  },
+  {
+    "image_id": 23456,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "power lines stretch across an expanse of cloudy gray sky",
+      "stormy clouds over a parking lot with cars telephone poles and buildings in the background",
+      "view of buildings and cars on a city street on a cloudy day",
+      "an outside crowded parking lot and a few buildings with an overcast sky",
+      "sky is dark with clouds that look like rain can see several building and cars"
+    ]
+  },
+  {
+    "image_id": 23457,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a package of medicine 28 tablets that are 20 milligrams",
+      "a picture of a medication box sitting on a glossy stone background",
+      "a box of medicine is on the dirty ground",
+      "a picture of a box of pills with 28 tablets on the floor",
+      "a box that holds 28 20 mg tablets manufactured by the company bristol"
+    ]
+  },
+  {
+    "image_id": 23459,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "image is blur and hard to find what it is",
+      "a woman in pink pajamas standing next to a white refrigerator in a kitchen",
+      "the back of a woman in pink standing at her counter and next to her white refrigerator",
+      "a photo of a person wearing a pink shirt and pink flower pants in a kitchen next to a refrigerator",
+      "a person in red shirt and pink pajama pants stands in a kitchen near cabinets and counters"
+    ]
+  },
+  {
+    "image_id": 23460,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a pc running windows software is stuck at an installation prompt",
+      "part of an lcd computer screen with an error message on it is displayed in the picture",
+      "a online customer service dialog that you could communicate with the vendor online",
+      "several pamphlets on top of each other as white pamphlet with black letters"
+    ]
+  },
+  {
+    "image_id": 23461,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a view of a take out restaurant menu",
+      "a food menu with images of drink and food",
+      "the middle part of a menu where the black bordered cover is located",
+      "an opened restaurant menu listing all the food options",
+      "a portion of a menu is shown with items such as hamburger tejano plate shrimp plate steak and eggs etc."
+    ]
+  },
+  {
+    "image_id": 23462,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a computer screen with an antenna ear behind it and a speaker on the side of it",
+      "a computer monitor showing a samsung recovery solution 4",
+      "computer screen with blue background and samsung recovery solution 4 message in white including a yellow triangle with mark and there is part of the router behind screen",
+      "a computer screen is displaying a window with a message",
+      "a snapshot of a computer desktop screen"
+    ]
+  },
+  {
+    "image_id": 23463,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a computer screen has several windows open and one says recent in red",
+      "a computer screen is turned on with a dialogue box",
+      "several windows open and tabs on a computer monitor",
+      "open browser windows on a computer screen for software"
+    ]
+  },
+  {
+    "image_id": 23464,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "up close snapshot of a computer screen",
+      "a zoomed in portion of a computer screen is shown displaying some sort of call page",
+      "an image of a blue and white computer screen"
+    ]
+  },
+  {
+    "image_id": 23465,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a tv screen displaying a news broadcast and a shelf with an arrangement of toy",
+      "a desk with a television as well as a shelf above with toys on it",
+      "i see a tv that sitting on the table",
+      "a tv on a stand with a shelf that is cluttered above it",
+      "a tv displaying the weather channel sitting under a shelf covered in random objects"
+    ]
+  },
+  {
+    "image_id": 23466,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a person in a long sleeved green shirt is holding a small document in his hand",
+      "a person is holding onto a small piece of paper",
+      "someone wearing a camouflage shirt is holding a jammin and crammin ad in their left hand",
+      "a person is holding a paper with an image",
+      "a white piece of paper with a black and white image with black text on someone 's hand"
+    ]
+  },
+  {
+    "image_id": 23467,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "appears to be photo of a magazine cover featuring a winter covered street with buildings and houses around and 2 dogs traveling down the street",
+      "a library book about dogs sits on a brown table",
+      "a library book about dogs sitting on a wooden table",
+      "this library book has not been borrowed very often",
+      "a book with a library sticker on the front called dog years -lrb- a memoir -rrb- with a picture of two dogs walking down a street"
+    ]
+  },
+  {
+    "image_id": 23468,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a package of kirkland signature pork chops are shown",
+      "an image that shows a payment invoice for a specific establishment",
+      "a label to a product with bold text on it",
+      "label for boneless center pork loin and rib chops",
+      "a receipt has a part circled in red"
+    ]
+  },
+  {
+    "image_id": 23469,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a white card with black text is on the table"
+    ]
+  },
+  {
+    "image_id": 23470,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "angled down at someone 's lap and feet on the floor",
+      "a person 's foot against a backdrop of dark cloth",
+      "a person is sitting with their ankles crossed",
+      "a foot is shown as from above with what looks like a bare arm or leg and clothing above it partially obscuring the foot"
+    ]
+  },
+  {
+    "image_id": 23471,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a frozen packaged dinner with a lavender and black label",
+      "a package of pre made food with beef",
+      "package of beef and rice dinner with white label",
+      "frozen lasagna meal with a white label on the front"
+    ]
+  },
+  {
+    "image_id": 23472,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "the back of a receipt has grey text down the length",
+      "an image of a person 's hand holding on to both ends of a piece of paper with written text f",
+      "a person holding a white piece of paper in conditions written on it",
+      "the back of a receipt with terms of service on a marble counter",
+      "a person is holding a paper on top of a table"
+    ]
+  },
+  {
+    "image_id": 23473,
+    "test": "a person is holding a white object in their hand",
+    "refs": [
+      "a white sheet of paper has blurry text on it",
+      "a piece of paper is on the brown table but it is very blurry",
+      "a close up of a sheet of paper on a wooden desk"
+    ]
+  },
+  {
+    "image_id": 23474,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "the back of a person who is wearing a white shirt",
+      "someone facing away from the camera in a sitting position",
+      "an object that has black rectangles in it with a large square object above it"
+    ]
+  },
+  {
+    "image_id": 23475,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a hoover vacuum cleaner filter with model number bh50010",
+      "a piece of metal with a manufacturer label is resting on the carpet",
+      "a grey part that goes to a vacuum cleaner sitting on top of a brown carpet",
+      "a silver vacuum cleaner component with the white manufacturer label visible on a beige carpet",
+      "the back part of an small electrical machine"
+    ]
+  },
+  {
+    "image_id": 23476,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a some sort of card or a ticket it has an image of a cactus",
+      "a hotel key card with an image of a cactus on it",
+      "an image of a green cactus with the date july-08-11",
+      "a white ticket is on the table with a cactus on it",
+      "a label with a cactus and the word insert"
+    ]
+  },
+  {
+    "image_id": 23477,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "on a table electronic device which displays programs news was kept on the above shelf was full of prizes",
+      "the inside of a bedroom containing a tv with a video game system",
+      "image contain shows a monitor running on a table",
+      "a black tv sitting on a wooden counter with a image of a building",
+      "a television sitting on a wooden table below some shelves"
+    ]
+  },
+  {
+    "image_id": 23478,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "three fingers on the right touching someone 's breast with a green shirt an a blue and flower t-shirt",
+      "the chest of a woman wearing a floral shirt with a green corduroy shirt over top",
+      "a woman 's chest in a flower print top that is being exposed by a man 's hand",
+      "a green button down shirt covers a blue shirt with bright flowers"
+    ]
+  },
+  {
+    "image_id": 23479,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "the reflection of two people hugging in front of the original pancake house door",
+      "someone in the reflection of the door for the original pancake house",
+      "the sign printed on the front of a door to a pancake house",
+      "store display with white writing on the window",
+      "some sort of doorway that leads to a pancake house"
+    ]
+  },
+  {
+    "image_id": 23480,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "three bottles of food product are on a table",
+      "a container of orange juice is shown on a table",
+      "round glass bottle with part writing and part lemon on",
+      "three small plastic bottles containing various food supplements and food",
+      "the side of a blue bottle of a beverage on a counter"
+    ]
+  },
+  {
+    "image_id": 23481,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "screenshot of an electronic device showing a list of media categories",
+      "a blurry image of the digital screen of a digital camera",
+      "the option menu of a black olympus cell phone",
+      "a phone showing its menu settings in white lettering"
+    ]
+  },
+  {
+    "image_id": 23482,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a computer screen displaying some of the search result",
+      "a screenshot of a web search on a computer can be seen in the picture",
+      "computer monitor displaying a search page up with several different results",
+      "a computer screen is displaying swag buck information",
+      "a computer screen pulled up to the swag bucks webpage"
+    ]
+  },
+  {
+    "image_id": 23483,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a white label has a barcode on it and a westell company logo",
+      "a manufacturing label with a logo and barcode",
+      "white colored rectangular shaped printed sentence placed on floor",
+      "a close up of a sticker of a manufacture information of a type of electronic device that says westell"
+    ]
+  },
+  {
+    "image_id": 23484,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a laptop monitor with a window open on the screen",
+      "computer screen showing a pop-up window with an illegible message",
+      "i see window page and work the process laptop",
+      "a computer screen showing a dialog box is at the bottom of the frame above is an interior wall with a window",
+      "a computer screen showing some work on windows"
+    ]
+  },
+  {
+    "image_id": 23485,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a clear plastic bottle of irn bru stands on a light wooden table with a woman in a green shirt sitting in the background",
+      "an empty plastic bottle of irn bru sugar free drink",
+      "a bottle of something that is sugar free sits on a table",
+      "bottle of liquid containers of food sitting on wood table with a lady in a green shirt and person in black jacket and red shirt",
+      "some type of beer that can be used to drink"
+    ]
+  },
+  {
+    "image_id": 23486,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "appears to be a picture of a metal label",
+      "metal tag with information about model bb1-1 serial # 3071 written in black ink between two pieces of wood",
+      "a label is on a wooden surface the label has the product described in text",
+      "image displays a volt watt with serial and model number",
+      "a white tag with an address and model number on it"
+    ]
+  },
+  {
+    "image_id": 23487,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a black and white frame with some description of beef and seafood",
+      "i see a bag of seafood on the table",
+      "a white and black color ordering book of a restaurant",
+      "restaurant menu shows seafood pasta and beef options",
+      "a menu with beef dishes and seafood dishes"
+    ]
+  },
+  {
+    "image_id": 23488,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a room with a orange pillow with a bill that says texas on it",
+      "brown pillow that has white text that says texas with a white bull in the middle",
+      "an orange texas longhorns pillow on a bed",
+      "an orange fabric with an ox on it and texas written on it on top of a white sheet",
+      "a white and brown bedding set with texas longhorn on it"
+    ]
+  },
+  {
+    "image_id": 23489,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a laptop is open with a pop-up telling the user that they need to insert some sort of external hard drive for the internal hard drive",
+      "the corner of a computer screen with installation instructions on it",
+      "a laptop screen is shown with a message on it against a dark background",
+      "part of a computer screen that is turned on and has writing",
+      "a picture of a computer screen with instructions of how to install something"
+    ]
+  },
+  {
+    "image_id": 23490,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "an image of a hard drive of a computer placed on the floor",
+      "a ash and white color computer system hard disk",
+      "a computer hard drive is on top of a beige table the hard drive is labeled and has text on it",
+      "specifications are shown on the back of this hard drive"
+    ]
+  },
+  {
+    "image_id": 23491,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a hardcover novel from clive cussler and dirk cussler",
+      "a book with the text clive cussler and dirk cussler with an image of a sci-fi boat",
+      "top of a clive cussler and dirk cussler book with title not showing",
+      "the front of a book by clive cussler is shown with pages sticking out of it",
+      "the cover of a book by author clive cussler"
+    ]
+  },
+  {
+    "image_id": 23492,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a switched on monitor has some words displayed",
+      "a portions of a computer screen and e-mail application",
+      "a close up of an open window on a computer screen",
+      "blurry picture is sideways and has a few words in it",
+      "a computer monitor of some sort with text on it"
+    ]
+  },
+  {
+    "image_id": 23493,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a macbook apple laptop with the iphone app website open",
+      "a computer screen on a website about in app purchases",
+      "a laptop displaying a website with a picture of an iphone titled in-app purchase"
+    ]
+  },
+  {
+    "image_id": 23494,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "an orca membership card sits on a wooden table top with the backside of the card with various information is displayed",
+      "a white orca card is laying on a table",
+      "a white card laying on a wooden surface",
+      "the back side of an orca transit card from the seattle wa area sitting on a brown wooden table",
+      "a white membership card sitting on a desk"
+    ]
+  },
+  {
+    "image_id": 23495,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a woman wearing a green shirt is sitting in front of a desktop computer",
+      "a person with a green shirt using a desktop computer",
+      "a blurred woman wearing a green shirt facing on monitor with papers beside her"
+    ]
+  },
+  {
+    "image_id": 23496,
+    "test": "a person is holding a bag of food",
+    "refs": [
+      "an open dialogue on a computer displaying some sort of information",
+      "a black computer monitor has a blank program window open",
+      "computer screen with a small window showing some data",
+      "a black laptop with an error message across the screen is sitting against a blue background",
+      "image contain a monitor that show a with box"
+    ]
+  },
+  {
+    "image_id": 23497,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "among the prints the word office is the only one that is a bit clear",
+      "a microsoft product is showing where its product key is",
+      "the top portion of a package of software",
+      "a silver case with the product key for microsoft office",
+      "microsoft office 2012 product key covered or missing"
+    ]
+  },
+  {
+    "image_id": 23498,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a black computer monitor and keyboard on a desk",
+      "a laptop with a screen up on it and the keyboard is visible",
+      "desktop computer with keyboard placed on a desk",
+      "a desktop computer with speakers and some cables",
+      "computer screen showing a web page with a keyboard and 2 speakers beside it"
+    ]
+  },
+  {
+    "image_id": 23499,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "an image of a windows computer screen with a blue background",
+      "a computer monitor screen with the blue windows welcome screen and multi colored logo shown",
+      "a blue computer screen showing the windows icon",
+      "computer screen with the blue windows loading screen currently showing on it",
+      "most of a -lrb- probably toshiba -rrb- monitor is showing with the windows logo at the bottom and one icon in the center of the monitor"
+    ]
+  },
+  {
+    "image_id": 23500,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a person is sitting down and has a bottle or lotion on their legs",
+      "vanilla lotion with a dark label laid on legs",
+      "a bottle of warm vanilla sugar scented body lotion",
+      "a small bottle of warm vanilla sugar lotion"
+    ]
+  },
+  {
+    "image_id": 23501,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a white background object showing some text information",
+      "a white color paper like thing in which some letters are printed",
+      "a checkout cart is shown on the computer screen",
+      "a packing or ordering summary sheet with a highlighted line beside all the items",
+      "a printed page with a price list in columns on the page"
+    ]
+  },
+  {
+    "image_id": 23502,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a blue container of some kind on a man 's lap",
+      "blue bottle with back barcode showing sitting on a man 's legs",
+      "someone is sitting down wearing black shorts their knees are showing and there is a blue plastic container on their lap and some boxes at their feet there is a scar on the right knee",
+      "a person is holding a bottle in their lap"
+    ]
+  },
+  {
+    "image_id": 23503,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "bright blue sky with white clouds in it and a truck in the driveway",
+      "a shot of someone 's neighborhood and driveway on a sunny day",
+      "a neighborhood with a truck parked in a driveway next to a mailbox",
+      "a zoomed out image of a neighborhood with small houses and a blue sky with clouds and a truck in a driveway",
+      "the sky is blue and the clouds are very white and fluffy while the houses around are bricked with flat tops"
+    ]
+  },
+  {
+    "image_id": 23504,
+    "test": "a person is holding a bag of food",
+    "refs": [
+      "i see a black and white computer screen",
+      "silver and black laptop showing an error on screen",
+      "computer screen that is showing the progress of a check disk on the c drive",
+      "a shot of a laptop computer displaying a text message that it is running a check on the disk and displaying the progress",
+      "a laptop that has a black screen and a bunch of blurry white words"
+    ]
+  },
+  {
+    "image_id": 23505,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a page is showing many different subjects in a book",
+      "a pamphlet or textbook with text and graphics printed on it",
+      "a piece of paper with some kind of writing on it is on top of a table",
+      "open instruction manual with 2 pages of text shown"
+    ]
+  },
+  {
+    "image_id": 23506,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "imac monitor and white keyboard on a dark area",
+      "a laptop that is installing some sort of software",
+      "a computer screen is displaying a window with a message",
+      "a computer screen is displaying instructions on how to install"
+    ]
+  },
+  {
+    "image_id": 23507,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "crack between cushions in a couch next to a thumb touching a leopard print object",
+      "someone wearing a leopard printed shirt resting their arm on a beige sofa",
+      "a tan couch with a leopard print material next to it"
+    ]
+  },
+  {
+    "image_id": 23508,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a computer screen rebooting from the start menu",
+      "a computer screen with a blue pop up box",
+      "a computer screen is displayed with a pop up window on a black page",
+      "pop up windows are annoying but that is what is on the monitor",
+      "computer screen is black with a smaller bright screen in the middle"
+    ]
+  },
+  {
+    "image_id": 23509,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a laptop screen for a thinkpad that shows a loading screen",
+      "a computer monitor with a black background and a blue and white screen",
+      "computer monitor displaying a windows message to enter password key disk"
+    ]
+  },
+  {
+    "image_id": 23510,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a brass embossed american cancer society medal on a blue ribbon",
+      "a gold medal for the american cancer society",
+      "bronze medal with blue ribbon strap placed against hand",
+      "a medal put in hand shown by the image",
+      "some type of gold medallion used to show off"
+    ]
+  },
+  {
+    "image_id": 23511,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a tv screen that says csi crime scene investigation with description of episode",
+      "information on spike tv channel about the csi show at 3:00 pm",
+      "a television is on and a tv guide is on the screen",
+      "a television screen is showing the name type and description of a television show called csi-crime scene investigation",
+      "tv screen showing info for csi crime scene investigation"
+    ]
+  },
+  {
+    "image_id": 23512,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a novel with a piece of tape on it sits on the table",
+      "book with an image of a boat and a white piece of paper behind it",
+      "a closed book with a bookmark inserted and a black and orange cover that has a yacht on it",
+      "hardcover book with picture of boat on water with fire in backdrop of scene with title and other writing in white lettering",
+      "the top right corner of a paperback book by clive cussler and dirk cussler"
+    ]
+  },
+  {
+    "image_id": 23513,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a computer screen that has a window opened up on it and has a small arrow pointing north",
+      "i see a computer monitor with some writing",
+      "the top of a computer screen with an error message",
+      "a computer screen with a white and blue background"
+    ]
+  },
+  {
+    "image_id": 23514,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "the corner of a laptop screen is displayed but the screen is not fully shown",
+      "a laptop screen with 100 percent brightness and a pop up with the google label",
+      "the lower left corner of a apple laptop screen and keyboard can be seen",
+      "a personal desktop with the brightness at maximum on the screen"
+    ]
+  },
+  {
+    "image_id": 23515,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a computer monitor showing the windows startup logo",
+      "a computer monitor with the windows logo on the screen",
+      "a windows computer is lighting a room with its blue screen",
+      "a blue computer screen with the microsoft windows logo",
+      "a blue window screen with a black background"
+    ]
+  },
+  {
+    "image_id": 23516,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a pamphlet for naturally relieving stress and some kind of nature mountain pink sunset photo next to it",
+      "a flyer offering advice on various ways to manage stress",
+      "an article about stress with a cartoon in a yoga pose",
+      "article pinned to a mat describing foods to eat to help manage stress",
+      "a kind of book with stress relief techniques is sitting on the grey surface"
+    ]
+  },
+  {
+    "image_id": 23517,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "some knuckles on wood counter with money on it",
+      "a small piece of the corner of pink and yellow currency",
+      "a money bill or a check sitting on top of a desk",
+      "someone 's knuckles are resting on the edge of a table next to the corner of a check slip",
+      "several fingers are next to a board or table with a piece of paper that appears to be a check money or money order"
+    ]
+  },
+  {
+    "image_id": 23518,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a package of pork loin cured slice thick peameal",
+      "a plastic package of pork loin thick peameal",
+      "a package of meat is wet and dirty",
+      "meat packaged in plastic with pricing label with bar code",
+      "a package of pork loin in plastic wrap on the kitchen counter"
+    ]
+  },
+  {
+    "image_id": 23519,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a screen on a computer that says windows resume loader",
+      "a computer screen with a windows resume loader screen up",
+      "a half of electric device shows in the image"
+    ]
+  },
+  {
+    "image_id": 23520,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a computer made by coby has a window open on it",
+      "a black computer monitor showing expanding windows files",
+      "installation windows are displayed on the computer screen",
+      "the bottom portion of a computer monitor showing a computer prompt"
+    ]
+  },
+  {
+    "image_id": 23521,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "image was unclear but it is not item",
+      "computer screen displaying a repair page ready for computer shut down",
+      "partial snapshot of a computer desktop screen",
+      "repair alert on a pc with a reflection in the background",
+      "operating system error message from a recently attached device"
+    ]
+  },
+  {
+    "image_id": 23522,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a blu ray disc with 3d features contained within a blue case",
+      "a dvd containing the words prop of quartics inc",
+      "i believe it is a blu-ray disc of how to train your dragon",
+      "cd or dvd with label stating prop of quartics inc"
+    ]
+  },
+  {
+    "image_id": 23523,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a computer screen view of windows 7 home page",
+      "a computer screen that is on the windows home login page",
+      "a blue and white windows 7 home set up screen prompting a user name and computer name to be entered",
+      "a computer screen shows the set up process for windows 7 home"
+    ]
+  },
+  {
+    "image_id": 23524,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a computer screen with a windows prompt and a blue background",
+      "a pop up box on a blue screen laptop background",
+      "a computer screen showing a diagnosis and repair log screen",
+      "two windows pop up menus designed for troubleshooting",
+      "a computer screen showing the image of an open window of a repair log"
+    ]
+  },
+  {
+    "image_id": 23525,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a computer monitor displaying the progress of windows installation",
+      "a computer model with the windows start screen loaded is seen",
+      "a laptop computer screen with the prompt to install windows",
+      "a computer displaying a microsoft windows start up screen",
+      "a laptop computer with the microsoft windows installation menu open"
+    ]
+  },
+  {
+    "image_id": 23526,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a flat screen pc monitor running windows is stuck at a user prompt",
+      "a computer monitor displays messages about a messenger profile",
+      "a close up shot of a computer monitor with a dialog window open",
+      "a computer screen with a warning window saying are you sure you want to cancel",
+      "a computer screen with a pop up asking are you sure you want to cancel"
+    ]
+  },
+  {
+    "image_id": 23527,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a single can of pepsi soda resting on a blanket",
+      "a can pepsi is lying on a material that looks like wall insulation",
+      "a blue can of pepsi with the pepsi logo shown",
+      "a pepsi can is nestled in a fuzzy beige blanket",
+      "a can of pepsi soda pop almost squished between two tan pillows"
+    ]
+  },
+  {
+    "image_id": 23528,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "a sideways wine menu sitting on a red table",
+      "a white paged menu that displays many variety of wine",
+      "a wine menu with black print on white paper and in a plastic sleeve with black trim",
+      "a wine menu from a restaurant with very small print"
+    ]
+  },
+  {
+    "image_id": 23529,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a hp label on an hp product the label has its product 's specifications written on the label",
+      "a computer label from brand hp showing barcodes and most likely serial numbers",
+      "the back of a laptop device with the stickers that have the id information on them",
+      "the windows certificate of authenticity and hp serial number",
+      "model number and serial on the bottom of a laptop computer"
+    ]
+  },
+  {
+    "image_id": 23530,
+    "test": "a person is holding a pair of a pair of glasses",
+    "refs": [
+      "a settings screen of selecting a menu option in spanish text",
+      "an electronic device is displaying information concerning the connection of a tv antenna",
+      "a close up of an error message on a tv screen is shown against a black background",
+      "iphone screen showing a bunch of messages in spanish",
+      "a screen of a mobile phone with a text in it"
+    ]
+  },
+  {
+    "image_id": 23531,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "looks like a pill bottle near some electrical wiring",
+      "a tub of something sitting in front of a coffee pot",
+      "a coffee maker on a wood table with a bottle of pills in the foreground"
+    ]
+  },
+  {
+    "image_id": 23532,
+    "test": "a person is holding a pair of a pair of shoes",
+    "refs": [
+      "windows recovery tool asking what recovery option to use",
+      "snapshot of a small portion of a computer screen",
+      "the top portion of a recovery options window on a computer screen",
+      "a close of a computer monitor that is running a disk recovery program"
+    ]
+  }
+]
