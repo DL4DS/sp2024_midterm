@@ -6,7 +6,7 @@ import spacy
 
 # set this path to where you want to save results
 DEBUG = False
-BASE_DIR = "/projectnb/ds598/projects/ds598/students/faridkar/sp2024_midterm/"
+BASE_DIR = "/projectnb/ds598/students/faridkar/sp2024_midterm/"
 
 # Do not edit. This points to the dataset folder
 DATA_BASE_DIR = "/projectnb/ds598/materials/datasets/vizwiz/captions/"
