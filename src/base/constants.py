@@ -5,6 +5,7 @@ import nltk
 import spacy
 
 # set this path to where you want to save results
+DEBUG = False
 BASE_DIR = "/projectnb/ds598/projects/ds598/students/faridkar/sp2024_midterm/"
 
 # Do not edit. This points to the dataset folder
