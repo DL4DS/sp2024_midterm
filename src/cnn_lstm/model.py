@@ -29,8 +29,12 @@ class DecoderRNN(nn.Module):
     
     def forward(self,features, captions):
         # vectorize the caption
+        print("Feature size:", features.size())
         embeds = self.embedding(captions[:,:-1])
+        print("embedding size", embeds.size())
         x = torch.cat((features.unsqueeze(1),embeds),dim=1)
+        print("x size:", x.size())
+
         x,_ = self.lstm(x)
         x = self.fcn(x)
         return x

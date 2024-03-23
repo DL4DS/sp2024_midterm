@@ -3,7 +3,6 @@ from torch.utils.data import DataLoader, Dataset, Subset
 from torchvision import transforms
 from src.base.constants import *
 from src.base.helpers import *
-from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
 from dataset import CNNLSTMDataset  # import from local file dataset.py
 from tqdm import tqdm
 from transformers import AutoProcessor
@@ -18,7 +17,7 @@ from torchvision import models
 from transformers import AutoTokenizer
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader
-from model import EncoderDecoder
+from model import CNN_Transformer
 
 image_transforms = transforms.Compose(
     [
@@ -27,6 +26,7 @@ image_transforms = transforms.Compose(
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ]
 )
+
 
 train_dataset = CNNLSTMDataset(
     processor=None,
@@ -41,6 +41,43 @@ val_dataset = CNNLSTMDataset(
     transforms=image_transforms,
 )
 
+train_dataset = Subset(train_dataset, range(1000))
+val_dataset = Subset(val_dataset, range(100))
+
+def collate_fn(batch):
+    images, captions, img_ids = zip(*batch)
+    
+    # Stack images into a single tensor
+    imgs = torch.cat([img.unsqueeze(0) for img in images], dim=0)
+
+    targets = pad_sequence(captions, batch_first=True, padding_value=0)
+    img_ids_tensor = torch.tensor(img_ids, dtype=torch.int64) if not isinstance(img_ids[0], torch.Tensor) else torch.stack(img_ids, 0)
+
+    return imgs, targets, img_ids_tensor
+
+
+train_dataloader = DataLoader(
+    train_dataset, batch_size=16, shuffle=True, collate_fn=collate_fn
+)
+val_dataloader = DataLoader(
+    val_dataset, batch_size=1, shuffle=False, collate_fn=collate_fn
+)
+
 print("Train dataset size: ", len(train_dataset))
 print("Validation dataset size: ", len(val_dataset))
-print(train_dataset)
+
+vocab_size = len(train_dataset.dataset.vocab)
+device = "cuda"
+
+model = CNN_Transformer(embed_size=200,hidden_size=512,vocab_size=vocab_size,num_heads=1,drop_prob=0.3).to(device)
+
+batch = next(iter(val_dataloader))
+
+image, caption, img_id = batch
+image, caption = image.to(device), caption.to(device)
+print(image.size(), caption.size(), img_id)
+features = model.encoder(image.to(device))
+generated_caption = model.decoder.generate_caption(features,vocab=train_dataset.dataset.vocab)
+
+print('features size:', features.size())
+print('generated_caption:', generated_caption)

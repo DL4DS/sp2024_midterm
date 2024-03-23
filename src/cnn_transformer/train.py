@@ -18,7 +18,7 @@ from torchvision import models
 from transformers import AutoTokenizer
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader
-from model import EncoderDecoder
+from model import CNN_Transformer
 
 CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
 
@@ -42,9 +42,9 @@ if USE_GLOVE:
 
 
 if USE_GLOVE:
-    CNNLSTM_SAVE_PATH += "_glove"
-create_directory(CNNLSTM_SAVE_PATH)  # src/base/helpers.py
-create_directory(CNNLSTM_SAVE_PATH + "/examples")
+    TRANSFORMER_SAVE_PATH += "_glove"
+create_directory(TRANSFORMER_SAVE_PATH)  # src/base/helpers.py
+create_directory(TRANSFORMER_SAVE_PATH + "/examples")
 
 
 
@@ -70,6 +70,7 @@ val_dataset = CNNLSTMDataset(
     transforms=image_transforms,
 )
 if DEBUG:  # src/base/constants.py
+    print("Using subset...")
     train_dataset = Subset(train_dataset, range(3000))
     val_dataset = Subset(val_dataset, range(100))
 else:
@@ -114,8 +115,10 @@ total_step = len(train_dataloader)
 criterion = nn.CrossEntropyLoss()
 
 vocab_size = len(train_dataset.dataset.vocab)
+print("Vocab size:", vocab_size)
 # move the models to the GPU
-model = EncoderDecoder(embed_size=200,hidden_size=512,vocab_size=vocab_size,num_layers=2,drop_prob=0.3).to(device)
+model = CNN_Transformer(embed_size=200,hidden_size=512,vocab_size=vocab_size,num_heads=1,drop_prob=0.3).to(device)
+print("Defined model")
 
 if USE_GLOVE:
     ### TO TRY - USING GLOVE EMBEDDINGS ###
@@ -142,7 +145,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 method = "CIDEr"  # method used for comparsions
 
-logger = Logger(f"{CNNLSTM_SAVE_PATH}/logs.log")
+logger = Logger(f"{TRANSFORMER_SAVE_PATH}/logs.log")
 
 
 def train(logger, train_dataloader, model, optimizer, device):
@@ -158,6 +161,7 @@ def train(logger, train_dataloader, model, optimizer, device):
 
         # Feed forward
         outputs = model(images, captions)
+        print("Output generated")
         
         # Calculate the batch loss.
         loss = criterion(outputs.view(-1, vocab_size), captions.view(-1))
@@ -188,7 +192,7 @@ def evaluate(
             image, caption, img_id = batch
             image, caption = image.to(device), caption.to(device)
             features = model.encoder(image.to(device))
-            generated_caption = model.decoder.generate_caption(features.unsqueeze(0),vocab=train_dataset.dataset.vocab)
+            generated_caption = model.decoder.generate_caption(features,vocab=train_dataset.dataset.vocab)
 
             caption_val.append(
                 {"image_id": img_id.item(), "caption": generated_caption}
@@ -262,13 +266,13 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
     # Save the images and captions
     save_image_captions(
-        best_img_and_captions, f"{CNNLSTM_SAVE_PATH}/examples/epoch_{epoch}/best/"
+        best_img_and_captions, f"{TRANSFORMER_SAVE_PATH}/examples/epoch_{epoch}/best/"
     )
     save_image_captions(
-        worst_img_and_captions, f"{CNNLSTM_SAVE_PATH}/examples/epoch_{epoch}/worst/"
+        worst_img_and_captions, f"{TRANSFORMER_SAVE_PATH}/examples/epoch_{epoch}/worst/"
     )
     save_image_captions(
-        first_3_img_and_captions, f"{CNNLSTM_SAVE_PATH}/examples/epoch_{epoch}/first_3/"
+        first_3_img_and_captions, f"{TRANSFORMER_SAVE_PATH}/examples/epoch_{epoch}/first_3/"
     )
 
 
@@ -289,7 +293,7 @@ for epoch in range(3):
         vizwizEval, vizwizRes, plot_captions_dict = evaluate(
             logger,
             epoch,
-            CNNLSTM_SAVE_PATH,
+            TRANSFORMER_SAVE_PATH,
             best_score,
             train_dataset, 
             val_dataloader,
@@ -300,6 +304,6 @@ for epoch in range(3):
         logger.info(f"Score at epoch {epoch}: {score}")
         if score > best_score:
             best_score = score
-            torch.save(model.state_dict(), f"{CNNLSTM_SAVE_PATH}/best_model.pth")
+            torch.save(model.state_dict(), f"{TRANSFORMER_SAVE_PATH}/best_model.pth")
 
         get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method)
