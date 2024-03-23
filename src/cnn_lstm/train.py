@@ -70,7 +70,7 @@ val_dataset = CNNLSTMDataset(
     transforms=image_transforms,
 )
 if DEBUG:  # src/base/constants.py
-    train_dataset = Subset(train_dataset, range(3000))
+    train_dataset = Subset(train_dataset, range(1000))
     val_dataset = Subset(val_dataset, range(100))
 else:
     # Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original
