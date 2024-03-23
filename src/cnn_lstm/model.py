@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 from torchvision import models
 
-
 class EncoderCNN(nn.Module):
     def __init__(self,embed_size):
         super(EncoderCNN,self).__init__()
