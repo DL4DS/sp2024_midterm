@@ -71,12 +71,12 @@ val_dataset = CNNLSTMDataset(
 )
 
 ## Use the Subset while debugging ###
-# train_dataset = Subset(train_dataset, range(3000))
-# val_dataset = Subset(val_dataset, range(100))
+train_dataset = Subset(train_dataset, range(3000))
+val_dataset = Subset(val_dataset, range(100))
 
 # # ### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
-train_dataset = Subset(train_dataset, range(len(train_dataset)))
-val_dataset = Subset(val_dataset, range(len(val_dataset)))
+# train_dataset = Subset(train_dataset, range(len(train_dataset)))
+# val_dataset = Subset(val_dataset, range(len(val_dataset)))
 
 
 print("SANITY CHECK!!")

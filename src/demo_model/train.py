@@ -32,7 +32,7 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-base-coco", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -51,12 +51,12 @@ val_dataset = DemoDataset(
 )
 
 ### Use the Subset while debugging ###
-# train_dataset = Subset(train_dataset, range(100))
-# val_dataset = Subset(val_dataset, range(10))
+train_dataset = Subset(train_dataset, range(30))
+val_dataset = Subset(val_dataset, range(5))
 
 ### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
-train_dataset = Subset(train_dataset, range(len(train_dataset)))
-val_dataset = Subset(val_dataset, range(len(val_dataset)))
+# train_dataset = Subset(train_dataset, range(len(train_dataset)))
+# val_dataset = Subset(val_dataset, range(len(val_dataset)))
 
 print("SANITY CHECK!!")
 print(f"LEN TRAIN IMAGE IDS: {len(train_dataset.dataset.image_ids)}")
@@ -72,15 +72,33 @@ val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
 try:
-    model = AutoModelForCausalLM.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    model = AutoModelForCausalLM.from_pretrained("microsoft/git-base-coco", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
+print("INITIAL TEST")
+from PIL import Image
+import requests
+itest_url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+itest_image = Image.open(requests.get(itest_url, stream=True).raw)
+itest_pixel_values = processor(images=itest_image, return_tensors="pt").pixel_values
+itest_prompt = "What is this?"
+with torch.no_grad():
+    itest_inputs = processor(
+            itest_prompt,
+            itest_image,
+            return_tensors="pt",
+            max_length=64
+        )
+    itest_sample = model.generate(**itest_inputs, max_length=64)
+print(processor.tokenizer.decode(itest_sample[0]))
+print("INITIAL TEST DONE")
+
+
 ## TODO Select your model optimizer
 try:
-    raise NotImplementedError("Select your model optimizer")
-    optimizer = None   # pick one from torch.optim
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.001)   # pick one from torch.optim
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
@@ -103,11 +121,12 @@ def train(loger, train_dataloader, model, optimizer, device, processor):
     for idx, batch in progress_bar:
         input_ids = batch.pop("input_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
+        attention_mask = batch.pop("attention_mask").to(device)
 
         optimizer.zero_grad()
 
         outputs = model(
-            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids
+            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids, attention_mask=attention_mask
         )
 
         loss = outputs.loss
@@ -135,9 +154,10 @@ def evaluate(
 
         with torch.no_grad():
             outputs = model.generate(pixel_values=pixel_values, max_length=50)
-
+        print("OUTPUTS", outputs)
         # Decode the generated ids to text
         generated_captions = processor.batch_decode(outputs, skip_special_tokens=True)
+        print("GENCAPPS", generated_captions)
 
         # Store the generated captions
         for img_id, caption in zip(image_ids, generated_captions):
@@ -223,7 +243,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
 
 best_score = 0
-for epoch in range(3):
+for epoch in range(4):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
