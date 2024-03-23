@@ -102,7 +102,7 @@ class Decoder(nn.Module):
                 break
 
         # Convert token IDs back to words, excluding the <SOS> and <EOS> tokens for the final caption.
-        generated_words = [vocab.itos[idx] for idx in caption_ids if idx not in (vocab.stoi['<SOS>'], vocab.stoi['<EOS>'])]
+        generated_words = [vocab.itos[idx] for idx in caption_ids if idx not in (vocab.stoi['<SOS>'], vocab.stoi['<EOS>'], vocab.stoi['<PAD>'])]
         caption = ' '.join(generated_words)
 
         return caption

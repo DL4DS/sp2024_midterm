@@ -133,14 +133,15 @@ if USE_GLOVE:
     embedding_tensor = torch.tensor(embedding_matrix, dtype=torch.float).to(device)
     model.decoder.embedding.weight = nn.Parameter(embedding_tensor, requires_grad=False)
 
-# Load models
-# model.encoder.load_state_dict(torch.load(f"{CNNLSTM_SAVE_PATH}/best_encoder.pth"))
-# model.decoder.load_state_dict(torch.load(f"{CNNLSTM_SAVE_PATH}/best_decoder.pth"))
+#Load models
+# print("========")
+# print("Loading model...")
+# model.load_state_dict(torch.load(f"{TRANSFORMER_SAVE_PATH}/best_model.pth"))
+# print("Loaded!")
 
 vocab_size = len(train_dataset.dataset.vocab)
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-
 
 
 method = "CIDEr"  # method used for comparsions
@@ -161,12 +162,10 @@ def train(logger, train_dataloader, model, optimizer, device):
 
         # Feed forward
         outputs = model(images, captions)
-        print("Output generated")
         
         # Calculate the batch loss.
         loss = criterion(outputs.view(-1, vocab_size), captions.view(-1))
 
-        
         # Backward pass.
         loss.backward()
 
@@ -275,9 +274,9 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
         first_3_img_and_captions, f"{TRANSFORMER_SAVE_PATH}/examples/epoch_{epoch}/first_3/"
     )
 
-
+EPOCHS = 5
 best_score = 0
-for epoch in range(3):
+for epoch in range(EPOCHS):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
