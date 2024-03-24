@@ -28,7 +28,7 @@ class PositionalEncoding(nn.Module):
         return self.dropout(x)
 
 class Decoder(nn.Module):
-    def __init__(self, embed_size, hidden_size, vocab_size, num_heads=2, drop_prob=0.3):
+    def __init__(self, embed_size, vocab_size, num_heads=2, drop_prob=0.3):
         super(Decoder, self).__init__()
         self.vocab_size = vocab_size
 
@@ -102,17 +102,17 @@ class Decoder(nn.Module):
                 break
 
         # Convert token IDs back to words, excluding the <SOS> and <EOS> tokens for the final caption.
-        generated_words = [vocab.itos[idx] for idx in caption_ids if idx not in (vocab.stoi['<SOS>'], vocab.stoi['<EOS>'], vocab.stoi['<PAD>'])]
+        generated_words = [vocab.itos[idx] for idx in caption_ids if idx not in (vocab.stoi['<SOS>'], vocab.stoi['<EOS>'])]
         caption = ' '.join(generated_words)
 
         return caption
 
 
 class CNN_Transformer(nn.Module):
-    def __init__(self, embed_size, hidden_size, vocab_size, num_heads=1, drop_prob=0.3):
+    def __init__(self, embed_size, vocab_size, num_heads=1, drop_prob=0.3):
         super(CNN_Transformer, self).__init__()
         self.encoder = EncoderCNN(embed_size)
-        self.decoder = Decoder(embed_size, hidden_size, vocab_size, num_heads, drop_prob)
+        self.decoder = Decoder(embed_size, vocab_size, num_heads, drop_prob)
 
     def forward(self, images, captions):
         features = self.encoder(images)

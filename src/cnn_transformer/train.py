@@ -116,8 +116,13 @@ criterion = nn.CrossEntropyLoss()
 
 vocab_size = len(train_dataset.dataset.vocab)
 print("Vocab size:", vocab_size)
-# move the models to the GPU
-model = CNN_Transformer(embed_size=200,hidden_size=512,vocab_size=vocab_size,num_heads=1,drop_prob=0.3).to(device)
+
+model_config = {
+    'num_heads': 4, 
+    'dropout': 0.3,
+}
+
+model = CNN_Transformer(embed_size=200,vocab_size=vocab_size,num_heads=model_config['num_heads'],drop_prob=model_config['dropout']).to(device)
 print("Defined model")
 
 if USE_GLOVE:
@@ -274,7 +279,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
         first_3_img_and_captions, f"{TRANSFORMER_SAVE_PATH}/examples/epoch_{epoch}/first_3/"
     )
 
-EPOCHS = 5
+EPOCHS = 10
 best_score = 0
 for epoch in range(EPOCHS):
     print(f"Epoch: {epoch+1}")
