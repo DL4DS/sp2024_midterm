@@ -31,9 +31,11 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 #
+
+# some models have beam parameters.
 # Of course you should use the same model you trained with.
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
