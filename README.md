@@ -1,5 +1,7 @@
 # DS598 DL4DS Midterm Project
 
+## Results - Wei
+
 ## Introduction
 For this project, you will train a network to generate captions for the 
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
