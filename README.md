@@ -11,6 +11,10 @@ kosmos, GPT2 not finished training.
 The best score was finetuning on salesforce/blip-base model.
 <img width="1103" alt="Screen Shot 2024-03-27 at 2 44 27 PM" src="https://github.com/weibb123/sp2024_midterm/assets/84426364/5ad46a72-0745-4a61-b9ab-335d92b60b37">
 
+train.sh.o5676799 provides the score during each epoch.
+
+
+
 ## Introduction
 For this project, you will train a network to generate captions for the 
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
