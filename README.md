@@ -28,9 +28,14 @@ For optimizer, I choose to use AdamW from torch.optim and set learning rate to 5
 
 #### Important note
 Because I am using transformers, it is important to feed attention_masks to the model. For example..
+```
+outputs = model(
+            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids,
+            attention_mask=attention_mask
+        )
+```
 
-
-
+As for epoch, it is possible to get higher cider score with longer epoch. For this experiment, I set it to 13, but achieved a cider score of 50 in first 5 epochs.
 
 
 ## Introduction
