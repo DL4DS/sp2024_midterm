@@ -105,8 +105,8 @@ information.
 The test results can be generated from running the demo_test.sh shell script or running the test.py under src/demo_model/test.py
 
 
-### Result Examples
-While training the model with src/demo_model/train.py, the best model will be saved be saved for every three epoch, if the validation CIDEr score is better than the previous evaluation. Examples are saved under the 
+## Result Examples
+While training the model with src/demo_model/train.py, the best model will be saved be saved for every three epoch, if the validation CIDEr score is better than the previous evaluation. Example image caption predictions are saved under the RESULTS/git/examples folder. 
 
 
 
