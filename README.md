@@ -11,9 +11,25 @@ kosmos, GPT2 not finished training.
 The best score was finetuning on salesforce/blip-base model.
 <img width="1103" alt="Screen Shot 2024-03-27 at 2 44 27 PM" src="https://github.com/weibb123/sp2024_midterm/assets/84426364/5ad46a72-0745-4a61-b9ab-335d92b60b37">
 
-train.sh.o5676799 provides the score during each epoch.
+train.sh.o5676799 provides the score during each epoch. Constants.py is where I update to my project path. 
 
-For this challenge, only the train.py, test.py, dataset.py in demo_model folder are modified. 
+For this challenge, only the train.py, test.py, dataset.py in demo_model folder are modified. Train.sh and test.sh shows how to submit batch job on SCC.
+
+To load in salesforce/blip-base-image-caption model from huggingface, https://huggingface.co/Salesforce/blip-image-captioning-base
+
+You would need to modify the original train.py
+
+```
+processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
+model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
+```
+
+For optimizer, I choose to use AdamW from torch.optim and set learning rate to 5e-5.
+
+#### Important note
+Because I am using transformers, it is important to feed attention_masks to the model. For example..
+
+
 
 
 
