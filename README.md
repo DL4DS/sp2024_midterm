@@ -102,12 +102,14 @@ then submit them to the VizWiz Image Captioning [Evaluation Server](https://eval
 scripts in both model directories to create the test submission file, although the demo model test script will have to be updated with model 
 information.
 
-Create an account on the [Evaluation Server](https://eval.ai/web/challenges/challenge-page/739/overview) and submit your test predictions
-to get your result.
+The test results can be generated from running the demo_test.sh shell script or running the test.py under src/demo_model/test.py
 
-Step-by-step instructions will be added here shortly.
 
-State-of-the-art CIDEr-D scores on VizWiz Image Captioning is ~125. We're asking that you get a **minimum CIDEr-D test score of 50**.
+### Result Examples
+While training the model with src/demo_model/train.py, the best model will be saved be saved for every three epoch, if the validation CIDEr score is better than the previous evaluation. Examples are saved under the 
+
+
+
 
 ## References
 
