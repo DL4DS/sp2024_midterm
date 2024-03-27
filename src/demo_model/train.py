@@ -22,9 +22,16 @@ import json
 ################################################################################
 
 CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
+#print("CACHE_DIR",CACHE_DIR) projectnb/ds598/students/xhu07/sp2024_midterm/misc
 
 create_directory(DEMO_SAVE_PATH)
-create_directory(DEMO_SAVE_PATH + "/examples")
+# print("DEMO_SAVE_PATH",DEMO_SAVE_PATH) 
+    #/projectnb/ds598/students/xhu07/sp2024_midterm/RESULTS/git
+create_directory(DEMO_SAVE_PATH + "/examplesAdamLarge")
+
+EPOCHS = 20
+LOCAL_LOAD = False
+LOG_NAME = "largeAdam"
 
 ## TODO
 # You can use the AutoProcessor.from_pretrained() method to load the HuggingFace
@@ -32,7 +39,7 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -64,23 +71,37 @@ print(f"LEN VAL IMAGE IDS: {len(val_dataset.dataset.image_ids)}")
 print("SANITY CHECK DONE!!")
 
 
-train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
+train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=6)
 val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
 
 ## TODO
 # You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
-try:
-    model = AutoModelForCausalLM.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
-except Exception as e:
-    print("You need to pick a pre-trained model from HuggingFace.")
-    print("Exception: ", e)
+if LOCAL_LOAD:
+    try:
+        # following_replaced in ""
+        #MODEL_PATH = f"{DEMO_SAVE_PATH}/best_modelgitSGD_epoch13"
+        print("MODEL_PATH:",MODEL_PATH )
+        model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
+    except Exception as e:
+        print("You need to pick a pre-trained model from HuggingFace.")
+        print("Exception: ", e)
+else:
+    try:
+        # following_replaced in ""
+        model = AutoModelForCausalLM.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
+    except Exception as e:
+        print("You need to pick a pre-trained model from HuggingFace.")
+        print("Exception: ", e)
+
 
 ## TODO Select your model optimizer
 try:
-    raise NotImplementedError("Select your model optimizer")
-    optimizer = None   # pick one from torch.optim
+    #raise NotImplementedError("Select your model optimizer")
+    #following replace to select optimizer 
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5) # pick one from torch.optim
+    #optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
@@ -94,7 +115,7 @@ model.to(device)
 
 method = "CIDEr"  # method used for comparsions
 
-logger = Logger(f"{DEMO_SAVE_PATH}/logs.log")
+logger = Logger(f"{DEMO_SAVE_PATH}/{LOG_NAME}.log")
 
 
 def train(loger, train_dataloader, model, optimizer, device, processor):
@@ -116,6 +137,7 @@ def train(loger, train_dataloader, model, optimizer, device, processor):
         loss.backward()
 
         optimizer.step()
+      
 
         # Update progress bar with loss info
         progress_bar.set_postfix({"loss": loss.item()})
@@ -147,11 +169,11 @@ def evaluate(
             plot_captions_dict[img_id.item()] = caption  # Used for plotting
 
     # Save the generated captions to a json file
-    with open(f"{save_path}/generated_captions.json", "w") as f:
+    with open(f"{save_path}/generated_captions_large.json", "w") as f:
         json.dump(caption_val, f, indent=4)
 
     vizwizRes = val_dataset.dataset.vizwiz.loadRes(
-        f"{save_path}/generated_captions.json"
+        f"{save_path}/generated_captions_large.json"
     )
     vizwizEval = VizWizEvalCap(val_dataset.dataset.vizwiz, vizwizRes)
     vizwizEval.evaluate()
@@ -212,18 +234,18 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
     # Save the images and captions
     save_image_captions(
-        best_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/best/"
+        best_img_and_captions, f"{DEMO_SAVE_PATH}/examplesAdamLarge/epoch_{epoch}/best/"
     )
     save_image_captions(
-        worst_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/worst/"
+        worst_img_and_captions, f"{DEMO_SAVE_PATH}/examplesAdamLarge/epoch_{epoch}/worst/"
     )
     save_image_captions(
-        first_3_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/first_3/"
+        first_3_img_and_captions, f"{DEMO_SAVE_PATH}/examplesAdamLarge/epoch_{epoch}/first_3/"
     )
 
 
 best_score = 0
-for epoch in range(3):
+for epoch in range(EPOCHS):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
@@ -249,7 +271,11 @@ for epoch in range(3):
         score = vizwizEval.eval[method]
         if score > best_score:
             best_score = score
-            model.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            model.save_pretrained(f"{DEMO_SAVE_PATH}/best_model{LOG_NAME}")
+            print(f"Model name: {DEMO_SAVE_PATH}/best_model{LOG_NAME}")
             logger.info(f"New best score: {best_score}. Model saved")
 
         get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method)
+
+
+
