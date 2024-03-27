@@ -37,6 +37,10 @@ outputs = model(
 
 As for epoch, it is possible to get higher cider score with longer epoch. For this experiment, I set it to 13, but achieved a cider score of 50 in first 5 epochs.
 
+### How to evaluate
+
+To evaluate your fine-tune model, make sure to download config, preconfig.json files and store in the model path for inference to work.
+
 
 ## Introduction
 For this project, you will train a network to generate captions for the 
