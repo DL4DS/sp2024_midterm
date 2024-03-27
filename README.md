@@ -13,6 +13,8 @@ The best score was finetuning on salesforce/blip-base model.
 
 train.sh.o5676799 provides the score during each epoch.
 
+For this challenge, only the train.py, test.py, dataset.py in demo_model folder are modified. 
+
 
 
 ## Introduction
