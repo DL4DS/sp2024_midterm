@@ -7,6 +7,7 @@ from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
 from dataset import DemoDataset
 from tqdm import tqdm
 from transformers import AutoProcessor
+from transformers import AutoTokenizer, AutoImageProcessor, AutoModelForCausalLM, BlipForConditionalGeneration, VisionEncoderDecoderModel
 from transformers import AutoModelForCausalLM, AdamW
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -23,7 +24,7 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 MODEL_PATH = f"{DEMO_SAVE_PATH}/best_model"
 
 # Load your fine tuned model
-model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
+model = BlipForConditionalGeneration.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
 
 ## TODO
 # You can use the AutoProcessor.from_pretrained() method to load the HuggingFace
@@ -33,7 +34,7 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
 #
 # Of course you should use the same model you trained with.
 
-processor = AutoProcessor.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
+processor = AutoProcessor.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = model.to(device)
