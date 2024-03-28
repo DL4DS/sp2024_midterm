@@ -9,7 +9,7 @@ human-based image captioning services.
 
 ## Results
 ![image](results.png)
-
+CIDEER
 Training logs with detailed scores for each epoch are provided in `demo_train.sh.e5693712` and `demo_train.sh.o5693712`
 
 ## Model
