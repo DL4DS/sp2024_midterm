@@ -1,0 +1,54 @@
+Directory '/projectnb/ds598/students/xyz0906/sp2024_midterm/RESULTS/git' already exists.
+Directory '/projectnb/ds598/students/xyz0906/sp2024_midterm/RESULTS/git/examples' already exists.
+loading annotations into memory...
+Done (t=0.20s)
+creating index...
+index created! imgs = 23431, anns = 100575
+loading annotations into memory...
+Done (t=0.07s)
+creating index...
+index created! imgs = 7750, anns = 33145
+SANITY CHECK!!
+LEN TRAIN IMAGE IDS: 22866
+LEN VAL IMAGE IDS: 7542
+SANITY CHECK DONE!!
+Epoch: 1
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created! imgs = 7542, anns = 7542
+tokenization...
+setting up scorers...
+computing Bleu score...
+{'testlen': 78051, 'reflen': 78010, 'guess': [78051, 70509, 62967, 55425], 'correct': [53890, 25815, 10976, 4240]}
+ratio: 1.0005255736443917
+Bleu_1: 0.690
+Bleu_2: 0.503
+Bleu_3: 0.353
+Bleu_4: 0.241
+computing CIDEr score...
+CIDEr: 0.704
+Directory '/projectnb/ds598/students/xyz0906/sp2024_midterm/RESULTS/git/examples/epoch_0/best/' already exists.
+Directory '/projectnb/ds598/students/xyz0906/sp2024_midterm/RESULTS/git/examples/epoch_0/worst/' already exists.
+Directory '/projectnb/ds598/students/xyz0906/sp2024_midterm/RESULTS/git/examples/epoch_0/first_3/' already exists.
+Epoch: 2
+Epoch: 3
+Epoch: 4
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created! imgs = 7542, anns = 7542
+tokenization...
+setting up scorers...
+computing Bleu score...
+{'testlen': 80825, 'reflen': 79703, 'guess': [80825, 73283, 65741, 58199], 'correct': [55479, 27187, 11874, 4990]}
+ratio: 1.014077261834548
+Bleu_1: 0.686
+Bleu_2: 0.505
+Bleu_3: 0.358
+Bleu_4: 0.251
+computing CIDEr score...
+CIDEr: 0.761
+Directory '/projectnb/ds598/students/xyz0906/sp2024_midterm/RESULTS/git/examples/epoch_3/best/' already exists.
+Directory '/projectnb/ds598/students/xyz0906/sp2024_midterm/RESULTS/git/examples/epoch_3/worst/' already exists.
+Directory '/projectnb/ds598/students/xyz0906/sp2024_midterm/RESULTS/git/examples/epoch_3/first_3/' already exists.
