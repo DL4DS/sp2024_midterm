@@ -32,7 +32,7 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 try:
-    processor = AutoProcessor.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("Salesforce/blip-image-captioning-large", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -65,14 +65,14 @@ print("SANITY CHECK DONE!!")
 
 
 train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8) #8
-val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32) #32
+val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=1) #32
 
 ## TODO
 # You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
 try:
-    model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
+    model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -240,7 +240,7 @@ for epoch in range(epochs+1):
     logger.info(f"Loss at epoch {epoch}: {loss}")
 
     # Evaluate the model every 3 epochs
-    if epoch % 3 == 0:
+    if epoch % 1 == 0:
         vizwizEval, vizwizRes, plot_captions_dict = evaluate(
             logger,
             epoch,
