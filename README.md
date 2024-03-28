@@ -36,6 +36,68 @@ The dataset files are organized into three main categories: training, validation
 - APIs are included to demonstrate how to efficiently parse the JSON annotation files and to evaluate models against the provided ground truth.
 
 
+## Chosen Model and Fine Tuning
+
+### Microsoft Git Base
+
+The Generative Image-to-Text (GIT) model combines the Transformer decoder architecture with CLIP image tokens and text tokens, aimed at generating text based on both visual and textual inputs. Trained through "teacher forcing" on numerous image-text pairs, its primary function is to predict subsequent text tokens based on given image tokens and the sequence of preceding text tokens.
+
+Unlike traditional models that might only focus on text or images, GIT utilizes a bidirectional attention mask for image patches, allowing full visibility and contextual understanding of the visual content. However, for text tokens, it employs a causal attention mask, meaning the model can only "see" the text tokens that precede the one it's currently predicting, ensuring a coherent and contextually relevant textual output.
+
+### Microsoft Git Large:
+The Generative Image-to-Text (GIT) model, particularly its large-sized variant, is a cutting-edge Transformer-based architecture designed for converting visual inputs into textual descriptions. GIT leverages CLIP image tokens along with text tokens, training through a method known as "teacher forcing" with numerous image-text pairs. Its primary objective is to sequentially predict text tokens by integrating the information from both the provided image tokens and the sequence of previously generated text tokens.
+
+### Fine Tuning and Score
+
+## Experiment Phases
+
+#### Phase 1: Initial Setup with Git Base Model
+- **Model:** Microsoft Git Base
+- **Optimizer:** Stochastic Gradient Descent (SGD)
+- **Learning Rate:** 0.01
+- **Momentum:** 0.9
+- **Outcome:** The initial CIDEr Score obtained was 10.52, which was below our expectations.
+
+#### Phase 2: Transition to Git Large Model
+- **Model:** Microsoft Git Large
+- **Optimizer:** AdamW
+- **Learning Rate:** 0.00001
+- **Outcome:** A significant improvement was observed with a CIDEr Score of 68.69, surpassing our baseline target. This highlighted the Git Large model's superior capability in handling the task.
+
+#### Phase 3: Performance Enhancement
+- To further enhance the model's performance, we introduced a modification in the validation process within `test.py`. By implementing a more sophisticated generation strategy, we aimed to refine the output quality. The CIDEr Score is 79.53
+- **Code Addition:**
+  ```sh
+  output = model.generate(num_beams = 10, pixel_values=pixel_values, max_length=50)
+
+## Microsoft Git Models: Base vs Large - A Comparative Overview
+
+### Model Size and Capacity
+
+#### Git Base Model
+- **Size:** Smaller, optimized for a balance between performance and computational efficiency.
+- **Capacity:** Designed for environments with limited resources, offering faster inference times without significantly compromising result quality.
+
+#### Git Large Model
+- **Size:** Larger, with substantially more parameters than the base model.
+- **Capacity:** Enhanced ability to comprehend and generate complex code and text, suitable for a broader range of intricate tasks.
+
+### Performance and Accuracy
+
+- **Git Large Model:** Delivers higher accuracy and superior performance on sophisticated code-related tasks, attributed to its expanded capacity for capturing complex data patterns. The trade-off is higher computational demand and slower inference speeds.
+- **Git Base Model:** While it may be slightly less accurate on complex tasks, it maintains robust performance with the advantage of quicker inference times, ideal for real-time applications or environments with constrained computational resources.
+
+### Computational Resources and Inference Time
+
+- **Git Large Model:** Necessitates greater computational power and memory, which may increase costs and slow down response times, particularly in real-time applications.
+- **Git Base Model:** More computationally economical, facilitating easier deployment across various environments, especially those with limited hardware.
+
+## Conclusion
+
+In conclusion, the experiment clearly demonstrates the superior performance of the Git Large model, as evidenced by its impressive CIDEr score of 75.93. This indicates a significantly enhanced capability in generating relevant and contextually accurate captions compared to the Git Base model. However, this improved performance comes at the cost of considerably higher computational resource requirements, as reflected in the computation time cost, which was notably higher than that of the Git Base model. Therefore, while the Git Large model offers advanced capabilities for complex tasks, its deployment should be carefully considered in scenarios where computational efficiency and time constraints are critical factors.
+
+
+
 ## Developer Setup
 
 Clone this repo to your directory on the SCC DS598 project space, e.g.
