@@ -1,11 +1,40 @@
 # DS598 DL4DS Midterm Project
 
 ## Introduction
-For this project, you will train a network to generate captions for the 
+For this project, we had to train a model to generate captions for the 
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
 The images are taken by people who are blind and typically rely on
-human-based image captioning services.  Your objective will be to beat a
-a baseline score on the [test set leaderboard](https://eval.ai/web/challenges/challenge-page/739/leaderboard/2006).
+human-based image captioning services. We choose a model from Hugging Face, and then train and test. Our objective is to to beat a
+a baseline score on the [test set leaderboard](https://eval.ai/web/challenges/challenge-page/739/leaderboard/2006). For this project we aimed for 50 as Cider Score to pass.
+
+
+## Dataset
+### Overview
+The VizWiz-Captions dataset is tailored for image captioning tasks, containing a rich collection of images and captions aimed at training and evaluating machine learning models.
+
+### Dataset Composition
+
+#### Images
+- **Training Images**: 23,431
+- **Validation Images**: 7,750
+- **Test Images**: 8,000
+
+#### Captions
+- **Training Captions**: 117,155
+- **Validation Captions**: 38,750
+- **Test Captions**: 40,000 (Note: Captions for the test set are not publicly available)
+
+### Dataset Organization
+
+The dataset files are organized into three main categories: training, validation, and test sets, with each category containing its respective images.
+
+#### Annotations and APIs
+
+- Annotations for images and captions are split across two JSON files for the training and validation datasets. 
+- The test split captions are kept private to prevent data leakage and ensure a fair evaluation of models.
+- Each image in the dataset is associated with a "text_detected" flag. This flag is set to `true` if text is detected in the image by at least three out of five crowdsourced annotators. Otherwise, it is set to `false`.
+- APIs are included to demonstrate how to efficiently parse the JSON annotation files and to evaluate models against the provided ground truth.
+
 
 ## Developer Setup
 
