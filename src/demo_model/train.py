@@ -12,6 +12,8 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import os
 import json
+from transformers import BlipProcessor, BlipForConditionalGeneration
+
 
 ################################################################################
 # This is template code that will not run as is since a model is not defined but
@@ -32,7 +34,7 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -72,15 +74,15 @@ val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
 try:
-    model = AutoModelForCausalLM.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
 ## TODO Select your model optimizer
 try:
-    raise NotImplementedError("Select your model optimizer")
-    optimizer = None   # pick one from torch.optim
+    # raise NotImplementedError("Select your model optimizer")
+    optimizer = torch.optim.AdamW(params=model.parameters(), lr = 5e-2)   # pick one from torch.optim
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
