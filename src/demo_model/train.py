@@ -6,9 +6,7 @@ from src.base.helpers import *
 from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
 from dataset import DemoDataset   ## This is a local import from dataset.pyA
 from tqdm import tqdm
-from transformers import AutoProcessor
-from transformers import AutoTokenizer, AutoImageProcessor, AutoModelForCausalLM, BlipForConditionalGeneration, VisionEncoderDecoderModel
-from transformers import AutoModelForCausalLM, AdamW
+from transformers import AutoProcessor, BlipForConditionalGeneration, AdamW
 from PIL import Image
 import matplotlib.pyplot as plt
 import os
@@ -34,7 +32,6 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 
 processor = AutoProcessor.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
-#processor = AutoProcessor.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
 
 train_dataset = DemoDataset(
     processor=processor,
@@ -72,7 +69,6 @@ val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=7)
 # on the VizWiz dataset.
 
 model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
-#model = AutoModelForCausalLM.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
 
 ## TODO Select your model optimizer
     

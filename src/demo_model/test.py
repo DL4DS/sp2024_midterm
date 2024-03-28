@@ -6,9 +6,7 @@ from src.base.helpers import *
 from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
 from dataset import DemoDataset
 from tqdm import tqdm
-from transformers import AutoProcessor
-from transformers import AutoTokenizer, AutoImageProcessor, AutoModelForCausalLM, BlipForConditionalGeneration, VisionEncoderDecoderModel
-from transformers import AutoModelForCausalLM, AdamW
+from transformers import AutoProcessor, BlipForConditionalGeneration, AdamW
 from PIL import Image
 import matplotlib.pyplot as plt
 import os
