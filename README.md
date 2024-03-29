@@ -43,7 +43,7 @@ Shell Scripts
 
 Log files
 
-git/examples/       Results
+examples/       Results
 ```
 
 ## Developer Setup
