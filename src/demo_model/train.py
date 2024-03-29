@@ -12,6 +12,9 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import os
 import json
+import torch.optim as optim
+from transformers import BlipProcessor, BlipForConditionalGeneration
+
 
 ################################################################################
 # This is template code that will not run as is since a model is not defined but
@@ -32,7 +35,8 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    #processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -51,12 +55,12 @@ val_dataset = DemoDataset(
 )
 
 ### Use the Subset while debugging ###
-# train_dataset = Subset(train_dataset, range(100))
-# val_dataset = Subset(val_dataset, range(10))
+train_dataset = Subset(train_dataset, range(10))
+val_dataset = Subset(val_dataset, range(10))
 
-### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
-train_dataset = Subset(train_dataset, range(len(train_dataset)))
-val_dataset = Subset(val_dataset, range(len(val_dataset)))
+# ### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
+# train_dataset = Subset(train_dataset, range(len(train_dataset)))
+# val_dataset = Subset(val_dataset, range(len(val_dataset)))
 
 print("SANITY CHECK!!")
 print(f"LEN TRAIN IMAGE IDS: {len(train_dataset.dataset.image_ids)}")
@@ -72,15 +76,15 @@ val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
 try:
-    model = AutoModelForCausalLM.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    #model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
+    model = AutoModelForCausalLM.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
 ## TODO Select your model optimizer
 try:
-    raise NotImplementedError("Select your model optimizer")
-    optimizer = None   # pick one from torch.optim
+    optimizer = optim.AdamW(model.parameters(), lr=5e-4)   # pick one from torch.optim
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
@@ -103,11 +107,12 @@ def train(loger, train_dataloader, model, optimizer, device, processor):
     for idx, batch in progress_bar:
         input_ids = batch.pop("input_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
+        attn_mask = batch.pop("attention_mask").to(device)
 
         optimizer.zero_grad()
 
         outputs = model(
-            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids
+            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids, attention_mask=attn_mask
         )
 
         loss = outputs.loss
@@ -122,6 +127,14 @@ def train(loger, train_dataloader, model, optimizer, device, processor):
 
     return loss.item()
 
+# Generate captions using beam search with custom parameters
+beam_search_params = {
+    "num_beams": 5,          # Number of beams to use for beam search
+    "early_stopping": True,  # Whether to stop the beam search when at least one sequence has reached the max length
+    "num_return_sequences": 1,  # Number of sequences to return
+    "no_repeat_ngram_size": 2,  # Size of n-grams to avoid repeating in the generated sequence
+    # Other parameters like length penalty, temperature, etc., can also be adjusted
+}
 
 def evaluate(
     logger, epoch, save_path, best_score, val_dataloader, model, processor, device
@@ -132,9 +145,12 @@ def evaluate(
     for idx, batch in enumerate(val_dataloader):
         image_ids = batch.pop("image_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
+        attn_mask = batch.pop("attention_mask").to(device)
 
         with torch.no_grad():
-            outputs = model.generate(pixel_values=pixel_values, max_length=50)
+            outputs = model.generate(
+                pixel_values=pixel_values,
+                max_length=50)
 
         # Decode the generated ids to text
         generated_captions = processor.batch_decode(outputs, skip_special_tokens=True)
@@ -223,7 +239,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
 
 best_score = 0
-for epoch in range(3):
+for epoch in range(5):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
@@ -235,7 +251,7 @@ for epoch in range(3):
     logger.info(f"Loss at epoch {epoch}: {loss}")
 
     # Evaluate the model every 3 epochs
-    if epoch % 3 == 0:
+    if epoch % 1 == 0:
         vizwizEval, vizwizRes, plot_captions_dict = evaluate(
             logger,
             epoch,
