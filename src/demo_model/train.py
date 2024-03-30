@@ -67,7 +67,7 @@ print("SANITY CHECK DONE!!")
 
 
 train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
-val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
+val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=8)
 
 ## TODO
 # You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
@@ -82,7 +82,7 @@ except Exception as e:
 ## TODO Select your model optimizer
 try:
     # raise NotImplementedError("Select your model optimizer")
-    optimizer = torch.optim.AdamW(params=model.parameters(), lr = 5e-2)   # pick one from torch.optim
+    optimizer = torch.optim.AdamW(params=model.parameters(), lr = 5e-5)   # pick one from torch.optim
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
@@ -134,10 +134,12 @@ def evaluate(
     for idx, batch in enumerate(val_dataloader):
         image_ids = batch.pop("image_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
-
         with torch.no_grad():
-            outputs = model.generate(pixel_values=pixel_values, max_length=50)
-
+            if torch.cuda.device_count() > 1:
+                outputs = model.module.generate(pixel_values=pixel_values, max_length=50, attention_mask=attention_mask)
+            else:
+                outputs = model.generate(pixel_values=pixel_values, max_length=50, attention_mask=attention_mask)
+            # outputs = model.generate(pixel_values=pixel_values, max_length=50)
         # Decode the generated ids to text
         generated_captions = processor.batch_decode(outputs, skip_special_tokens=True)
 
@@ -225,7 +227,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
 
 best_score = 0
-for epoch in range(3):
+for epoch in range(30):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
@@ -236,8 +238,8 @@ for epoch in range(3):
     loss = train(logger, train_dataloader, model, optimizer, device, processor)
     logger.info(f"Loss at epoch {epoch}: {loss}")
 
-    # Evaluate the model every 3 epochs
-    if epoch % 3 == 0:
+    # Evaluate the model every 1 epoch
+    if epoch % 1 == 0:
         vizwizEval, vizwizRes, plot_captions_dict = evaluate(
             logger,
             epoch,
