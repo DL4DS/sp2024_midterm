@@ -66,24 +66,6 @@ print("SANITY CHECK DONE!!")
 
 train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
 val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
-"""  
-
-batch = next(iter(train_dataloader))
-for k,v in batch.items():
-  print(k,v.shape)
-print(processor.decode(batch["input_ids"][0]))
-
-from PIL import Image
-import numpy as np
-
-MEAN = np.array([123.675, 116.280, 103.530]) / 255
-STD = np.array([58.395, 57.120, 57.375]) / 255
-
-unnormalized_image = (batch["pixel_values"][0].numpy() * np.array(STD)[:, None, None]) + np.array(MEAN)[:, None, None]
-unnormalized_image = (unnormalized_image * 255).astype(np.uint8)
-unnormalized_image = np.moveaxis(unnormalized_image, 0, -1)
-Image.fromarray(unnormalized_image).save('./coinz.png')
-"""
 
 ## TODO
 # You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
@@ -94,26 +76,6 @@ try:
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
-
-"""
-print("INITIAL TEST")
-from PIL import Image
-import requests
-itest_url = "http://images.cocodataset.org/val2017/000000039769.jpg"
-itest_image = Image.open(requests.get(itest_url, stream=True).raw)
-itest_pixel_values = processor(images=itest_image, return_tensors="pt").pixel_values
-itest_prompt = "What is this?"
-with torch.no_grad():
-    itest_inputs = processor(
-            itest_prompt,
-            itest_image,
-            return_tensors="pt",
-            max_length=64
-        )
-    itest_sample = model.generate(**itest_inputs, max_length=64)
-print(processor.tokenizer.decode(itest_sample[0]))
-print("INITIAL TEST DONE")
-"""
 
 ## TODO Select your model optimizer
 try:
@@ -171,16 +133,13 @@ def evaluate(
     for idx, batch in enumerate(val_dataloader):
         image_ids = batch.pop("image_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
-        #print(pixel_values[0])
-        #toImg = transforms.ToPILImage()
-        #toImg(pixel_values[1]).save('./ermg.png')
         with torch.no_grad():
             outputs = None
             if isinstance(model, torch.nn.DataParallel):
                 outputs = model.module.generate(pixel_values=pixel_values, max_length=50)
             else:
                 outputs = model.generate(pixel_values=pixel_values, max_length=50)
-        #print("OUTPUTS", outputs.shape)
+
         # Decode the generated ids to text
         generated_captions = processor.batch_decode(outputs, skip_special_tokens=True)
         if not printed:

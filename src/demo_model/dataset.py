@@ -43,21 +43,9 @@ class DemoDataset(CustomDataset):
                 [ann["caption"] for ann in anns if "caption" in ann]
             )
 
-            # passing both text and image wont work (Ref: https://github.com/huggingface/transformers/blob/15f8296a9b493eaa0770557fe2e931677fb62e2f/src/transformers/models/git/processing_git.py#L90)
-            # get them seperately and combine
-            #image_encoding = self.processor(
-            #    images=img, padding="max_length", return_tensors="pt"
-            #)
             text_encoding = self.processor(
                 text=caption, images=img, padding="max_length", return_tensors="pt"
             )
-
-            #encoding = {
-            #    "input_ids": text_encoding["input_ids"].squeeze(),
-            #    "attention_mask": text_encoding["attention_mask"].squeeze(),
-            #    "pixel_values": image_encoding["pixel_values"].squeeze(),
-            #    "image_ids": torch.tensor(img_id),
-            #}
 
             encoding = {k:v.squeeze() for k,v in text_encoding.items()}
             encoding["image_ids"] = torch.tensor(img_id)
