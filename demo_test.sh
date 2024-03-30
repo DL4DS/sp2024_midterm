@@ -15,4 +15,4 @@ python src/demo_model/test.py
 
 
 ### The command below is used to submit the job to the cluster
-#qsub -pe omp 4 -P ds598 -l gpus=1 git_test.sh
+qsub -pe omp 4 -P ds598 -l gpus=1 git_test.sh
