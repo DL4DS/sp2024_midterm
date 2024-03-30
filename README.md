@@ -1,7 +1,28 @@
 # DS598 DL4DS Midterm Project
 
+## Model Used:
+- https://huggingface.co/Salesforce/blip-image-captioning-base
+
+## Learnings/Observations:
+
+- Optimize batch size to accommodate memory constraints.
+- Reduced the learning rate to prevent overshooting and ensure accurate loss
+  tracking.
+- Note that increasing the number of epochs does not consistently reduce the
+  loss.  It can lead to overshooting minima.  In such cases, adjustments to the
+  learning rate are essential for effective optimization.
+- It’s important to consider the training time, as jobs can be terminated if
+  excessive resources are utilized.
+- Despite attempting to utilize multiple GPUs, my task was consistently
+  terminated, likely due to resource overuse caused by a high batch size.
+- Hugging Face offers models in various sizes to cater to different needs.
+  Larger neural networks are designed for tackling complex problems with
+  extensive training data.  On the other hand, Base models are suitable for
+  addressing simpler tasks with limited training data.  While they may offer
+  slightly reduced accuracy, their training process is faster.
+
 ## Introduction
-For this project, you will train a network to generate captions for the 
+For this project, you will train a network to generate captions for the
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
 The images are taken by people who are blind and typically rely on
 human-based image captioning services.  Your objective will be to beat a
@@ -45,7 +66,7 @@ Note that there are train and test scripts for the two folders already.
 ## Run Example Scripts
 
 When you run the example scripts, make sure to add the path to the repo
-folder before running the script. 
+folder before running the script.
 
 ```export PYTHONPATH="/projectnb/ds598/path/to/folder:$PYTHONPATH"```
 
@@ -62,25 +83,25 @@ folder:
 $ qsub -pe omp 4 -P ds598 -l gpus=1 cnnlstm_train.sh
 Your job 5437870 ("cnnlstm_train.sh") has been submitted
 ```
-As shown, you should get notification that your job was submitted and get a 
+As shown, you should get notification that your job was submitted and get a
 job ID number.
 
 You can check your job status by typing:
 
 ```sh
 $ qstat -u <userid>
-ob-ID  prior   name       user         state submit/start at     queue                          slots ja-task-ID 
+ob-ID  prior   name       user         state submit/start at     queue                          slots ja-task-ID
 -----------------------------------------------------------------------------------------------------------------
-5437870 0.00000 cnnlstm_tr tgardos      qw    03/14/2024 09:40:24 
+5437870 0.00000 cnnlstm_tr tgardos      qw    03/14/2024 09:40:24
 ```
 
 The above is showing the example output from user `tgardos`.
 
 ## Dataset
 
-The dataset is downloaded to 
-`/projectnb/ds598/materials/datasets/vizwiz/captions`. There is no need to 
-download the dataset again and the path has already been defined in the 
+The dataset is downloaded to
+`/projectnb/ds598/materials/datasets/vizwiz/captions`. There is no need to
+download the dataset again and the path has already been defined in the
 accompanying code.
 
 ## Evaluation
@@ -99,7 +120,7 @@ Validation set results are reported in the CNN-LSTM example and code for reporti
 
 As is typically the case, the test dataset labels are withheld, and so the only way to get test results is to produce predicted captions and
 then submit them to the VizWiz Image Captioning [Evaluation Server](https://eval.ai/web/challenges/challenge-page/739/overview). There are
-scripts in both model directories to create the test submission file, although the demo model test script will have to be updated with model 
+scripts in both model directories to create the test submission file, although the demo model test script will have to be updated with model
 information.
 
 Create an account on the [Evaluation Server](https://eval.ai/web/challenges/challenge-page/739/overview) and submit your test predictions
@@ -114,6 +135,3 @@ State-of-the-art CIDEr-D scores on VizWiz Image Captioning is ~125. We're asking
 1. [CIDEr: Consensus-based image description evaluation](https://ieeexplore.ieee.org/document/7299087)
 2. [BLEU: A Misunderstood Metric from Another Age](https://towardsdatascience.com/bleu-a-misunderstood-metric-from-another-age-d434e18f1b37), Medium Post
 3. [BLEU Metric](https://huggingface.co/spaces/evaluate-metric/bleu), HuggingFace space
-
-
-
