@@ -1,7 +1,25 @@
 # DS598 DL4DS Midterm Project
 
-## Model Used:
-- https://huggingface.co/Salesforce/blip-image-captioning-base
+## Introduction
+For this project, you will train a network to generate captions for the
+[VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
+The images are taken by people who are blind and typically rely on
+human-based image captioning services.  Your objective will be to beat a
+a baseline score on the [test set leaderboard](https://eval.ai/web/challenges/challenge-page/739/leaderboard/2006).
+
+## Data Set
+The VizWiz-Captions dataset includes:
+
+    23,431 training images
+    117,155 training captions
+    7,750 validation images
+    38,750 validation captions
+    8,000 test images
+    40,000 test captions
+
+## Model/Preprocessing/Optimizer
+- Blip Image Captioning Base (https://huggingface.co/Salesforce/blip-image-captioning-base)
+- Optimizer: AdamW (torch.optim.AdamW, https://pytorch.org/docs/stable/generated/torch.optim.AdamW.html)
 
 ## Learnings/Observations:
 
@@ -21,12 +39,13 @@
   addressing simpler tasks with limited training data.  While they may offer
   slightly reduced accuracy, their training process is faster.
 
-## Introduction
-For this project, you will train a network to generate captions for the
-[VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
-The images are taken by people who are blind and typically rely on
-human-based image captioning services.  Your objective will be to beat a
-a baseline score on the [test set leaderboard](https://eval.ai/web/challenges/challenge-page/739/leaderboard/2006).
+## Results
+
+The current best-performing base model achieves a Cider score of 51.43 on the
+leadership dataset.  This was achieved with the following hyperparameters:
+learning rate set to 5e-5, 3 epochs, and a batch size of 8.  All other
+hyperparameters were maintained at their default settings as per the
+BlipProcessor and BlipForConditionalGeneration defaults.
 
 ## Developer Setup
 
