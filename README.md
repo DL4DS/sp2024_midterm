@@ -1,4 +1,5 @@
-# DS598 DL4DS Midterm Project
+# DS598 DL4DS Midterm Project 
+## Student Name / BUID (Yuta Tsukumo / U96925937)
 
 ## Introduction
 For this project, you will train a network to generate captions for the 
