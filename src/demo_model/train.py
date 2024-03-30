@@ -32,7 +32,7 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 try:
-    processor = AutoProcessor.from_pretrained("microsoft/git-base-coco", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -51,12 +51,12 @@ val_dataset = DemoDataset(
 )
 
 ### Use the Subset while debugging ###
-train_dataset = Subset(train_dataset, range(30))
-val_dataset = Subset(val_dataset, range(5))
+# train_dataset = Subset(train_dataset, range(32))
+# val_dataset = Subset(val_dataset, range(2))
 
 ### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
-# train_dataset = Subset(train_dataset, range(len(train_dataset)))
-# val_dataset = Subset(val_dataset, range(len(val_dataset)))
+train_dataset = Subset(train_dataset, range(len(train_dataset)))
+val_dataset = Subset(val_dataset, range(len(val_dataset)))
 
 print("SANITY CHECK!!")
 print(f"LEN TRAIN IMAGE IDS: {len(train_dataset.dataset.image_ids)}")
@@ -66,17 +66,36 @@ print("SANITY CHECK DONE!!")
 
 train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
 val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
+"""  
+
+batch = next(iter(train_dataloader))
+for k,v in batch.items():
+  print(k,v.shape)
+print(processor.decode(batch["input_ids"][0]))
+
+from PIL import Image
+import numpy as np
+
+MEAN = np.array([123.675, 116.280, 103.530]) / 255
+STD = np.array([58.395, 57.120, 57.375]) / 255
+
+unnormalized_image = (batch["pixel_values"][0].numpy() * np.array(STD)[:, None, None]) + np.array(MEAN)[:, None, None]
+unnormalized_image = (unnormalized_image * 255).astype(np.uint8)
+unnormalized_image = np.moveaxis(unnormalized_image, 0, -1)
+Image.fromarray(unnormalized_image).save('./coinz.png')
+"""
 
 ## TODO
 # You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
 try:
-    model = AutoModelForCausalLM.from_pretrained("microsoft/git-base-coco", cache_dir=CACHE_DIR)
+    model = AutoModelForCausalLM.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
+"""
 print("INITIAL TEST")
 from PIL import Image
 import requests
@@ -94,11 +113,11 @@ with torch.no_grad():
     itest_sample = model.generate(**itest_inputs, max_length=64)
 print(processor.tokenizer.decode(itest_sample[0]))
 print("INITIAL TEST DONE")
-
+"""
 
 ## TODO Select your model optimizer
 try:
-    optimizer = torch.optim.AdamW(model.parameters(), lr=0.001)   # pick one from torch.optim
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5)   # pick one from torch.optim
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
@@ -128,7 +147,6 @@ def train(loger, train_dataloader, model, optimizer, device, processor):
         outputs = model(
             input_ids=input_ids, pixel_values=pixel_values, labels=input_ids, attention_mask=attention_mask
         )
-
         loss = outputs.loss
         if torch.cuda.device_count() > 1:
             loss = loss.mean()
@@ -148,16 +166,26 @@ def evaluate(
     model.eval()
     caption_val = []
     plot_captions_dict = {}
+    printed = False
+    
     for idx, batch in enumerate(val_dataloader):
         image_ids = batch.pop("image_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
-
+        #print(pixel_values[0])
+        #toImg = transforms.ToPILImage()
+        #toImg(pixel_values[1]).save('./ermg.png')
         with torch.no_grad():
-            outputs = model.generate(pixel_values=pixel_values, max_length=50)
-        print("OUTPUTS", outputs)
+            outputs = None
+            if isinstance(model, torch.nn.DataParallel):
+                outputs = model.module.generate(pixel_values=pixel_values, max_length=50)
+            else:
+                outputs = model.generate(pixel_values=pixel_values, max_length=50)
+        #print("OUTPUTS", outputs.shape)
         # Decode the generated ids to text
         generated_captions = processor.batch_decode(outputs, skip_special_tokens=True)
-        print("GENCAPPS", generated_captions)
+        if not printed:
+            print("GENERATED CAPTION:", generated_captions[0])
+            printed = True
 
         # Store the generated captions
         for img_id, caption in zip(image_ids, generated_captions):
@@ -243,7 +271,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
 
 best_score = 0
-for epoch in range(4):
+for epoch in range(31):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
@@ -269,7 +297,10 @@ for epoch in range(4):
         score = vizwizEval.eval[method]
         if score > best_score:
             best_score = score
-            model.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            if isinstance(model, torch.nn.DataParallel):
+                model.module.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            else:
+                model.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
             logger.info(f"New best score: {best_score}. Model saved")
 
         get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method)
