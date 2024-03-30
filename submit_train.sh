@@ -11,7 +11,7 @@ conda activate spring-2024-pyt
 # Change this path to point to your project directory
 export PYTHONPATH="/usr3/graduate/iranjan/sp2024_midterm:$PYTHONPATH"
 
-python src/demo_model/train.py
+python src/submission/train.py
 
 ### The command below is used to submit the job to the cluster
-## qsub -pe omp 4 -P ds598 -l gpus=4 demo_train.sh
+## qsub -pe omp 4 -P ds598 -l gpus=1 submit_train.sh
