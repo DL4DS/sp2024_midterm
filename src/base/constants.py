@@ -12,7 +12,7 @@ DATA_BASE_DIR = "/projectnb/ds598/materials/datasets/vizwiz/captions/"
 
 os.environ["SPACY_DATA"] = BASE_DIR + "/misc/spacy_data"
 
-nltk_data_directory = BASE_DIR + "misc/nltk_data"
+nltk_data_directory = BASE_DIR + "/misc/nltk_data"
 nltk.data.path.append(nltk_data_directory)
 nltk.download("punkt", download_dir=nltk_data_directory)
 

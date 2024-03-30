@@ -11,7 +11,7 @@ conda activate spring-2024-pyt
 # Change this path to point to your project directory
 export PYTHONPATH="/projectnb/ds598/students/nikhitam/sp2024_midterm:$PYTHONPATH"
 
-python /projectnb/ds598/students/nikhitam/sp2024_midterm/src/demo_model/train.py
+python src/demo_model/train.py
 
 
 

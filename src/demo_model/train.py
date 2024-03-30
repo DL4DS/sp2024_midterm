@@ -30,12 +30,15 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # You can use the AutoProcessor.from_pretrained() method to load the HuggingFace
 # processor for the model you are using. This will allow you to use the processor
 # to encode and decode text and images.
+
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
+model_name = "Salesforce/blip-image-captioning-base"
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained(model_name, cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
+
 
 train_dataset = DemoDataset(
     processor=processor,
@@ -51,12 +54,12 @@ val_dataset = DemoDataset(
 )
 
 ### Use the Subset while debugging ###
-# train_dataset = Subset(train_dataset, range(100))
-# val_dataset = Subset(val_dataset, range(10))
+train_dataset = Subset(train_dataset, range(100))
+val_dataset = Subset(val_dataset, range(10))
 
 ### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
-train_dataset = Subset(train_dataset, range(len(train_dataset)))
-val_dataset = Subset(val_dataset, range(len(val_dataset)))
+# train_dataset = Subset(train_dataset, range(len(train_dataset)))
+# val_dataset = Subset(val_dataset, range(len(val_dataset)))
 
 print("SANITY CHECK!!")
 print(f"LEN TRAIN IMAGE IDS: {len(train_dataset.dataset.image_ids)}")
@@ -72,15 +75,19 @@ val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
 try:
-    model = AutoModelForCausalLM.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    model_name = "google/vit-gpt2-image-captioning"
+    model = AutoModelForCausalLM.from_pretrained(model_name, cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
+from torch.optim import AdamW
+
 ## TODO Select your model optimizer
 try:
-    raise NotImplementedError("Select your model optimizer")
-    optimizer = None   # pick one from torch.optim
+    lr = 5e-5
+   # raise NotImplementedError("Select your model optimizer")
+    optimizer = AdamW(model.parameters(), lr=lr)   # pick one from torch.optim
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
