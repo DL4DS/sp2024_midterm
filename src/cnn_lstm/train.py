@@ -4,7 +4,7 @@ from torchvision import transforms
 from src.base.constants import *
 from src.base.helpers import *
 from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
-from dataset import CNNLSTMDataset  # import from local file dataset.py
+from .dataset import CNNLSTMDataset  # import from local file dataset.py
 from tqdm import tqdm
 from transformers import AutoProcessor
 from transformers import AutoModelForCausalLM
