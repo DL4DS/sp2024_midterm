@@ -121,6 +121,8 @@ The remedy this, the attention mask is [passed](https://github.com/lib250/ds598_
 
 ### Results
 
+The models are all run on SCC, with `git-base` and `git-base-coco` being trained on 1 GPU and `git-base-large` being trained on 4 GPUs. Due to declining machine availability, the training epochs were limited for the most part.
+
 The `git-base` model achieved a validation CIDEr score of `0.361` in `16` epochs. `git-base-coco` is the same mode that was also pretrained on the Common Objects in Context dataset, and since this pretraining could be helpful it was tested next.
 
 The `git-base-coco` model achieved a validation CIDEr score of `0.376` in `19` epochs. Since this was still not as performant as desired, `git-large`, another open-source version of GIT with more parameters than `git-base` was chosen.
