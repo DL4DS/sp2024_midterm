@@ -20,7 +20,7 @@ create_directory(DEMO_SAVE_PATH)  # src/base/helpers.py
 create_directory(DEMO_SAVE_PATH + "/examples")
 
 # The path below points to the location where the model was saved
-MODEL_PATH = f"{DEMO_SAVE_PATH}/best_model"
+MODEL_PATH = f"/projectnb/ds598/students/tyuta/sp2024_midterm/RESULTS/git_base_4/best_model"
 
 # Load your fine tuned model
 model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
@@ -33,7 +33,7 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
 #
 # Of course you should use the same model you trained with.
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)

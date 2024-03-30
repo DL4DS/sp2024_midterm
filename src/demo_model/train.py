@@ -32,7 +32,7 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -72,15 +72,15 @@ val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
 try:
-    model = AutoModelForCausalLM.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    model = AutoModelForCausalLM.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
 ## TODO Select your model optimizer
 try:
-    raise NotImplementedError("Select your model optimizer")
-    optimizer = None   # pick one from torch.optim
+    # raise NotImplementedError("Select your model optimizer")
+    optimizer = torch.optim.SGD(model.parameters(), lr=5e-4)   # pick one from torch.optim
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
@@ -223,7 +223,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
 
 best_score = 0
-for epoch in range(3):
+for epoch in range(30):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
@@ -235,7 +235,7 @@ for epoch in range(3):
     logger.info(f"Loss at epoch {epoch}: {loss}")
 
     # Evaluate the model every 3 epochs
-    if epoch % 3 == 0:
+    if epoch % 1 == 0:
         vizwizEval, vizwizRes, plot_captions_dict = evaluate(
             logger,
             epoch,
