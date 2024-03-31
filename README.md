@@ -148,9 +148,10 @@ model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_
 optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
 ```
 - Fine-tuning training &rarr; src/ft/train_revised.py, ft_train_revised.sh
+- Resuming fine-tuning &rarr; src/ft/train_revised_continued.py, ft_train_revised.sh
 - PEFT training &rarr; src/ft/train_revised.py, peft_train_revised.sh
 - PEFT resumed training &rarr; src/ft/train_revised_continued.py, peft_train_revised.sh
-For resuming training, just modify the python script path that you are getting at
+For resuming training, just modify the python script path that you are getting at (PEFT example)
 ```sh
 #!/bin/bash -l
 
