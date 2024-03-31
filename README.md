@@ -24,6 +24,14 @@ num_epochs = 10
 ## Student Predicted Image Caption Example
 ![caption_1](https://github.com/yukezbu/sp2024_midterm/blob/main/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/epoch_9/best/caption_1.png?raw=true)
 
+![caption_2](https://github.com/yukezbu/sp2024_midterm/blob/main/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/epoch_9/best/caption_2.png?raw=true)
+
+![caption_3](https://github.com/yukezbu/sp2024_midterm/blob/main/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/epoch_9/best/caption_3.png?raw=true)
+
+![caption_4](https://github.com/yukezbu/sp2024_midterm/blob/main/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/epoch_9/best/caption_4.png?raw=true)
+
+![caption_5](https://github.com/yukezbu/sp2024_midterm/blob/main/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/epoch_9/best/caption_5.png?raw=true)
+
 
 ## Introduction
 For this project, you will train a network to generate captions for the 
