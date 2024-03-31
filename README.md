@@ -4,7 +4,9 @@
 Tried change models, optimizers and learning rate in train.py and num_beams in test.py.
 
 ## Student Result
-The following is the best setting I obtained
+The best test CIDEr SCORE in Eval.ai is 77.69%.
+
+The following is the best setting I obtained:
 1. choose pretrained processor  
 pretrained_processor_name = "microsoft/git-large"  
 processor = AutoProcessor.from_pretrained(pretrained_processor_name, cache_dir=CACHE_DIR)
