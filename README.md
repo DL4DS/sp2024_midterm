@@ -1,13 +1,46 @@
 # DS598 DL4DS Midterm Project
 
 ## Introduction
+The goal of this task is to obtain the highest out-of-sample performance in captioning given images by fine tuning a pre-trained multimodal model. The performance metric is CIDEr, and the test performance is evaluated by the VizWiz-Captions Challenge 2021. For this task, I basically started from the source code given by the instructor (BU DS598 DL4DS Spring 2024).
+
+## Approach
+In this task, I adopted two approaches: ordinary fine-tuning and PEFT.
+
+### Fine-tuning
+Fine tune all parameters in a pre-trained model using the given training data. The best model is selected via the CIDEr score of validation dataset.
+
+```python
+from src.base.constants import *
+from src.base.helpers import *
+from transformers import AutoProcessor
+from transformers import BlipForConditionalGeneration
+
+
+CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
+checkpoint = "Salesforce/blip-image-captioning-base"
+
+try:
+    processor = AutoProcessor.from_pretrained(checkpoint, cache_dir=CACHE_DIR)
+except Exception as e:
+    print("You need to pick a pre-trained model from HuggingFace.")
+    print("Exception: ", e)
+
+try:
+    model = BlipForConditionalGeneration.from_pretrained(checkpoint, cache_dir=CACHE_DIR)
+except Exception as e:
+    print("You need to pick a pre-trained model from HuggingFace.")
+    print("Exception: ", e)
+```
+
+### PEFT (Parameter-efficient fine-tuning)
+Train a LoRA using the training data. The best model is selected in the same way. The LoRA configuration is as follows.
+
 For this project, you will train a network to generate captions for the 
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
 The images are taken by people who are blind and typically rely on
 human-based image captioning services.  Your objective will be to beat a
 a baseline score on the [test set leaderboard](https://eval.ai/web/challenges/challenge-page/739/leaderboard/2006).
 
-## Developer Setup
 
 Clone this repo to your directory on the SCC DS598 project space, e.g.
 `/projectnb/ds598/students/<userid>`.
