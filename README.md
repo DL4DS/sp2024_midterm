@@ -8,7 +8,7 @@ The goal of this task is to obtain the highest out-of-sample performance in capt
 ## Approach
 In this task, I adopted two approaches: ordinary fine-tuning and PEFT.
 
-### Fine-tuning (src &rarr; ft)
+### Fine-tuning (Path: src/ft)
 Fine tune all parameters in a pre-trained model using the given training data. The best model is selected via the CIDEr score of validation dataset.
 
 ```python
@@ -44,7 +44,7 @@ except Exception as e:
     print("Exception: ", e)
 ```
 
-### PEFT (Parameter-efficient fine-tuning, src &rarr; peft)
+### PEFT (Parameter-efficient fine-tuning, Path: src/peft)
 Train a LoRA using the training data. The best model is selected in the same way. The LoRA configuration is as follows.
 
 ```python
