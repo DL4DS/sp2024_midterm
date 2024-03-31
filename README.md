@@ -45,6 +45,9 @@ except Exception as e:
 Train a LoRA using the training data. The best model is selected in the same way. The LoRA configuration is as follows.
 
 ```python
+from peft import LoraConfig, get_peft_model
+
+
 # Save paths for PEFT
 create_directory(PEFT_SAVE_PATH)
 create_directory(PEFT_SAVE_PATH + "/examples")
@@ -61,22 +64,34 @@ config = LoraConfig(
     target_modules=["query", "value"]
 )
 
+
 model = get_peft_model(model, config)
+
+model.print_trainable_parameters()
 ```
+trainable params: 614,400 || all params: 470,347,324 || trainable%: 0.13062687266399756
 
 ### Resuming PEFT training
 ```python
+from peft import PeftModel, PeftConfig
+
+
 # Instantiate the BLIP model in the same way
 m = BlipForConditionalGeneration.from_pretrained(checkpoint, cache_dir=CACHE_DIR)
 # Load the saved lora configuration
 PEFT_CONFIG_PATH = f"{PEFT_SAVE_PATH}/best_model"
 # This will load the trained LoRA parameters saved via safetensor.
 model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_dir=CACHE_DIR) # Unless is_trainable=True, the loaded parameters cannot be trained.
+
+model.print_trainable_parameters()
 ```
+trainable params: 614,400 || all params: 470,347,324 || trainable%: 0.13062687266399756
 
 ## Pre-trained model: BLIP
-[BLIP (Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation)](https://huggingface.co/Salesforce/blip-image-captioning-large)
-
+### Model: [BLIP (Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation)](https://huggingface.co/Salesforce/blip-image-captioning-large)
+### Checkpoint
+- Salesforce/blip-image-captioning-base -> For fine-tuning
+- Salesforce/blip-image-captioning-large -> For PEFT
 For this project, you will train a network to generate captions for the 
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
 The images are taken by people who are blind and typically rely on
