@@ -1,5 +1,24 @@
 # DS598 DL4DS Midterm Project
 
+## Student Run
+Tried change models, optimizers and learning rate in train.py and num_beams in test.py.
+
+## Student Result
+The following is the best setting I obtained
+1. choose pretrained processor
+pretrained_processor_name = "microsoft/git-large"
+processor = AutoProcessor.from_pretrained(pretrained_processor_name, cache_dir=CACHE_DIR)
+2. choose pretrained model
+pretrained_model_name = "microsoft/git-large"
+model = AutoModelForCausalLM.from_pretrained(pretrained_model_name, cache_dir=CACHE_DIR)
+3. choose batch_size
+train_batch_size = 6
+val_batch_size = 6
+4. choose optimizer
+optimizer = torch.optim.AdamW(model.parameters(), 1e-5)
+5. choose number of epoch
+num_epochs = 10
+
 ## Introduction
 For this project, you will train a network to generate captions for the 
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
