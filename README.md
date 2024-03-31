@@ -143,10 +143,14 @@ model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_
 
 
 ## Training
+
+### Optimizer
 ```python
 # optimizer and learning rate
 optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
 ```
+
+### Scripts
 - Fine-tuning training &rarr; `src/ft/train_revised.py`, `ft_train_revised.sh`
 - Resuming fine-tuning &rarr; `src/ft/train_revised_continued.py`, `ft_train_revised.sh`
 - PEFT training &rarr; `src/ft/train_revised.py`, `peft_train_revised.sh`
@@ -176,6 +180,8 @@ python src/peft/train_revised.py # Write the python script path you are getting 
 ### The command below is used to submit the job to the cluster
 ### qsub -pe omp 4 -P ds598 -l gpus=1 peft_train_revised.sh
 ```
+
+### The number of epochs
 - Due to time limit, the number of epoch for fine-tuning was **six**.
 - The number of epoch for PEFT was **30**.
 
