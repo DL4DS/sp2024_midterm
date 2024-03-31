@@ -1,7 +1,9 @@
 # DS598 DL4DS Midterm Project
 
+
 ## Introduction
 The goal of this task is to obtain the highest out-of-sample performance in captioning given images by fine tuning a pre-trained multimodal model. The performance metric is CIDEr, and the test performance is evaluated by the VizWiz-Captions Challenge 2021. For this task, I basically started from the source code given by the instructor (BU DS598 DL4DS Spring 2024).
+
 
 ## Approach
 In this task, I adopted two approaches: ordinary fine-tuning and PEFT.
@@ -93,11 +95,32 @@ trainable params: 614,400 || all params: 470,347,324 || trainable%: 0.1306268726
 model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_dir=CACHE_DIR)
 ```
 
+
 ## Pre-trained model: BLIP
 ### Model: [BLIP (Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation)](https://huggingface.co/Salesforce/blip-image-captioning-large)
 ### Checkpoint
 - Salesforce/blip-image-captioning-base -> For fine-tuning
 - Salesforce/blip-image-captioning-large -> For PEFT
+
+
+## Modification from the given demo source code
+
+
+## Training
+
+
+## Performance
+
+
+## Findings
+
+
+## Limitations
+
+
+## Future work
+
+
 For this project, you will train a network to generate captions for the 
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
 The images are taken by people who are blind and typically rely on
