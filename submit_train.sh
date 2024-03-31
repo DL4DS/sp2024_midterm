@@ -14,4 +14,4 @@ export PYTHONPATH="/usr3/graduate/iranjan/sp2024_midterm:$PYTHONPATH"
 python src/submission/train.py
 
 ### The command below is used to submit the job to the cluster
-## qsub -pe omp 4 -P ds598 -l gpus=1 submit_train.sh
+## qsub -pe omp 4 -P ds598 -l gpus=4 submit_train.sh
