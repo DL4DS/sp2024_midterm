@@ -279,7 +279,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
         first_3_img_and_captions, f"{TRANSFORMER_SAVE_PATH}/examples/epoch_{epoch}/first_3/"
     )
 
-EPOCHS = 10
+EPOCHS = 20
 best_score = 0
 for epoch in range(EPOCHS):
     print(f"Epoch: {epoch+1}")

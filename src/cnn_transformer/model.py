@@ -22,10 +22,29 @@ class PositionalEncoding(nn.Module):
     def forward(self, x: Tensor) -> Tensor:
         """
         Arguments:
-            x: Tensor, shape ``[seq_len, batch_size, embedding_dim]``
+            x: Tensor, shape ``[seq_len, batch_size, embedding_dim]`` # <- is this correct?
         """
         x = x + self.pe[:x.size(0)]
         return self.dropout(x)
+
+
+class ViTEncoder(nn.Module):
+    def __init__(self,embed_size):
+        super(EncoderCNN,self).__init__()
+        resnet = models.resnet50(pretrained=True)
+        for param in resnet.parameters():
+            param.requires_grad_(False)
+        
+        modules = list(resnet.children())[:-1]
+        self.resnet = nn.Sequential(*modules)
+        self.embed = nn.Linear(resnet.fc.in_features,embed_size)
+        
+    def forward(self,images):
+        features = self.resnet(images)
+        features = features.view(features.size(0),-1)
+        features = self.embed(features)
+        return features
+
 
 class Decoder(nn.Module):
     def __init__(self, embed_size, vocab_size, num_heads=2, drop_prob=0.3):
@@ -86,6 +105,7 @@ class Decoder(nn.Module):
     ### FIX NEEDED - TO WORK WITH BATCHED INPUTS ###
     def generate_caption(self, features, max_len=20, vocab=None):
         # Inference part - given image features, generate caption
+        print(features)
         batch_size = features.size(0)
         print("features size", features.size())
 
@@ -94,7 +114,7 @@ class Decoder(nn.Module):
         for i in range(max_len):
             caption_tensor = torch.tensor([caption_ids], dtype=torch.long, device="cuda")
             output = self.forward(features, caption_tensor)
-            
+           
             predicted_id = output[:, -1, :].argmax(dim=-1).item() # get the token with the highest probability
             caption_ids.append(predicted_id)
             
@@ -102,7 +122,7 @@ class Decoder(nn.Module):
                 break
 
         # Convert token IDs back to words, excluding the <SOS> and <EOS> tokens for the final caption.
-        generated_words = [vocab.itos[idx] for idx in caption_ids if idx not in (vocab.stoi['<SOS>'], vocab.stoi['<EOS>'])]
+        generated_words = [vocab.itos[idx] for idx in caption_ids if idx not in (vocab.stoi['<SOS>'], vocab.stoi['<EOS>'], vocab.stoi['<PAD>'])]
         caption = ' '.join(generated_words)
 
         return caption

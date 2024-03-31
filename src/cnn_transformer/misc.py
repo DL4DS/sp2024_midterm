@@ -70,6 +70,8 @@ vocab_size = len(train_dataset.dataset.vocab)
 device = "cuda"
 
 model = CNN_Transformer(embed_size=200,hidden_size=512,vocab_size=vocab_size,num_heads=1,drop_prob=0.3).to(device)
+model.load_state_dict(torch.load(f"{TRANSFORMER_SAVE_PATH}_glove/best_model.pth"))
+print("Model loaded.")
 
 batch = next(iter(val_dataloader))
 

@@ -2,8 +2,8 @@
 
 - Best model so far: 
 
-    BLIP Processor + BLIP Vision Encoder-Decoder
-
+    BLIP Processor + BLIP Vision Encoder-Decoder - Adam optimizer 0.0001 LR - Best CeDR score - 0.4
+    BlipForConditionalGeneration
 Try out: 
 
 - BLIP2
