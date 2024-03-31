@@ -17,6 +17,8 @@ from transformers import BlipForConditionalGeneration
 
 
 CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
+
+### Modified codes ###
 checkpoint = "Salesforce/blip-image-captioning-base"
 
 try:
