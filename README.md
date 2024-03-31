@@ -4,6 +4,8 @@ For my project I used the Microsoft Git Large model trained on the coco image da
 Fine tuning the model took the most time, I had to experiment with the attention mask, learning rate, and batch sizes to finally get a model that performs well. I
 ended up finding a nice parameter set that got me a CIDEr score of ~75 after only 1 epoch. I had fun learning about hugging face and implementation of deep learning models!
 
+The model is completely contained within demo/train.py and demo/test.py but most of my experiments and work were done within experiments.ipynb
+
 
 ## References
 
