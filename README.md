@@ -144,7 +144,7 @@ model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_
 
 ## Training
 
-### Optimizer
+### Optimizer & Learning rate
 ```python
 # optimizer and learning rate
 optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
