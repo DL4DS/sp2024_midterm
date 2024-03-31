@@ -71,7 +71,7 @@ model = get_peft_model(model, config)
 
 model.print_trainable_parameters()
 ```
-trainable params: 614,400 || all params: 470,347,324 || trainable%: 0.13062687266399756
+`trainable params: 614,400 || all params: 470,347,324 || trainable%: 0.13062687266399756`
 
 ### Resuming PEFT training
 ```python
@@ -98,7 +98,7 @@ model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_
 
 ## Pre-trained model: BLIP
 ### Model: [BLIP (Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation)](https://huggingface.co/Salesforce/blip-image-captioning-large)
-### Checkpoint
+### Checkpoints
 - Salesforce/blip-image-captioning-base -> For fine-tuning
 - Salesforce/blip-image-captioning-large -> For PEFT
 
@@ -139,22 +139,34 @@ model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_
     return loss.item()
    ```
 
+
 ## Training
 ```python
 # optimizer and learning rate
 optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
 ```
 
+
 ## Performance
+
 
 
 ## Findings
 
 
+
 ## Limitations
 
 
+
 ## Future work
+When the end time of this task was only one day left, the most regrettable thing was not to try more diverse hyperparameters with more diverse models.
+1.	Hyperparameter tuning: the hyperparameters of the LoRA, evaluation interval, learning rate, etc.
+2.	Should have used array jobs
+3.	Dynamic Resource Allocation: Develop a dynamic resource allocation strategy that can adjust the job size based on the available computing resources and time. This could involve creating an algorithm that estimates the optimal batch size, number of epochs, etc., given the constraints.
+4.	Performance Modeling: Build a performance model that can predict the execution time of a job based on various factors like batch size, number of epochs, and available resources. This could help in planning and scheduling jobs more effectively.
+5.	Efficiency Metrics: Establish efficiency metrics that consider both the computational resources used and the performance of the deep learning model. This could help you balance the trade-off between resource usage and model performance.
+
 
 
 For this project, you will train a network to generate captions for the 
