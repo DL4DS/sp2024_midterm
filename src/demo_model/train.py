@@ -35,8 +35,8 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 try:
-    #processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
-    processor = AutoProcessor.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
+    processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
+    #processor = AutoProcessor.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -55,12 +55,12 @@ val_dataset = DemoDataset(
 )
 
 ### Use the Subset while debugging ###
-train_dataset = Subset(train_dataset, range(10))
-val_dataset = Subset(val_dataset, range(10))
+#train_dataset = Subset(train_dataset, range(10))
+#val_dataset = Subset(val_dataset, range(10))
 
 # ### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
-# train_dataset = Subset(train_dataset, range(len(train_dataset)))
-# val_dataset = Subset(val_dataset, range(len(val_dataset)))
+train_dataset = Subset(train_dataset, range(len(train_dataset)))
+val_dataset = Subset(val_dataset, range(len(val_dataset)))
 
 print("SANITY CHECK!!")
 print(f"LEN TRAIN IMAGE IDS: {len(train_dataset.dataset.image_ids)}")
@@ -68,23 +68,23 @@ print(f"LEN VAL IMAGE IDS: {len(val_dataset.dataset.image_ids)}")
 print("SANITY CHECK DONE!!")
 
 
-train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
-val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
+train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=4)
+val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=16)
 
 ## TODO
 # You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
 try:
-    #model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
-    model = AutoModelForCausalLM.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
+    model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
+    #model = AutoModelForCausalLM.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
 ## TODO Select your model optimizer
 try:
-    optimizer = optim.AdamW(model.parameters(), lr=5e-4)   # pick one from torch.optim
+    optimizer = optim.AdamW(model.parameters(), lr=1e-5)   
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
@@ -127,15 +127,6 @@ def train(loger, train_dataloader, model, optimizer, device, processor):
 
     return loss.item()
 
-# Generate captions using beam search with custom parameters
-beam_search_params = {
-    "num_beams": 5,          # Number of beams to use for beam search
-    "early_stopping": True,  # Whether to stop the beam search when at least one sequence has reached the max length
-    "num_return_sequences": 1,  # Number of sequences to return
-    "no_repeat_ngram_size": 2,  # Size of n-grams to avoid repeating in the generated sequence
-    # Other parameters like length penalty, temperature, etc., can also be adjusted
-}
-
 def evaluate(
     logger, epoch, save_path, best_score, val_dataloader, model, processor, device
 ):
@@ -148,9 +139,12 @@ def evaluate(
         attn_mask = batch.pop("attention_mask").to(device)
 
         with torch.no_grad():
-            outputs = model.generate(
-                pixel_values=pixel_values,
-                max_length=50)
+            if torch.cuda.device_count() > 1:
+	            outputs = model.module.generate(pixel_values=pixel_values, max_length=50)
+            else:
+                outputs = model.generate(
+                    pixel_values=pixel_values,
+                    max_length=50)
 
         # Decode the generated ids to text
         generated_captions = processor.batch_decode(outputs, skip_special_tokens=True)
@@ -172,7 +166,7 @@ def evaluate(
     vizwizEval = VizWizEvalCap(val_dataset.dataset.vizwiz, vizwizRes)
     vizwizEval.evaluate()
 
-    logger.info(f"Validation scores at epoch: {epoch}")
+    logger.info(f"Validation scores at epoch: {epoch+1}")
     for method in vizwizEval.eval:
         logger.info(f"  Method: {method}, Score: {vizwizEval.eval[method]:.4f}")
 
@@ -239,7 +233,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
 
 best_score = 0
-for epoch in range(5):
+for epoch in range(10):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
@@ -248,9 +242,9 @@ for epoch in range(5):
 
     # Train the model
     loss = train(logger, train_dataloader, model, optimizer, device, processor)
-    logger.info(f"Loss at epoch {epoch}: {loss}")
+    logger.info(f"Loss at epoch {epoch+1}: {loss}")
 
-    # Evaluate the model every 3 epochs
+    # Evaluate the model every epoch
     if epoch % 1 == 0:
         vizwizEval, vizwizRes, plot_captions_dict = evaluate(
             logger,
@@ -265,7 +259,11 @@ for epoch in range(5):
         score = vizwizEval.eval[method]
         if score > best_score:
             best_score = score
-            model.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            if torch.cuda.device_count() > 1:
+	            model.module.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            else:
+                model.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            
             logger.info(f"New best score: {best_score}. Model saved")
 
         get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method)
