@@ -18,15 +18,22 @@ from transformers import BlipForConditionalGeneration
 
 CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
 
+# Save paths for fine-tuning
+create_directory(FT_SAVE_PATH)
+create_directory(FT_SAVE_PATH + "/examples")
+
 ### Modified codes ###
+# Due to the limits in the memory of available gpus, the following model is used for fine-tuning
 checkpoint = "Salesforce/blip-image-captioning-base"
 
+# Instantiate the processor for BLIP model
 try:
     processor = AutoProcessor.from_pretrained(checkpoint, cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
+# Instantiate the model for BLIP model
 try:
     model = BlipForConditionalGeneration.from_pretrained(checkpoint, cache_dir=CACHE_DIR)
 except Exception as e:
@@ -36,6 +43,36 @@ except Exception as e:
 
 ### PEFT (Parameter-efficient fine-tuning)
 Train a LoRA using the training data. The best model is selected in the same way. The LoRA configuration is as follows.
+
+```python
+# Save paths for PEFT
+create_directory(PEFT_SAVE_PATH)
+create_directory(PEFT_SAVE_PATH + "/examples")
+
+# For the PEFT, checkpoint should be replaced with the following
+checkpoint = "Salesforce/blip-image-captioning-large"
+
+# In addition to the different checkpoint, the LoraConfig should be defined
+config = LoraConfig(
+    r=8,
+    lora_alpha=32,
+    lora_dropout=0.1,
+    bias="none",
+    target_modules=["query", "value"]
+)
+
+model = get_peft_model(model, config)
+```
+
+### Resuming PEFT training
+```python
+# Instantiate the BLIP model in the same way
+m = BlipForConditionalGeneration.from_pretrained(checkpoint, cache_dir=CACHE_DIR)
+# Load the saved lora configuration
+PEFT_CONFIG_PATH = f"{PEFT_SAVE_PATH}/best_model"
+# This will load the trained LoRA parameters saved via safetensor.
+model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_dir=CACHE_DIR) # Unless is_trainable=True, the loaded parameters cannot be trained.
+```
 
 For this project, you will train a network to generate captions for the 
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
