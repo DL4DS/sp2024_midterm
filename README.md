@@ -178,8 +178,8 @@ python src/peft/train_revised.py # Write the python script path you are getting 
 ```
 
 ## Performance
-- Fine-tuned model test answers &rarr; `src/ft/test_revised.py`
-- PEFT model test answers &rarr; `src/ft/test_revised.py`
+- Fine-tuned model test answers &rarr; `src/ft/test_revised.py`, `ft_test.sh`
+- PEFT model test answers &rarr; `src/ft/test_revised.py`, `peft_test_revised.sh`
 
 
 ## Findings
