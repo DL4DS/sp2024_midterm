@@ -44,7 +44,7 @@ except Exception as e:
     print("Exception: ", e)
 ```
 
-### PEFT (Parameter-efficient fine-tuning)
+### PEFT (Parameter-efficient fine-tuning, src &rarr; peft)
 Train a LoRA using the training data. The best model is selected in the same way. The LoRA configuration is as follows.
 
 ```python
