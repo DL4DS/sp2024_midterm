@@ -99,8 +99,8 @@ model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_
 ## Pre-trained model: BLIP
 ### Model: [BLIP (Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation)](https://huggingface.co/Salesforce/blip-image-captioning-large)
 ### Checkpoints
-- `Salesforce/blip-image-captioning-base` &arr For fine-tuning
-- `Salesforce/blip-image-captioning-large` &arr For PEFT
+- `Salesforce/blip-image-captioning-base` &arr; For fine-tuning
+- `Salesforce/blip-image-captioning-large` &arr; For PEFT
 
 
 ## Modification from the given demo source code
