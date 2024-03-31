@@ -149,8 +149,6 @@ optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
 ```
 - Fine-tuning training &rarr; `src/ft/train_revised.py`, `ft_train_revised.sh`
 - Resuming fine-tuning &rarr; `src/ft/train_revised_continued.py`, `ft_train_revised.sh`
-- dd
--     dd
 - PEFT training &rarr; `src/ft/train_revised.py`, `peft_train_revised.sh`
 - PEFT resumed training &rarr; `src/ft/train_revised_continued.py`, `peft_train_revised.sh`
 For resuming training, just modify the python script path that you are getting at in shell script (PEFT example)
@@ -178,6 +176,9 @@ python src/peft/train_revised.py # Write the python script path you are getting 
 ### The command below is used to submit the job to the cluster
 ### qsub -pe omp 4 -P ds598 -l gpus=1 peft_train_revised.sh
 ```
+- Due to time limit, the number of epoch for fine-tuning was **six**.
+- The number of epoch for PEFT was **30**.
+
 
 ## Performance
 - Fine-tuned model test answers &rarr; `src/ft/test_revised.py`, `ft_test.sh`
