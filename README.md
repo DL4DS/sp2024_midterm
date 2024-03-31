@@ -22,7 +22,7 @@ optimizer = torch.optim.AdamW(model.parameters(), 1e-5)
 num_epochs = 10  
 
 ## Student Predicted Image Caption Example
-![alt text](https://github.com/yukezbu/sp2024_midterm/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/best/caption_1.png?raw=true)
+![caption_1](https://github.com/yukezbu/sp2024_midterm/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/epoch_9/best/caption_1.png?raw=true)
 
 
 ## Introduction
