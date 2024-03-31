@@ -8,10 +8,11 @@ The goal of this task is to obtain the highest out-of-sample performance in capt
 ## Approach
 In this task, I adopted two approaches: ordinary fine-tuning and PEFT.
 
-### Fine-tuning
+### Fine-tuning (src &rarr; ft)
 Fine tune all parameters in a pre-trained model using the given training data. The best model is selected via the CIDEr score of validation dataset.
 
 ```python
+# Please see train_revised.py
 from src.base.constants import *
 from src.base.helpers import *
 from transformers import AutoProcessor
@@ -47,6 +48,7 @@ except Exception as e:
 Train a LoRA using the training data. The best model is selected in the same way. The LoRA configuration is as follows.
 
 ```python
+# Please see train_revised.py
 from peft import LoraConfig, get_peft_model
 
 
@@ -145,10 +147,38 @@ model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_
 # optimizer and learning rate
 optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
 ```
+- Fine-tuning training &rarr; src/ft/train_revised.py, ft_train_revised.sh
+- PEFT training &rarr; src/ft/train_revised.py, peft_train_revised.sh
+- PEFT resumed training &rarr; src/ft/train_revised_continued.py, peft_train_revised.sh
+For resuming training, just modify the python script path that you are getting at
+```sh
+#!/bin/bash -l
 
+# Set SCC project
+#$ -P ds598
+
+# load and activate the academic-ml conda environment on SCC
+module load miniconda
+module load academic-ml/spring-2024
+conda activate spring-2024-pyt
+
+# Change this path to point to your project directory
+export PYTHONPATH="/projectnb/ds598/students/spark618/sp2024_midterm:$PYTHONPATH"
+
+python -m spacy download en_core_web_sm   # download spacy model
+pip install peft # install peft package
+
+huggingface-cli login --token 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
+
+python src/peft/train_revised.py # Write the python script path you are getting at (For resuming training -> python src/peft/train_revised_continued.py)
+
+### The command below is used to submit the job to the cluster
+### qsub -pe omp 4 -P ds598 -l gpus=1 peft_train_revised.sh
+```
 
 ## Performance
-
+- Fine-tuned model test answers &rarr; src/ft/test_revised.py
+- PEFT model test answers &rarr; src/ft/train_revised.py
 
 
 ## Findings
