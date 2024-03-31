@@ -13,3 +13,6 @@ __pycache__/
 *.sh.o*
 *.sh.pe*
 *.sh.po*
+
+misc/
+RESULTS/

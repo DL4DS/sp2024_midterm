@@ -71,12 +71,12 @@ val_dataset = CNNLSTMDataset(
 )
 
 ## Use the Subset while debugging ###
-# train_dataset = Subset(train_dataset, range(3000))
-# val_dataset = Subset(val_dataset, range(100))
+train_dataset = Subset(train_dataset, range(3000))
+val_dataset = Subset(val_dataset, range(100))
 
 # # ### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
-train_dataset = Subset(train_dataset, range(len(train_dataset)))
-val_dataset = Subset(val_dataset, range(len(val_dataset)))
+#train_dataset = Subset(train_dataset, range(len(train_dataset)))
+#val_dataset = Subset(val_dataset, range(len(val_dataset)))
 
 
 print("SANITY CHECK!!")
@@ -98,7 +98,7 @@ def collate_fn(batch):
 
 
 train_dataloader = DataLoader(
-    train_dataset, batch_size=16, shuffle=True, collate_fn=collate_fn
+    train_dataset, batch_size=50, shuffle=True, collate_fn=collate_fn
 )
 val_dataloader = DataLoader(
     val_dataset, batch_size=1, shuffle=False, collate_fn=collate_fn
@@ -136,6 +136,8 @@ if USE_GLOVE:
 
 vocab_size = len(train_dataset.dataset.vocab)
 
+
+# Maybe this could be tuned?
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 
@@ -273,7 +275,9 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
 
 best_score = 0
-for epoch in range(3):
+
+# change the number of epochs?
+for epoch in range(24):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(

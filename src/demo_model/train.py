@@ -6,7 +6,7 @@ from src.base.helpers import *
 from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
 from dataset import DemoDataset   ## This is a local import from dataset.pyA
 from tqdm import tqdm
-from transformers import AutoProcessor
+from transformers import AutoProcessor, BlipForConditionalGeneration
 from transformers import AutoModelForCausalLM
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -32,7 +32,8 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    # Using microsoft git large processor 
+    processor = AutoProcessor.from_pretrained("microsoft/git-large-coco", cache_dir = CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -51,8 +52,8 @@ val_dataset = DemoDataset(
 )
 
 ### Use the Subset while debugging ###
-# train_dataset = Subset(train_dataset, range(100))
-# val_dataset = Subset(val_dataset, range(10))
+#train_dataset = Subset(train_dataset, range(10000))
+#val_dataset = Subset(val_dataset, range(5000))
 
 ### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
 train_dataset = Subset(train_dataset, range(len(train_dataset)))
@@ -64,23 +65,25 @@ print(f"LEN VAL IMAGE IDS: {len(val_dataset.dataset.image_ids)}")
 print("SANITY CHECK DONE!!")
 
 
-train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
-val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
+train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=3)
+val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=3)
 
 ## TODO
 # You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
 try:
-    model = AutoModelForCausalLM.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    # And the microsoft git large model! 
+    model = AutoModelForCausalLM.from_pretrained("microsoft/git-large-coco", cache_dir = CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
 ## TODO Select your model optimizer
 try:
-    raise NotImplementedError("Select your model optimizer")
-    optimizer = None   # pick one from torch.optim
+    # Using the AdamW optimizer which I found to work just slightly better than Adam -- I'm not sure why!!
+    # I found this to be a good parameter value for the learning rate -- attempts with a larger learning rate were doing much worse!
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-6)    # pick one from torch.optim
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
@@ -103,11 +106,14 @@ def train(loger, train_dataloader, model, optimizer, device, processor):
     for idx, batch in progress_bar:
         input_ids = batch.pop("input_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
+        
+        # POP the attention mask -- This was really essential to the model's performance!
+        attention_mask = batch.pop("attention_mask").to(device)
 
         optimizer.zero_grad()
 
         outputs = model(
-            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids
+            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids, attention_mask = attention_mask
         )
 
         loss = outputs.loss
@@ -222,6 +228,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
     )
 
 
+# It seems that the model does fine with just a few epochs -- I only used 3!
 best_score = 0
 for epoch in range(3):
     print(f"Epoch: {epoch+1}")
