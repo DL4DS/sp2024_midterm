@@ -1,11 +1,8 @@
 # DS598 DL4DS Midterm Project
 
 ## Introduction
-For this project, you will train a network to generate captions for the 
-[VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
-The images are taken by people who are blind and typically rely on
-human-based image captioning services.  Your objective will be to beat a
-a baseline score on the [test set leaderboard](https://eval.ai/web/challenges/challenge-page/739/leaderboard/2006).
+For this project, I trained a larged-sized GenerativeImage2Text (GIT) to generate captions for the [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/). The images are taken by people who are blind and typically rely on
+human-based image captioning services. GIT is a Transformer decoder conditioned on both CLIP image tokens and text tokens. The model is trained using "teacher forcing" on a lot of (image, text) pairs. This repositary includes codes for training, validation, test, using GIT-Large. The final model achieves 70.79 CIDEr score, evaluated at [test set leaderboard](https://eval.ai/web/challenges/challenge-page/739/leaderboard/2006).
 
 ## Developer Setup
 

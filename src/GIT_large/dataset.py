@@ -6,7 +6,7 @@ import random
 from src.base.dataset import CustomDataset
 
 
-class DemoDataset(CustomDataset):
+class GITLargeDataset(CustomDataset):
     def __init__(
         self,
         processor,
