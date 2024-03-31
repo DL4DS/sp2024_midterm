@@ -87,6 +87,12 @@ model.print_trainable_parameters()
 ```
 trainable params: 614,400 || all params: 470,347,324 || trainable%: 0.13062687266399756
 
+### Inference using the trained model vis PEFT (LoRA)
+```python
+# Unlike resuming training, is_trainable should be False (Default: False)
+model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_dir=CACHE_DIR)
+```
+
 ## Pre-trained model: BLIP
 ### Model: [BLIP (Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation)](https://huggingface.co/Salesforce/blip-image-captioning-large)
 ### Checkpoint
