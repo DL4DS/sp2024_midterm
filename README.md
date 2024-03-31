@@ -74,6 +74,9 @@ PEFT_CONFIG_PATH = f"{PEFT_SAVE_PATH}/best_model"
 model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_dir=CACHE_DIR) # Unless is_trainable=True, the loaded parameters cannot be trained.
 ```
 
+## Pre-trained model: BLIP
+[BLIP (Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation)](https://huggingface.co/Salesforce/blip-image-captioning-large)
+
 For this project, you will train a network to generate captions for the 
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
 The images are taken by people who are blind and typically rely on
