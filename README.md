@@ -104,10 +104,46 @@ model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_
 
 
 ## Modification from the given demo source code
+1. Pre-determined directories in train.py, test.py, constants.py
+2. Attention mask explicitly passed in forward method
+   ```python
+   def train(loger, train_dataloader, model, optimizer, device, processor):
+    model.train()
 
+    for idx, batch in progress_bar:
+        input_ids = batch.pop("input_ids").to(device)
+        pixel_values = batch.pop("pixel_values").to(device)
+        # Elicit attention masks
+        attention_mask = batch.pop("attention_mask").to(device)
+
+        optimizer.zero_grad()
+
+        outputs = model(
+            input_ids=input_ids,
+            pixel_values=pixel_values,
+            # Explicitly pass attention masks in forward process
+            attention_mask=attention_mask,
+            labels=input_ids
+        )
+
+        loss = outputs.loss
+        if torch.cuda.device_count() > 1:
+            loss = loss.mean()
+        loss.backward()
+
+        optimizer.step()
+
+        # Update progress bar with loss info
+        progress_bar.set_postfix({"loss": loss.item()})
+
+    return loss.item()
+   ```
 
 ## Training
-
+```python
+# optimizer and learning rate
+optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
+```
 
 ## Performance
 
