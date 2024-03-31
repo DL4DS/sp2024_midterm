@@ -20,7 +20,15 @@ create_directory(DEMO_SAVE_PATH)  # src/base/helpers.py
 create_directory(DEMO_SAVE_PATH + "/examples")
 
 # The path below points to the location where the model was saved
-MODEL_PATH = f"{DEMO_SAVE_PATH}/best_model"
+train_batch_size = 6; val_batch_size = 6
+NAME_CONFIG = f"AdamW_3_27_large_lr6_epoch15_tbs{train_batch_size}_vbs{val_batch_size}"
+MODEL_PATH = f"{DEMO_SAVE_PATH}/best_model_{NAME_CONFIG}"
+pretrained_processor_name = "microsoft/git-large"
+
+
+# NAME_CONFIG = f"Adam_3_27"
+# MODEL_PATH = f"{DEMO_SAVE_PATH}/best_model_{NAME_CONFIG}"
+# pretrained_processor_name = "microsoft/git-base-coco"
 
 # Load your fine tuned model
 model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
@@ -33,7 +41,9 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
 #
 # Of course you should use the same model you trained with.
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    # processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    # processor = AutoProcessor.from_pretrained("microsoft/git-base-coco", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained(pretrained_processor_name, cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -61,7 +71,7 @@ for data in tqdm(test_dataset, total=len(test_dataset)):
     pixel_values = pixel_values.to(device)
 
     with torch.no_grad():
-        output = model.generate(pixel_values=pixel_values, max_length=50)
+        output = model.generate(pixel_values=pixel_values, max_length=50, num_beams=5) # num_beams=10
 
     caption = processor.decode(output[0], skip_special_tokens=True)
 
@@ -70,7 +80,7 @@ for data in tqdm(test_dataset, total=len(test_dataset)):
         {"image_id": img_id.item(), "caption": caption}
     )  # Used for VizWizEvalCap
 
-with open(DEMO_SAVE_PATH + "/test_captions.json", "w") as f:
+with open(DEMO_SAVE_PATH + f"/{NAME_CONFIG}_test_captions_b5.json", "w") as f:
     json.dump(caption_val, f, indent=4)
 
 print("Test captions saved to disk!!")
