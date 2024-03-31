@@ -4,110 +4,81 @@ from torchvision import transforms
 from src.base.constants import *
 from src.base.helpers import *
 from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
-from dataset import DemoDataset   ## This is a local import from dataset.pyA
+from .dataset import DemoDataset   ## This is a local import from dataset.pyA
 from tqdm import tqdm
-from transformers import AutoProcessor
-from transformers import AutoModelForCausalLM
 from PIL import Image
 import matplotlib.pyplot as plt
 import os
 import json
+import torch.nn as nn
+from transformers import VisionEncoderDecoderModel, ViTFeatureExtractor
+from torch.optim import AdamW  # Use this instead of transformers.AdamW
+from transformers import BertTokenizer
 
-################################################################################
-# This is template code that will not run as is since a model is not defined but
-# is has much of the infrastructure needed to fine-tune a model on the VizWiz
-# dataset.
-#
-# At a minimum you will have to complete code indicated by TODO comments.
-################################################################################
+
+
+# from transformers import BlipProcessor, BlipForConditionalGeneration
+
+tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+feature_extractor = ViTFeatureExtractor.from_pretrained("google/vit-base-patch16-224-in21k")
+
+# Load the VisionEncoderDecoderModel
+encoder_decoder = VisionEncoderDecoderModel.from_encoder_decoder_pretrained(
+    "google/vit-base-patch16-224-in21k", "bert-base-uncased"
+)
+
+# Make sure to set the decoder_start_token_id
+encoder_decoder.config.decoder_start_token_id = tokenizer.cls_token_id
+encoder_decoder.config.pad_token_id = tokenizer.pad_token_id
+
 
 CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
 
 create_directory(DEMO_SAVE_PATH)
 create_directory(DEMO_SAVE_PATH + "/examples")
 
-## TODO
-# You can use the AutoProcessor.from_pretrained() method to load the HuggingFace
-# processor for the model you are using. This will allow you to use the processor
-# to encode and decode text and images.
-
-# https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
-model_name = "Salesforce/blip-image-captioning-base"
-try:
-    processor = AutoProcessor.from_pretrained(model_name, cache_dir=CACHE_DIR)
-except Exception as e:
-    print("You need to pick a pre-trained model from HuggingFace.")
-    print("Exception: ", e)
-
-
 train_dataset = DemoDataset(
-    processor=processor,
     annotation_file=TRAIN_ANNOTATION_FILE,
     image_folder=TRAIN_IMAGE_FOLDER,
-    transforms=None,
+    feature_extractor=feature_extractor,  # For images
+    tokenizer=tokenizer,                  # For text
+    transforms=None
 )
 val_dataset = DemoDataset(
-    processor=processor,
     annotation_file=VAL_ANNOTATION_FILE,
     image_folder=VAL_IMAGE_FOLDER,
-    transforms=None,
+    feature_extractor=feature_extractor,  # For images
+    tokenizer=tokenizer,                  # For text
+    transforms=None
 )
 
-### Use the Subset while debugging ###
 train_dataset = Subset(train_dataset, range(100))
 val_dataset = Subset(val_dataset, range(10))
-
-### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
-# train_dataset = Subset(train_dataset, range(len(train_dataset)))
-# val_dataset = Subset(val_dataset, range(len(val_dataset)))
+#train_dataset = Subset(train_dataset, range(len(train_dataset)))
+#val_dataset = Subset(val_dataset, range(len(val_dataset)))
 
 print("SANITY CHECK!!")
 print(f"LEN TRAIN IMAGE IDS: {len(train_dataset.dataset.image_ids)}")
 print(f"LEN VAL IMAGE IDS: {len(val_dataset.dataset.image_ids)}")
 print("SANITY CHECK DONE!!")
 
-
 train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
 val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
 
-## TODO
-# You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
-# model you want to fine-tune. This will allow you to use the model to train and evaluate
-# on the VizWiz dataset.
-try:
-    model_name = "google/vit-gpt2-image-captioning"
-    model = AutoModelForCausalLM.from_pretrained(model_name, cache_dir=CACHE_DIR)
-except Exception as e:
-    print("You need to pick a pre-trained model from HuggingFace.")
-    print("Exception: ", e)
+optimizer = AdamW(encoder_decoder.parameters(), lr=5e-5)
 
-from torch.optim import AdamW
 
-## TODO Select your model optimizer
-try:
-    lr = 5e-5
-   # raise NotImplementedError("Select your model optimizer")
-    optimizer = AdamW(model.parameters(), lr=lr)   # pick one from torch.optim
-except Exception as e:
-    print("You need to pick an optimizer from torch.optim.")
-    print("Exception: ", e)
-
-# Wrap the model with DataParallel only if more than one GPU is available
-if torch.cuda.device_count() > 1:
-    model = torch.nn.DataParallel(model)
-
-device = "cuda" if torch.cuda.is_available() else "cpu"
-model.to(device)
+encoder_decoder.to("cuda" if torch.cuda.is_available() else "cpu")
+encoder_decoder.train()
+# Logger
+logger = Logger(f"{DEMO_SAVE_PATH}/logs.log")
 
 method = "CIDEr"  # method used for comparsions
 
-logger = Logger(f"{DEMO_SAVE_PATH}/logs.log")
-
-
-def train(loger, train_dataloader, model, optimizer, device, processor):
+def train(logger, train_dataloader, model, optimizer, device, feature_extractor, tokenizer):
     model.train()
-
-    for idx, batch in progress_bar:
+    progress_bar = tqdm(train_dataloader, desc='Training')
+    for batch in progress_bar:
         input_ids = batch.pop("input_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
 
@@ -128,7 +99,6 @@ def train(loger, train_dataloader, model, optimizer, device, processor):
         progress_bar.set_postfix({"loss": loss.item()})
 
     return loss.item()
-
 
 def evaluate(
     logger, epoch, save_path, best_score, val_dataloader, model, processor, device
@@ -169,7 +139,6 @@ def evaluate(
 
     return vizwizEval, vizwizRes, plot_captions_dict
 
-
 def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="CIDEr"):
     # Get 5 best and 5 worst captions every epoch
     # Use first 3 idxs to plot throughout the training
@@ -203,7 +172,6 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
         )
         for img_id in first_3_img_ids
     ]
-
     best_img_and_captions = [
         (img_path, plot_captions_dict[img_id], vizwizEval.vizwiz.imgToAnns[img_id])
         for img_path, img_id in zip(best_img_paths, best_img_ids)
@@ -228,35 +196,39 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
         first_3_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/first_3/"
     )
 
+for epoch in range(3):  # Example: 3 epochs, adjust as necessary
+    logger.info(f"Epoch: {epoch+1}")
+    total_loss = 0
+    for batch in tqdm(train_dataloader, desc=f"Training Epoch {epoch+1}"):
+        pixel_values = batch["pixel_values"].to(encoder_decoder.device)
+        labels = batch["input_ids"].to(encoder_decoder.device) # Rename input_ids to labels
 
-best_score = 0
-for epoch in range(3):
-    print(f"Epoch: {epoch+1}")
-    # Wrap the dataloader with tqdm for a progress bar
-    progress_bar = tqdm(
-        enumerate(train_dataloader), total=len(train_dataloader), desc="Training"
-    )
+        # The VisionEncoderDecoderModel expects `labels` for the text part during training
+        # Forward pass
+        encoder_decoder.train()
+        outputs = encoder_decoder(pixel_values=pixel_values, labels=labels)
+        loss = outputs.loss
+        total_loss += loss.item()
 
-    # Train the model
-    loss = train(logger, train_dataloader, model, optimizer, device, processor)
-    logger.info(f"Loss at epoch {epoch}: {loss}")
+        # Backward pass and optimization
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
 
-    # Evaluate the model every 3 epochs
-    if epoch % 3 == 0:
+    avg_loss = total_loss / len(train_dataloader)
+    logger.info(f"Average training loss: {avg_loss}")
+
+    # Save the model every epoch
+    encoder_decoder.save_pretrained(f"{DEMO_SAVE_PATH}/model_epoch_{epoch+1}")
+
+    if (epoch + 1) % 3 == 0:  # Adjust as necessary
         vizwizEval, vizwizRes, plot_captions_dict = evaluate(
-            logger,
-            epoch,
-            DEMO_SAVE_PATH,
-            best_score,
-            val_dataloader,
-            model,
-            processor,
-            device,
+            logger, epoch, DEMO_SAVE_PATH, best_score, val_dataloader, encoder_decoder, tokenizer,
         )
         score = vizwizEval.eval[method]
         if score > best_score:
             best_score = score
-            model.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            encoder_decoder.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
             logger.info(f"New best score: {best_score}. Model saved")
 
         get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method)
