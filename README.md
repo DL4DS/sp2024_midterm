@@ -9,11 +9,12 @@ human-based image captioning services.
 
 ## Results
 ![image](results.png)
-CIDEER
+CIDEr score is 78.70.
+
 Training logs with detailed scores for each epoch are provided in `demo_train.sh.e5693712` and `demo_train.sh.o5693712`
 
 ## Model
-This project employs the [blip-image-captioning](https://huggingface.co/Salesforce/blip-image-captioning-base) models, which is a set of pre-trained model specifically designed for image captioning tasks. It integrates visual and language understanding to generate relevant and context-aware captions.
+This project employs the [blip-image-captioning](https://huggingface.co/Salesforce/blip-image-captioning-base) model, which is a set of pre-trained model specifically designed for image captioning tasks. It integrates visual and language understanding to generate relevant and context-aware captions. I choose bilp-base for a faster training process.
 
 ### Optimization
 - optimizer: AdamW
