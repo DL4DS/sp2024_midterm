@@ -1,0 +1,9 @@
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/peft' already exists.
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/peft/examples' already exists.
+trainable params: 0 || all params: 470,347,324 || trainable%: 0.0
+loading annotations into memory...
+Done (t=0.01s)
+creating index...
+index created! imgs = 8000, anns = 0
+8000
+Test captions saved to disk!!
