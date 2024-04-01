@@ -187,7 +187,7 @@ python src/peft/train_revised.py # Write the python script path you are getting 
 
 
 ## Performance
-(Please see `res`)
+(Please see `res/ft` and `res/peft`)
 
 ### Validation performance
 - Both the fine-tuning and PEFT showed improvement over training.
