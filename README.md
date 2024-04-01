@@ -8,7 +8,7 @@ The goal of this task is to obtain the highest out-of-sample performance in capt
 ## Approach
 In this task, I adopted two approaches: ordinary fine-tuning and PEFT.
 
-### Fine-tuning (Path: src/ft)
+### Ordinary fine-tuning (Path: src/ft)
 Fine tune all parameters in a pre-trained model using the given training data. The best model is selected via the CIDEr score of validation dataset.
 
 ```python
@@ -101,7 +101,7 @@ model = PeftModel.from_pretrained(m, PEFT_CONFIG_PATH, is_trainable=True, cache_
 ## Pre-trained model: BLIP
 ### Model: [BLIP (Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation)](https://huggingface.co/Salesforce/blip-image-captioning-large)
 ### Checkpoints
-- `Salesforce/blip-image-captioning-base` &rarr; For fine-tuning
+- `Salesforce/blip-image-captioning-base` &rarr; For ordinary fine-tuning
 - `Salesforce/blip-image-captioning-large` &rarr; For PEFT
 
 
@@ -187,17 +187,23 @@ python src/peft/train_revised.py # Write the python script path you are getting 
 
 
 ## Performance
+
+### Validation performance
+- Both the fine-tuning and PEFT showed improvement over training.
+- The X-axis in images below indicates epoch.
+
+### Test performance
 - Fine-tuned model test answers &rarr; `src/ft/test_revised.py`, `ft_test.sh`
 - PEFT model test answers &rarr; `src/ft/test_revised.py`, `peft_test_revised.sh`
-
-
-## Findings
-
+- Fine-tuning CIDEr: 
+- PEFT CIDEr: 
 
 
 ## Limitations
-
-
+Fine-tuning models through either ordinary fine-tuning or PEFT seemingly shows improvement in performance. However, if we compare test performance between the pre-trained model and fine-tuned model, we can see that fine-tuning was not effective in this case.
+- `Salesforce/blip-image-captioning-base` test performance (CIDEr): 53.51
+-  `Salesforce/blip-image-captioning-large` test performance (CIDEr): 76.88
+The reason seems that the pre-trained model is too large (the number of parameters of large model &rarr; 469,732,924) to be fine-tuned.
 
 ## Future work
 When the end time of this task was only one day left, the most regrettable thing was not to try more diverse hyperparameters with more diverse models.
