@@ -202,7 +202,7 @@ The plot for the ordinary fine-tuning: results fetched from epochs 1\~13 (`peft_
 - Testing fine-tuned model test answers &rarr; `src/ft/test_revised.py`, `ft_test.sh`
 - Testing PEFT model test answers &rarr; `src/ft/test_revised.py`, `peft_test_revised.sh`
 - Fine-tuning CIDEr (`test_captions_ft.json`): **10**
-- PEFT CIDEr (`test_captions_revised_continued2`): **10** &rarr; [VizWiz-Captions Challenge 2021 (test-standard2021)](https://eval.ai/web/challenges/challenge-page/739/overview)
+- PEFT CIDEr (`test_captions_revised_continued2`): **77.17** &rarr; [VizWiz-Captions Challenge 2021 (test-standard2021)](https://eval.ai/web/challenges/challenge-page/739/overview)
 
 
 ## Limitations
