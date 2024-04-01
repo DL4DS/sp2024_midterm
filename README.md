@@ -182,8 +182,8 @@ python src/peft/train_revised.py # Write the python script path you are getting 
 ```
 
 ### The number of epochs
-- Due to time limit, the number of epoch for fine-tuning was **six**.
-- The number of epoch for PEFT was **30**.
+- Due to time limit, the number of epoch for fine-tuning was **eight**.
+- The number of epoch for PEFT was **21**.
 
 
 ## Performance
