@@ -202,8 +202,8 @@ python src/peft/train_revised.py # Write the python script path you are getting 
 
 ## Limitations
 Fine-tuning models through either ordinary fine-tuning or PEFT seemingly shows improvement in performance. However, if we compare test performance between the pre-trained model and fine-tuned model, we can see that fine-tuning was not effective in this case.
-- `Salesforce/blip-image-captioning-base` test CIDEr (`aa`, `aa`): **53.51**
--  `Salesforce/blip-image-captioning-large` test CIDEr (`aa`, `aa`): **76.88**
+- `Salesforce/blip-image-captioning-base` test CIDEr (`test_captions_ft_blip.json`, `aa`): **53.51**
+-  `Salesforce/blip-image-captioning-large` test CIDEr (`test_captions_blip.json`, `aa`): **76.88**
   
 The reason seems that the pre-trained model is too large (the number of parameters of large model &rarr; 469,732,924) to be fine-tuned.
 
