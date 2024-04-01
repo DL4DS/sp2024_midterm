@@ -194,8 +194,8 @@ python src/peft/train_revised.py # Write the python script path you are getting 
 - The X-axis in images below indicates epoch.
 
 ### Test performance
-- Fine-tuned model test answers &rarr; `src/ft/test_revised.py`, `ft_test.sh`
-- PEFT model test answers &rarr; `src/ft/test_revised.py`, `peft_test_revised.sh`
+- Testing fine-tuned model test answers &rarr; `src/ft/test_revised.py`, `ft_test.sh`
+- Testing PEFT model test answers &rarr; `src/ft/test_revised.py`, `peft_test_revised.sh`
 - Fine-tuning CIDEr (`test_captions_ft.json`, `aa`): **10**
 - PEFT CIDEr (`test_captions_revised_continued2`, `aa`): **10**
 
