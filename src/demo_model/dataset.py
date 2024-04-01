@@ -33,7 +33,7 @@ class DemoDataset(CustomDataset):
         img = Image.open(img_path)  # Use PIL to open the image
 
         # if self.transforms:
-        #     img = self.transforms(img)
+        #img = self.transforms(img)
 
         if not self.test:
             anns = self.vizwiz.imgToAnns[img_id]
@@ -45,20 +45,20 @@ class DemoDataset(CustomDataset):
 
             # passing both text and image wont work (Ref: https://github.com/huggingface/transformers/blob/15f8296a9b493eaa0770557fe2e931677fb62e2f/src/transformers/models/git/processing_git.py#L90)
             # get them seperately and combine
-            image_encoding = self.processor(
-                images=img, padding="max_length", return_tensors="pt"
+            """image_encoding = self.processor(images=img, padding="max_length", return_tensors="pt"
             )
             text_encoding = self.processor(
                 text=caption, padding="max_length", return_tensors="pt"
-            )
-
+            )"""
+            inputs = self.processor(images=img, return_tensors="pt")
             encoding = {
-                "input_ids": text_encoding["input_ids"].squeeze(),
-                "attention_mask": text_encoding["attention_mask"].squeeze(),
-                "pixel_values": image_encoding["pixel_values"].squeeze(),
+                #"input_ids": text_encoding["input_ids"].squeeze(),
+                "input_ids": inputs["input_ids"].squeeze(0),
+                #"attention_mask": text_encoding["attention_mask"].squeeze(),
+                "pixel_values": inputs["pixel_values"].squeeze(0),
+                "attention_mask": inputs["attention_mask"].squeeze(0),
                 "image_ids": torch.tensor(img_id),
             }
-
             return encoding
         else:
             image_encoding = self.processor(
