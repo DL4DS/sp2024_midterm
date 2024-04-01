@@ -4,7 +4,7 @@ from torchvision import transforms
 from src.base.constants import *
 from src.base.helpers import *
 from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
-from .dataset import DemoDataset   ## This is a local import from dataset.pyA
+from src.demo_model.dataset import DemoDataset   ## This is a local import from dataset.pyA
 from tqdm import tqdm
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -54,10 +54,10 @@ val_dataset = DemoDataset(
     transforms=None
 )
 
-train_dataset = Subset(train_dataset, range(100))
-val_dataset = Subset(val_dataset, range(10))
-#train_dataset = Subset(train_dataset, range(len(train_dataset)))
-#val_dataset = Subset(val_dataset, range(len(val_dataset)))
+#train_dataset = Subset(train_dataset, range(100))
+#val_dataset = Subset(val_dataset, range(10))
+train_dataset = Subset(train_dataset, range(len(train_dataset)))
+val_dataset = Subset(val_dataset, range(len(val_dataset)))
 
 print("SANITY CHECK!!")
 print(f"LEN TRAIN IMAGE IDS: {len(train_dataset.dataset.image_ids)}")
@@ -207,33 +207,37 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
     save_image_captions(
         first_3_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/first_3/"
     )
-
+best_score=0
 for epoch in range(3):  # Example: 3 epochs, adjust as necessary
     logger.info(f"Epoch: {epoch+1}")
     total_loss = 0
     for batch in tqdm(train_dataloader, desc=f"Training Epoch {epoch+1}"):
-        pixel_values = batch["pixel_values"].to(encoder_decoder.device)
-        labels = batch["input_ids"].to(encoder_decoder.device) # Rename input_ids to labels
+        pixel_values = batch["pixel_values"].to(device)
+        labels = batch["input_ids"].to(device)
 
-        # The VisionEncoderDecoderModel expects `labels` for the text part during training
         # Forward pass
         encoder_decoder.train()
         outputs = encoder_decoder(pixel_values=pixel_values, labels=labels)
         loss = outputs.loss
-        total_loss += loss.item()
 
         # Backward pass and optimization
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
+        # Aggregate loss
+        if torch.cuda.device_count() > 1:
+            loss = loss.mean()  # mean() to aggregate loss across GPUs
+        total_loss += loss.item()
+
     avg_loss = total_loss / len(train_dataloader)
     logger.info(f"Average training loss: {avg_loss}")
+
 
     # Save the model every epoch
     encoder_decoder.save_pretrained(f"{DEMO_SAVE_PATH}/model_epoch_{epoch+1}")
 
-    if (epoch + 1) % 3 == 0:  # Adjust as necessary
+    if (epoch + 1) % 3 == 0:  
         vizwizEval, vizwizRes, plot_captions_dict = evaluate(
             logger, epoch, DEMO_SAVE_PATH, best_score, val_dataloader, encoder_decoder, tokenizer,
         )

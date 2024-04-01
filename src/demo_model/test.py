@@ -4,7 +4,7 @@ from torchvision import transforms
 from src.base.constants import *
 from src.base.helpers import *
 from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
-from .dataset import DemoDataset
+from src.demo_model.dataset import DemoDataset
 from tqdm import tqdm
 from transformers import ViTFeatureExtractor, GPT2LMHeadModel, GPT2Tokenizer
 from PIL import Image
