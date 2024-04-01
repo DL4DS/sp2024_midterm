@@ -37,25 +37,17 @@ except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
-image_transforms = transforms.Compose(
-    [
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-    ]
-) 
-
 train_dataset = DemoDataset(
     processor=processor,
     annotation_file=TRAIN_ANNOTATION_FILE,
     image_folder=TRAIN_IMAGE_FOLDER,
-    transforms=image_transforms,
+    transforms=None,
 )
 val_dataset = DemoDataset(
     processor=processor,
     annotation_file=VAL_ANNOTATION_FILE,
     image_folder=VAL_IMAGE_FOLDER,
-    transforms=image_transforms,
+    transforms=None,
 )
 
 ### Use the Subset while debugging ###
