@@ -195,7 +195,7 @@ python src/peft/train_revised.py # Write the python script path you are getting 
 
 The plot for the ordinary fine-tuning: results fetched from epochs 1\~4 (`ft_train_revised.sh.e5763909`), epochs 5\~8 (`ft_train_revised.sh.e5790506`)
 
-The plot for the ordinary fine-tuning: results fetched from epochs 1\~13 (`peft_train_revised.sh.e5769591`), epoch 14 (`peft_train_revised.sh.e5779377`), epochs 15\-21 (`peft_train_revised.sh.e5790125`)
+The plot for the PEFT: results fetched from epochs 1\~13 (`peft_train_revised.sh.e5769591`), epoch 14 (`peft_train_revised.sh.e5779377`), epochs 15\-21 (`peft_train_revised.sh.e5790125`)
 
 
 ### Test performance
