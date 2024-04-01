@@ -4,56 +4,42 @@ from torchvision import transforms
 from src.base.constants import *
 from src.base.helpers import *
 from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
-from src.demo_model.dataset import DemoDataset   ## This is a local import from dataset.pyA
+from dataset import DemoDataset   ## This is a local import from dataset.pyA
 from tqdm import tqdm
+from transformers import AutoProcessor, AutoImageProcessor
+from transformers import AutoModelForCausalLM
 from PIL import Image
 import matplotlib.pyplot as plt
 import os
 import json
-import torch.nn as nn
-from transformers import VisionEncoderDecoderModel, ViTFeatureExtractor
-from torch.optim import AdamW  # Use this instead of transformers.AdamW
-from transformers import BertTokenizer
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"Using {device} device.")
-
-
-# from transformers import BlipProcessor, BlipForConditionalGeneration
-
-tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-feature_extractor = ViTFeatureExtractor.from_pretrained("google/vit-base-patch16-224-in21k")
-
-# Load the VisionEncoderDecoderModel
-encoder_decoder = VisionEncoderDecoderModel.from_encoder_decoder_pretrained(
-    "google/vit-base-patch16-224-in21k", "bert-base-uncased"
-)
-
-# Make sure to set the decoder_start_token_id
-encoder_decoder.config.decoder_start_token_id = tokenizer.cls_token_id
-encoder_decoder.config.pad_token_id = tokenizer.pad_token_id
-
 
 CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
 
 create_directory(DEMO_SAVE_PATH)
 create_directory(DEMO_SAVE_PATH + "/examples")
 
+
+
+# from transformers import BlipProcessor, BlipForConditionalGeneration
+try:
+    processor = AutoProcessor.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
+except Exception as e:
+    print("You need to pick a pre-trained model from HuggingFace.")
+    print("Exception: ", e)
+
+
 train_dataset = DemoDataset(
+    processor=processor,
     annotation_file=TRAIN_ANNOTATION_FILE,
     image_folder=TRAIN_IMAGE_FOLDER,
-    feature_extractor=feature_extractor,  # For images
-    tokenizer=tokenizer,                  # For text
-    transforms=None
+    transforms=None,
 )
 val_dataset = DemoDataset(
+    processor=processor,
     annotation_file=VAL_ANNOTATION_FILE,
     image_folder=VAL_IMAGE_FOLDER,
-    feature_extractor=feature_extractor,  # For images
-    tokenizer=tokenizer,                  # For text
-    transforms=None
+    transforms=None,
 )
-
 #train_dataset = Subset(train_dataset, range(100))
 #val_dataset = Subset(val_dataset, range(10))
 train_dataset = Subset(train_dataset, range(len(train_dataset)))
@@ -67,36 +53,44 @@ print("SANITY CHECK DONE!!")
 train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
 val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
 
-optimizer = AdamW(encoder_decoder.parameters(), lr=5e-5)
+try:
+    model = AutoModelForCausalLM.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
+except Exception as e:
+    print("You need to pick a pre-trained model from HuggingFace.")
+    print("Exception: ", e)
 
+try:
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.00001)   # pick one from torch.optim
+except Exception as e:
+    print("You need to pick an optimizer from torch.optim.")
+    print("Exception: ", e)
 
-encoder_decoder.to("cuda" if torch.cuda.is_available() else "cpu")
-encoder_decoder.train()
-# Logger
-logger = Logger(f"{DEMO_SAVE_PATH}/logs.log")
-# Move the model to the chosen device
-encoder_decoder.to(device)
+if torch.cuda.device_count() > 1:
+    model = torch.nn.DataParallel(model)
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model.to(device)
 
 method = "CIDEr"  # method used for comparsions
-if torch.cuda.device_count() > 1:
-    encoder_decoder = torch.nn.DataParallel(encoder_decoder)
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"Using {device} device.")
+logger = Logger(f"{DEMO_SAVE_PATH}/logs.log")
 
 
 
-def train(logger, train_dataloader, model, optimizer, device, feature_extractor, tokenizer):
+
+
+def train(loger, train_dataloader, model, optimizer, device, processor):
     model.train()
-    progress_bar = tqdm(train_dataloader, desc='Training')
-    for batch in progress_bar:
+
+    for idx, batch in progress_bar:
         input_ids = batch.pop("input_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
+        attention_mask = batch.pop("attention_mask").to(device)
 
         optimizer.zero_grad()
 
         outputs = model(
-            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids
+            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids, attention_mask=attention_mask
         )
 
         loss = outputs.loss
@@ -110,7 +104,6 @@ def train(logger, train_dataloader, model, optimizer, device, feature_extractor,
         progress_bar.set_postfix({"loss": loss.item()})
 
     return loss.item()
-subset_val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=10) 
 
 def evaluate(
     logger, epoch, save_path, best_score, val_dataloader, model, processor, device
@@ -122,8 +115,12 @@ def evaluate(
         image_ids = batch.pop("image_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
 
+
         with torch.no_grad():
-            outputs = model.generate(pixel_values=pixel_values, max_length=50)
+            if torch.cuda.device_count() > 1:
+                outputs = model.module.generate(pixel_values=pixel_values, max_length=50)
+            else:
+                outputs = model.generate(pixel_values=pixel_values, max_length=50)
 
         # Decode the generated ids to text
         generated_captions = processor.batch_decode(outputs, skip_special_tokens=True)
@@ -150,6 +147,7 @@ def evaluate(
         logger.info(f"  Method: {method}, Score: {vizwizEval.eval[method]:.4f}")
 
     return vizwizEval, vizwizRes, plot_captions_dict
+
 
 def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="CIDEr"):
     # Get 5 best and 5 worst captions every epoch
@@ -184,6 +182,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
         )
         for img_id in first_3_img_ids
     ]
+
     best_img_and_captions = [
         (img_path, plot_captions_dict[img_id], vizwizEval.vizwiz.imgToAnns[img_id])
         for img_path, img_id in zip(best_img_paths, best_img_ids)
@@ -207,57 +206,39 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
     save_image_captions(
         first_3_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/first_3/"
     )
-best_score=0
-for epoch in range(3):  # Example: 3 epochs, adjust as necessary
-    logger.info(f"Epoch: {epoch+1}")
-    total_loss = 0
-    for batch in tqdm(train_dataloader, desc=f"Training Epoch {epoch+1}"):
-        pixel_values = batch["pixel_values"].to(device)
-        labels = batch["input_ids"].to(device)
-
-        # Forward pass
-        encoder_decoder.train()
-        outputs = encoder_decoder(pixel_values=pixel_values, labels=labels)
-        loss = outputs.loss
-
-        # Backward pass and optimization
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-
-        # Aggregate loss
-        if torch.cuda.device_count() > 1:
-            loss = loss.mean()  # mean() to aggregate loss across GPUs
-        total_loss += loss.item()
-
-    avg_loss = total_loss / len(train_dataloader)
-    logger.info(f"Average training loss: {avg_loss}")
 
 
-    # Save the model every epoch
-    encoder_decoder.save_pretrained(f"{DEMO_SAVE_PATH}/model_epoch_{epoch+1}")
+best_score = 0
+for epoch in range(10):
+    print(f"Epoch: {epoch+1}")
+    # Wrap the dataloader with tqdm for a progress bar
+    progress_bar = tqdm(
+        enumerate(train_dataloader), total=len(train_dataloader), desc="Training"
+    )
 
-    if (epoch + 1) % 3 == 0:  
+    # Train the model
+    loss = train(logger, train_dataloader, model, optimizer, device, processor)
+    logger.info(f"Loss at epoch {epoch}: {loss}")
+
+    # Evaluate the model every 3 epochs
+    if epoch % 3 == 0:
         vizwizEval, vizwizRes, plot_captions_dict = evaluate(
-            logger, epoch, DEMO_SAVE_PATH, best_score, val_dataloader, encoder_decoder, tokenizer,
+            logger,
+            epoch,
+            DEMO_SAVE_PATH,
+            best_score,
+            val_dataloader,
+            model,
+            processor,
+            device,
         )
         score = vizwizEval.eval[method]
         if score > best_score:
             best_score = score
-            encoder_decoder.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            if torch.cuda.device_count() > 1:
+                model.module.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            else:
+                model.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
             logger.info(f"New best score: {best_score}. Model saved")
 
         get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method)
-
-import torch
-
-# Check if CUDA is available
-if torch.cuda.is_available():
-    print(f"CUDA is available. GPU: {torch.cuda.get_device_name(0)}")
-    device = torch.device("cuda")
-else:
-    print("CUDA is not available. Using CPU.")
-    device = torch.device("cpu")
-
-# Move your model to the chosen device
-encoder_decoder.to(device)

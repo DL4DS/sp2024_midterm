@@ -17,5 +17,7 @@ python src/demo_model/train.py
 
 
 ### The command below is used to submit the job to the cluster
-qsub -pe omp 4 -P ds598 -l gpus=2 demo_train.sh
+##qsub -pe omp 4 -P ds598 -l gpus=2 demo_train.sh
 
+ 
+ 
