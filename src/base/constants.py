@@ -5,23 +5,23 @@ import nltk
 import spacy
 
 # set this path to where you want to save results
-BASE_DIR = "/projectnb/ds598/projects/tgardos/sp2024_midterm/"
+BASE_DIR = "/projectnb/ds598/students/demoyu/sp2024_midterm/"
 
 # Do not edit. This points to the dataset folder
 DATA_BASE_DIR = "/projectnb/ds598/materials/datasets/vizwiz/captions/"
 
-os.environ["SPACY_DATA"] = BASE_DIR + "/misc/spacy_data"
+os.environ["SPACY_DATA"] = BASE_DIR + "/misc2/spacy_data"
 
-nltk_data_directory = BASE_DIR + "misc/nltk_data"
+nltk_data_directory = BASE_DIR + "misc2/nltk_data"
 nltk.data.path.append(nltk_data_directory)
 nltk.download("punkt", download_dir=nltk_data_directory)
 
 # Set the Transformers cache directory
-os.environ["TRANSFORMERS_CACHE"] = BASE_DIR + "misc"
+os.environ["TRANSFORMERS_CACHE"] = BASE_DIR + "misc2"
 
 # Set the Hugging Face home directory (this includes datasets cache)
-os.environ["HF_HOME"] = BASE_DIR + "misc"
-os.environ["TORCH_HOME"] = BASE_DIR + "misc"
+os.environ["HF_HOME"] = BASE_DIR + "misc2"
+os.environ["TORCH_HOME"] = BASE_DIR + "misc2"
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # DATA PATHS
@@ -53,5 +53,5 @@ DEMO_MEAN = np.array([123.675, 116.280, 103.530]) / 255
 DEMO_STD = np.array([58.395, 57.120, 57.375]) / 255
 
 # SAVE PATHS
-DEMO_SAVE_PATH = BASE_DIR + "RESULTS/git"
-CNNLSTM_SAVE_PATH = BASE_DIR + "RESULTS/cnn_lstm"
+DEMO_SAVE_PATH = BASE_DIR + "RESULTS2/git"
+CNNLSTM_SAVE_PATH = BASE_DIR + "RESULTS2/cnn_lstm"
