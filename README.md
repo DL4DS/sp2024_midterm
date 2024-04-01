@@ -2,11 +2,11 @@
 
 
 ## Introduction
-The goal of this task is to obtain the highest out-of-sample performance in captioning given images by fine tuning a pre-trained multimodal model. The performance metric is CIDEr, and the test performance is evaluated by the VizWiz-Captions Challenge 2021. For this task, I basically started from the source code given by the instructor (BU DS598 DL4DS Spring 2024).
+The goal of this task is to obtain the highest out-of-sample performance in captioning given images by fine-tuning a pre-trained multimodal model. The performance metric is CIDEr, and the test performance is evaluated by the VizWiz-Captions Challenge 2021. For this task, I basically started from the source code given by the instructor (BU DS598 DL4DS Spring 2024).
 
 
 ## Approach
-In this task, I adopted two approaches: ordinary fine-tuning and PEFT.
+In this task, I adopted two fine-tuning approaches: ordinary fine-tuning and PEFT.
 
 ### Ordinary fine-tuning (Path: src/ft)
 Fine tune all parameters in a pre-trained model using the given training data. The best model is selected via the CIDEr score of validation dataset.
@@ -207,18 +207,8 @@ Fine-tuning models through either ordinary fine-tuning or PEFT seemingly shows i
 The reason seems that the pre-trained model is too large (the number of parameters of large model &rarr; 469,732,924) to be fine-tuned.
 
 ## Future work
-When the end time of this task was only one day left, the most regrettable thing was not to try more diverse hyperparameters with more diverse models.
-1.	Hyperparameter tuning: the hyperparameters of the LoRA, evaluation interval, learning rate, etc.
-2.	Should have used array jobs
-3.	Dynamic Resource Allocation: Develop a dynamic resource allocation strategy that can adjust the job size based on the available computing resources and time. This could involve creating an algorithm that estimates the optimal batch size, number of epochs, etc., given the constraints.
-4.	Performance Modeling: Build a performance model that can predict the execution time of a job based on various factors like batch size, number of epochs, and available resources. This could help in planning and scheduling jobs more effectively.
-5.	Efficiency Metrics: Establish efficiency metrics that consider both the computational resources used and the performance of the deep learning model. This could help you balance the trade-off between resource usage and model performance.
-
-
-## References
-1. [CIDEr: Consensus-based image description evaluation](https://ieeexplore.ieee.org/document/7299087)
-2. [BLEU: A Misunderstood Metric from Another Age](https://towardsdatascience.com/bleu-a-misunderstood-metric-from-another-age-d434e18f1b37), Medium Post
-3. [BLEU Metric](https://huggingface.co/spaces/evaluate-metric/bleu), HuggingFace space
-
+1. It is important to consider comparing between the size of training data and pre-trained model capacity when it comes to fine-tuning.
+2. Hyperparameter tuning: the hyperparameters of the LoRA, evaluation interval, learning rate, etc.
+3. Using array jobs necessary
 
 
