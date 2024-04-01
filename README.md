@@ -41,9 +41,9 @@ The VizWiz-Captions dataset includes:
 
 ## Results
 
-The current best-performing base model achieves a Cider score of 51.43 on the
+The current best-performing base model achieves a Cider score of 71.19 on the
 leadership dataset.  This was achieved with the following hyperparameters:
-learning rate set to 5e-5, 3 epochs, and a batch size of 8.  All other
+learning rate set to 1e-5, 6 epochs, and a batch size of 8.  All other
 hyperparameters were maintained at their default settings as per the
 BlipProcessor and BlipForConditionalGeneration defaults.
 

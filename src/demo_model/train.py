@@ -82,7 +82,7 @@ except Exception as e:
 ## TODO Select your model optimizer
 try:
     # raise NotImplementedError("Select your model optimizer")
-    optimizer = torch.optim.AdamW(params=model.parameters(), lr = 5e-5)   # pick one from torch.optim
+    optimizer = torch.optim.AdamW(params=model.parameters(), lr = 1e-5)   # pick one from torch.optim
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
@@ -227,7 +227,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
 
 best_score = 0
-for epoch in range(30):
+for epoch in range(7):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
