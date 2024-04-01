@@ -15,6 +15,8 @@ from transformers import VisionEncoderDecoderModel, ViTFeatureExtractor
 from torch.optim import AdamW  # Use this instead of transformers.AdamW
 from transformers import BertTokenizer
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using {device} device.")
 
 
 # from transformers import BlipProcessor, BlipForConditionalGeneration
@@ -72,8 +74,17 @@ encoder_decoder.to("cuda" if torch.cuda.is_available() else "cpu")
 encoder_decoder.train()
 # Logger
 logger = Logger(f"{DEMO_SAVE_PATH}/logs.log")
+# Move the model to the chosen device
+encoder_decoder.to(device)
 
 method = "CIDEr"  # method used for comparsions
+if torch.cuda.device_count() > 1:
+    encoder_decoder = torch.nn.DataParallel(encoder_decoder)
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using {device} device.")
+
+
 
 def train(logger, train_dataloader, model, optimizer, device, feature_extractor, tokenizer):
     model.train()
@@ -99,6 +110,7 @@ def train(logger, train_dataloader, model, optimizer, device, feature_extractor,
         progress_bar.set_postfix({"loss": loss.item()})
 
     return loss.item()
+subset_val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=10) 
 
 def evaluate(
     logger, epoch, save_path, best_score, val_dataloader, model, processor, device
@@ -232,3 +244,16 @@ for epoch in range(3):  # Example: 3 epochs, adjust as necessary
             logger.info(f"New best score: {best_score}. Model saved")
 
         get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method)
+
+import torch
+
+# Check if CUDA is available
+if torch.cuda.is_available():
+    print(f"CUDA is available. GPU: {torch.cuda.get_device_name(0)}")
+    device = torch.device("cuda")
+else:
+    print("CUDA is not available. Using CPU.")
+    device = torch.device("cpu")
+
+# Move your model to the chosen device
+encoder_decoder.to(device)
