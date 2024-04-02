@@ -8,6 +8,8 @@ from dataset import DemoDataset
 from tqdm import tqdm
 from transformers import AutoProcessor
 from transformers import AutoModelForCausalLM
+#from transformers import AutoProcessor, AutoModelForSeq2SeqLM #ADDED BY CARMEN
+from transformers import BlipProcessor, BlipForConditionalGeneration #ADDED BY CARMEN
 from PIL import Image
 import matplotlib.pyplot as plt
 import os
@@ -23,17 +25,19 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 MODEL_PATH = f"{DEMO_SAVE_PATH}/best_model"
 
 # Load your fine tuned model
-model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
+#model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
+model = BlipForConditionalGeneration.from_pretrained(MODEL_PATH)
 
 ## TODO
 # You can use the AutoProcessor.from_pretrained() method to load the HuggingFace
 # processor for the model you are using. This will allow you to use the processor
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
-#
+
 # Of course you should use the same model you trained with.
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    #processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large", cache_dir=CACHE_DIR) #ADDED BY CARMEN
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
