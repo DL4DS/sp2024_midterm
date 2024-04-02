@@ -16,6 +16,10 @@ from tqdm import tqdm
 
 CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
 
+DEMO_SAVE_PATH = BASE_DIR + "RESULTS/GIT"
+
+
+
 create_directory(DEMO_SAVE_PATH)  # src/base/helpers.py
 create_directory(DEMO_SAVE_PATH + "/examples")
 
@@ -23,7 +27,7 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 MODEL_PATH = f"{DEMO_SAVE_PATH}/best_model"
 
 # Load your fine tuned model
-model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
+model = AutoModelForCausalLM.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
 
 ## TODO
 # You can use the AutoProcessor.from_pretrained() method to load the HuggingFace
