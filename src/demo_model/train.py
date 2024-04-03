@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import os
 import json
 
+
 ################################################################################
 # This is template code that will not run as is since a model is not defined but
 # is has much of the infrastructure needed to fine-tune a model on the VizWiz
@@ -21,10 +22,17 @@ import json
 # At a minimum you will have to complete code indicated by TODO comments.
 ################################################################################
 
-CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
+# PARAMETER
+optim = "Adamw"  # optimizer used for training
+lr = 6*1e-6  # learning rate
+weight_decay=2*1e-3  # weight_decay for Adamw
 
-create_directory(DEMO_SAVE_PATH)
-create_directory(DEMO_SAVE_PATH + "/examples")
+
+CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
+GIT_LARGE_SAVE_PATH_1 = GIT_LARGE_SAVE_PATH + f"/all/{optim}_{lr}_{weight_decay}"
+
+create_directory(GIT_LARGE_SAVE_PATH_1 )
+create_directory(GIT_LARGE_SAVE_PATH_1 +"/examples")
 
 ## TODO
 # You can use the AutoProcessor.from_pretrained() method to load the HuggingFace
@@ -32,7 +40,7 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -51,8 +59,8 @@ val_dataset = DemoDataset(
 )
 
 ### Use the Subset while debugging ###
-# train_dataset = Subset(train_dataset, range(100))
-# val_dataset = Subset(val_dataset, range(10))
+# train_dataset = Subset(train_dataset, range(1000))
+# val_dataset = Subset(val_dataset, range(100))
 
 ### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
 train_dataset = Subset(train_dataset, range(len(train_dataset)))
@@ -63,24 +71,27 @@ print(f"LEN TRAIN IMAGE IDS: {len(train_dataset.dataset.image_ids)}")
 print(f"LEN VAL IMAGE IDS: {len(val_dataset.dataset.image_ids)}")
 print("SANITY CHECK DONE!!")
 
-
-train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
+# Change batch size
+train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=6)
 val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
+
 
 ## TODO
 # You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
 try:
-    model = AutoModelForCausalLM.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    model = AutoModelForCausalLM.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
 ## TODO Select your model optimizer
+
 try:
-    raise NotImplementedError("Select your model optimizer")
-    optimizer = None   # pick one from torch.optim
+    # raise NotImplementedError("Select your model optimizer")
+    # optimizer = None
+    optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
@@ -94,7 +105,7 @@ model.to(device)
 
 method = "CIDEr"  # method used for comparsions
 
-logger = Logger(f"{DEMO_SAVE_PATH}/logs.log")
+logger = Logger(f"{GIT_LARGE_SAVE_PATH_1}/logs.log")
 
 
 def train(loger, train_dataloader, model, optimizer, device, processor):
@@ -212,18 +223,19 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
     # Save the images and captions
     save_image_captions(
-        best_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/best/"
+        best_img_and_captions, f"{GIT_LARGE_SAVE_PATH_1}/examples/epoch_{epoch}/best/"
     )
     save_image_captions(
-        worst_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/worst/"
+        worst_img_and_captions, f"{GIT_LARGE_SAVE_PATH_1}/examples/epoch_{epoch}/worst/"
     )
     save_image_captions(
-        first_3_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/first_3/"
+        first_3_img_and_captions, f"{GIT_LARGE_SAVE_PATH_1}/examples/epoch_{epoch}/first_3/"
     )
+
 
 
 best_score = 0
-for epoch in range(3):
+for epoch in range(27):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
@@ -239,7 +251,7 @@ for epoch in range(3):
         vizwizEval, vizwizRes, plot_captions_dict = evaluate(
             logger,
             epoch,
-            DEMO_SAVE_PATH,
+            GIT_LARGE_SAVE_PATH_1,
             best_score,
             val_dataloader,
             model,
@@ -249,7 +261,7 @@ for epoch in range(3):
         score = vizwizEval.eval[method]
         if score > best_score:
             best_score = score
-            model.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            model.save_pretrained(f"{GIT_LARGE_SAVE_PATH_1}/best_model")
             logger.info(f"New best score: {best_score}. Model saved")
 
         get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method)
