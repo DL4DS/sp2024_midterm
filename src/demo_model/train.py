@@ -6,8 +6,7 @@ from src.base.helpers import *
 from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
 from dataset import DemoDataset   ## This is a local import from dataset.pyA
 from tqdm import tqdm
-from transformers import AutoProcessor
-from transformers import AutoModelForCausalLM
+from transformers import AutoProcessor, BlipForConditionalGeneration, AdamW
 from PIL import Image
 import matplotlib.pyplot as plt
 import os
@@ -31,11 +30,8 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # processor for the model you are using. This will allow you to use the processor
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
-try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
-except Exception as e:
-    print("You need to pick a pre-trained model from HuggingFace.")
-    print("Exception: ", e)
+
+processor = AutoProcessor.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
 
 train_dataset = DemoDataset(
     processor=processor,
@@ -50,7 +46,7 @@ val_dataset = DemoDataset(
     transforms=None,
 )
 
-### Use the Subset while debugging ###
+# ### Use the Subset while debugging ###
 # train_dataset = Subset(train_dataset, range(100))
 # val_dataset = Subset(val_dataset, range(10))
 
@@ -64,26 +60,19 @@ print(f"LEN VAL IMAGE IDS: {len(val_dataset.dataset.image_ids)}")
 print("SANITY CHECK DONE!!")
 
 
-train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
-val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
+train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=7)
+val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=7)
 
 ## TODO
 # You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
-try:
-    model = AutoModelForCausalLM.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
-except Exception as e:
-    print("You need to pick a pre-trained model from HuggingFace.")
-    print("Exception: ", e)
+
+model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
 
 ## TODO Select your model optimizer
-try:
-    raise NotImplementedError("Select your model optimizer")
-    optimizer = None   # pick one from torch.optim
-except Exception as e:
-    print("You need to pick an optimizer from torch.optim.")
-    print("Exception: ", e)
+    
+optimizer = AdamW(model.parameters(), lr=1e-5)   # pick one from torch.optim
 
 # Wrap the model with DataParallel only if more than one GPU is available
 if torch.cuda.device_count() > 1:
@@ -95,6 +84,8 @@ model.to(device)
 method = "CIDEr"  # method used for comparsions
 
 logger = Logger(f"{DEMO_SAVE_PATH}/logs.log")
+
+logger.info(f"using device: {device}")
 
 
 def train(loger, train_dataloader, model, optimizer, device, processor):
@@ -223,7 +214,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
 
 best_score = 0
-for epoch in range(3):
+for epoch in range(5):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
@@ -234,8 +225,8 @@ for epoch in range(3):
     loss = train(logger, train_dataloader, model, optimizer, device, processor)
     logger.info(f"Loss at epoch {epoch}: {loss}")
 
-    # Evaluate the model every 3 epochs
-    if epoch % 3 == 0:
+    # Evaluate the model every epoch
+    if epoch % 1 == 0:
         vizwizEval, vizwizRes, plot_captions_dict = evaluate(
             logger,
             epoch,
