@@ -1,5 +1,38 @@
 # DS598 DL4DS Midterm Project
 
+## Student Run
+Tried change models, optimizers and learning rate in train.py and num_beams in test.py.
+
+## Student Result
+The best test CIDEr SCORE in Eval.ai is 77.69%.
+
+The following is the best setting I obtained:
+1. choose pretrained processor  
+pretrained_processor_name = "microsoft/git-large"  
+processor = AutoProcessor.from_pretrained(pretrained_processor_name, cache_dir=CACHE_DIR)
+2. choose pretrained model  
+pretrained_model_name = "microsoft/git-large"  
+model = AutoModelForCausalLM.from_pretrained(pretrained_model_name, cache_dir=CACHE_DIR)
+3. choose batch_size  
+train_batch_size = 6  
+val_batch_size = 6  
+4. choose optimizer  
+optimizer = torch.optim.AdamW(model.parameters(), 1e-5)  
+5. choose number of epoch  
+num_epochs = 10  
+
+## Student Predicted Image Caption Example
+![caption_1](https://github.com/yukezbu/sp2024_midterm/blob/main/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/epoch_9/best/caption_1.png?raw=true)
+
+![caption_2](https://github.com/yukezbu/sp2024_midterm/blob/main/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/epoch_9/best/caption_2.png?raw=true)
+
+![caption_3](https://github.com/yukezbu/sp2024_midterm/blob/main/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/epoch_9/best/caption_3.png?raw=true)
+
+![caption_4](https://github.com/yukezbu/sp2024_midterm/blob/main/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/epoch_9/best/caption_4.png?raw=true)
+
+![caption_5](https://github.com/yukezbu/sp2024_midterm/blob/main/RESULTS/git/examples_AdamW_3_27_large_lr5_epoch10_tbs6_vbs6/epoch_9/best/caption_5.png?raw=true)
+
+
 ## Introduction
 For this project, you will train a network to generate captions for the 
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).

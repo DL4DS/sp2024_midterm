@@ -3,6 +3,10 @@
 *.pt
 *.pyc
 wandb/*
+RESULTS_archive/*
+*.bin
+*.lock
+misc/*
 
 __pycache__/
 
