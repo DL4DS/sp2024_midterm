@@ -5,7 +5,7 @@ import nltk
 import spacy
 
 # set this path to where you want to save results
-BASE_DIR = "/projectnb/ds598/projects/tgardos/sp2024_midterm/"
+BASE_DIR = "/projectnb/ds598/students/weimai/sp2024_midterm"
 
 # Do not edit. This points to the dataset folder
 DATA_BASE_DIR = "/projectnb/ds598/materials/datasets/vizwiz/captions/"
@@ -53,5 +53,5 @@ DEMO_MEAN = np.array([123.675, 116.280, 103.530]) / 255
 DEMO_STD = np.array([58.395, 57.120, 57.375]) / 255
 
 # SAVE PATHS
-DEMO_SAVE_PATH = BASE_DIR + "RESULTS/git"
+DEMO_SAVE_PATH = BASE_DIR + "/sp2024_midtermRESULTS/git"
 CNNLSTM_SAVE_PATH = BASE_DIR + "RESULTS/cnn_lstm"

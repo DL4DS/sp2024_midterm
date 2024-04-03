@@ -1,5 +1,47 @@
 # DS598 DL4DS Midterm Project
 
+## Results - Wei
+
+For this project, I experimented with Microsoft/git-base, salesforce/blip-base, microsoft-kosmos, GPT2
+
+Microsoft/git-base gives at best 35-39 for CIDER score
+
+kosmos, GPT2 not finished training.
+
+The best score was finetuning on salesforce/blip-base model.
+<img width="1103" alt="Screen Shot 2024-03-27 at 2 44 27 PM" src="https://github.com/weibb123/sp2024_midterm/assets/84426364/5ad46a72-0745-4a61-b9ab-335d92b60b37">
+
+train.sh.o5676799 provides the score during each epoch. Constants.py is where I update to my project path. 
+
+For this challenge, only the train.py, test.py, dataset.py in demo_model folder are modified. Train.sh and test.sh shows how to submit batch job on SCC.
+
+To load in salesforce/blip-base-image-caption model from huggingface, https://huggingface.co/Salesforce/blip-image-captioning-base
+
+You would need to modify the original train.py
+
+```
+processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
+model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
+```
+
+For optimizer, I choose to use AdamW from torch.optim and set learning rate to 5e-5.
+
+#### Important note
+Because I am using transformers, it is important to feed attention_masks to the model. For example..
+```
+outputs = model(
+            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids,
+            attention_mask=attention_mask
+        )
+```
+
+As for epoch, it is possible to get higher cider score with longer epoch. For this experiment, I set it to 13, but achieved a cider score of 50 in first 5 epochs.
+
+### How to evaluate
+
+To evaluate your fine-tune model, make sure to download config, preconfig.json files and store in the model path for inference to work.
+
+
 ## Introduction
 For this project, you will train a network to generate captions for the 
 [VizWiz Image Captioning dataset](https://vizwiz.org/tasks-and-datasets/image-captioning/).
