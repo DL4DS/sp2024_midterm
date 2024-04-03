@@ -1,4 +1,10 @@
-# DS598 DL4DS Midterm Project
+# DS598 DL4DS Midterm Project 
+## Student Name / BUID (Yuta Tsukumo / U96925937)
+
+## Hyperparameter Tuning
+Processor used: "microsoft/git-base"
+Learning rate: 5e-4
+epoch in range: 30　(Epoch 7 training results are used to perform validation)
 
 ## Introduction
 For this project, you will train a network to generate captions for the 
