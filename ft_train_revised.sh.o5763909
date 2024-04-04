@@ -1,0 +1,119 @@
+Defaulting to user installation because normal site-packages is not writeable
+Collecting en-core-web-sm==3.7.1
+  Downloading https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl (12.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.8/12.8 MB 208.9 MB/s eta 0:00:00
+Requirement already satisfied: spacy<3.8.0,>=3.7.2 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from en-core-web-sm==3.7.1) (3.7.2)
+Requirement already satisfied: spacy-legacy<3.1.0,>=3.0.11 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (3.0.12)
+Requirement already satisfied: spacy-loggers<2.0.0,>=1.0.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (1.0.5)
+Requirement already satisfied: murmurhash<1.1.0,>=0.28.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (1.0.10)
+Requirement already satisfied: cymem<2.1.0,>=2.0.2 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (2.0.8)
+Requirement already satisfied: preshed<3.1.0,>=3.0.2 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (3.0.9)
+Requirement already satisfied: thinc<8.3.0,>=8.1.8 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (8.2.2)
+Requirement already satisfied: wasabi<1.2.0,>=0.9.1 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (1.1.2)
+Requirement already satisfied: srsly<3.0.0,>=2.4.3 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (2.4.8)
+Requirement already satisfied: catalogue<2.1.0,>=2.0.6 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (2.0.10)
+Requirement already satisfied: weasel<0.4.0,>=0.1.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (0.3.4)
+Requirement already satisfied: typer<0.10.0,>=0.3.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (0.9.0)
+Requirement already satisfied: smart-open<7.0.0,>=5.2.1 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (6.4.0)
+Requirement already satisfied: tqdm<5.0.0,>=4.38.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (4.66.1)
+Requirement already satisfied: requests<3.0.0,>=2.13.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (2.31.0)
+Requirement already satisfied: pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (2.6.1)
+Requirement already satisfied: jinja2 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (3.1.2)
+Requirement already satisfied: setuptools in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (69.0.3)
+Requirement already satisfied: packaging>=20.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (23.2)
+Requirement already satisfied: langcodes<4.0.0,>=3.2.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (3.3.0)
+Requirement already satisfied: numpy>=1.19.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (1.26.3)
+Requirement already satisfied: annotated-types>=0.4.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (0.6.0)
+Requirement already satisfied: pydantic-core==2.16.2 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (2.16.2)
+Requirement already satisfied: typing-extensions>=4.6.1 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (4.9.0)
+Requirement already satisfied: charset-normalizer<4,>=2 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (3.3.2)
+Requirement already satisfied: idna<4,>=2.5 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (3.6)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (2.1.0)
+Requirement already satisfied: certifi>=2017.4.17 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (2024.2.2)
+Requirement already satisfied: blis<0.8.0,>=0.7.8 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from thinc<8.3.0,>=8.1.8->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (0.7.10)
+Requirement already satisfied: confection<1.0.0,>=0.0.1 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from thinc<8.3.0,>=8.1.8->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (0.1.4)
+Requirement already satisfied: click<9.0.0,>=7.1.1 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from typer<0.10.0,>=0.3.0->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (8.1.7)
+Requirement already satisfied: cloudpathlib<0.17.0,>=0.7.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from weasel<0.4.0,>=0.1.0->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (0.16.0)
+Requirement already satisfied: MarkupSafe>=2.0 in /share/pkg.8/academic-ml/spring-2024/install/spring-2024-pyt/lib/python3.11/site-packages (from jinja2->spacy<3.8.0,>=3.7.2->en-core-web-sm==3.7.1) (2.1.3)
+[38;5;2m✔ Download and installation successful[0m
+You can now load the package via spacy.load('en_core_web_sm')
+Token has not been saved to git credential helper. Pass `add_to_git_credential=True` if you want to set the git credential as well.
+Token is valid (permission: read).
+Your token has been saved to /usr4/ds598/spark618/.cache/huggingface/token
+Login successful
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/ft' already exists.
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/ft/examples' already exists.
+loading annotations into memory...
+Done (t=0.36s)
+creating index...
+index created! imgs = 23431, anns = 100575
+loading annotations into memory...
+Done (t=0.07s)
+creating index...
+index created! imgs = 7750, anns = 33145
+SANITY CHECK!!
+LEN TRAIN IMAGE IDS: 22866
+LEN VAL IMAGE IDS: 7542
+SANITY CHECK DONE!!
+Epoch: 1
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created! imgs = 7542, anns = 7542
+tokenization...
+setting up scorers...
+computing Bleu score...
+{'testlen': 88833, 'reflen': 81760, 'guess': [88833, 81291, 73749, 66207], 'correct': [49690, 21498, 8132, 2777]}
+ratio: 1.086509295499008
+Bleu_1: 0.559
+Bleu_2: 0.385
+Bleu_3: 0.254
+Bleu_4: 0.162
+computing CIDEr score...
+CIDEr: 0.438
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/ft/examples/epoch_0/best/' created.
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/ft/examples/epoch_0/worst/' created.
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/ft/examples/epoch_0/first_3/' created.
+Epoch: 2
+Epoch: 3
+Epoch: 4
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created! imgs = 7542, anns = 7542
+tokenization...
+setting up scorers...
+computing Bleu score...
+{'testlen': 82684, 'reflen': 80343, 'guess': [82684, 75142, 67600, 60058], 'correct': [50714, 22098, 8511, 3149]}
+ratio: 1.0291375726572192
+Bleu_1: 0.613
+Bleu_2: 0.425
+Bleu_3: 0.283
+Bleu_4: 0.186
+computing CIDEr score...
+CIDEr: 0.506
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/ft/examples/epoch_3/best/' created.
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/ft/examples/epoch_3/worst/' created.
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/ft/examples/epoch_3/first_3/' created.
+Epoch: 5
+Epoch: 6
+Epoch: 7
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created! imgs = 7542, anns = 7542
+tokenization...
+setting up scorers...
+computing Bleu score...
+{'testlen': 0, 'reflen': 68802, 'guess': [0, 0, 0, 0], 'correct': [0, 0, 0, 0]}
+ratio: 1.4534461207522827e-20
+Bleu_1: 0.000
+Bleu_2: 0.000
+Bleu_3: 0.000
+Bleu_4: 0.000
+computing CIDEr score...
+CIDEr: 0.000
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/ft/examples/epoch_6/best/' created.
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/ft/examples/epoch_6/worst/' created.
+Directory '/projectnb/ds598/projects/spark618/sp2024_midterm/RESULTS/ft/examples/epoch_6/first_3/' created.
+Epoch: 8

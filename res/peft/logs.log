@@ -1,0 +1,28 @@
+2024-03-31 08:11:14 - INFO - Loss at epoch 0: 8.154182434082031
+2024-03-31 08:38:20 - INFO - Validation scores at epoch: 0
+2024-03-31 08:38:20 - INFO -   Method: Bleu_1, Score: 0.6787
+2024-03-31 08:38:20 - INFO -   Method: Bleu_2, Score: 0.4927
+2024-03-31 08:38:20 - INFO -   Method: Bleu_3, Score: 0.3459
+2024-03-31 08:38:20 - INFO -   Method: Bleu_4, Score: 0.2386
+2024-03-31 08:38:20 - INFO -   Method: CIDEr, Score: 0.7365
+2024-03-31 08:38:21 - INFO - New best score: 0.7365239766059674. Model saved
+2024-03-31 09:43:42 - INFO - Loss at epoch 1: 8.140650749206543
+2024-03-31 10:48:52 - INFO - Loss at epoch 2: 8.204442024230957
+2024-03-31 11:56:02 - INFO - Loss at epoch 3: 8.176748275756836
+2024-03-31 12:26:06 - INFO - Validation scores at epoch: 3
+2024-03-31 12:26:06 - INFO -   Method: Bleu_1, Score: 0.6682
+2024-03-31 12:26:06 - INFO -   Method: Bleu_2, Score: 0.4835
+2024-03-31 12:26:06 - INFO -   Method: Bleu_3, Score: 0.3386
+2024-03-31 12:26:06 - INFO -   Method: Bleu_4, Score: 0.2331
+2024-03-31 12:26:06 - INFO -   Method: CIDEr, Score: 0.7250
+2024-03-31 13:35:30 - INFO - Loss at epoch 4: 8.210248947143555
+2024-03-31 14:43:34 - INFO - Loss at epoch 5: 8.173856735229492
+2024-03-31 15:51:38 - INFO - Loss at epoch 6: 8.197002410888672
+2024-03-31 16:22:12 - INFO - Validation scores at epoch: 6
+2024-03-31 16:22:12 - INFO -   Method: Bleu_1, Score: 0.6630
+2024-03-31 16:22:12 - INFO -   Method: Bleu_2, Score: 0.4813
+2024-03-31 16:22:12 - INFO -   Method: Bleu_3, Score: 0.3374
+2024-03-31 16:22:12 - INFO -   Method: Bleu_4, Score: 0.2321
+2024-03-31 16:22:12 - INFO -   Method: CIDEr, Score: 0.7363
+2024-03-31 17:30:22 - INFO - Loss at epoch 7: 8.201763153076172
+2024-03-31 18:38:34 - INFO - Loss at epoch 8: 8.23902702331543
