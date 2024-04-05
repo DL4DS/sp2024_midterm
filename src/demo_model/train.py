@@ -26,7 +26,7 @@ import json
 CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
 
 create_directory(DEMO_SAVE_PATH)
-create_directory(DEMO_SAVE_PATH + "/examples")
+create_directory(DEMO_SAVE_PATH + "/examples_0")
 
 ## TODO
 # You can use the AutoProcessor.from_pretrained() method to load the HuggingFace
