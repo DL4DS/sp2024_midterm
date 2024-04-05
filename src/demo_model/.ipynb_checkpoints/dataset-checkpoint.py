@@ -37,7 +37,7 @@ class DemoDataset(CustomDataset):
 
         if not self.test:
             anns = self.vizwiz.imgToAnns[img_id]
-            #caption = anns[0]['caption'] if 'caption' in anns[0] else anns[1]['caption']
+            # caption = anns[0]['caption'] if 'caption' in anns[0] else anns[1]['caption']
             # randomly select a caption
             caption = random.choice(
                 [ann["caption"] for ann in anns if "caption" in ann]
@@ -58,9 +58,8 @@ class DemoDataset(CustomDataset):
                 "pixel_values": image_encoding["pixel_values"].squeeze(),
                 "image_ids": torch.tensor(img_id),
             }
-            
+
             return encoding
-        
         else:
             image_encoding = self.processor(
                 images=img, padding="max_length", return_tensors="pt"
