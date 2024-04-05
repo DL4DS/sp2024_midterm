@@ -227,13 +227,13 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
     # Save the images and captions
     save_image_captions(
-        best_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/best/"
+        best_img_and_captions, f"{DEMO_SAVE_PATH}/examples_0/epoch_{epoch}/best/"
     )
     save_image_captions(
-        worst_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/worst/"
+        worst_img_and_captions, f"{DEMO_SAVE_PATH}/examples_0/epoch_{epoch}/worst/"
     )
     save_image_captions(
-        first_3_img_and_captions, f"{DEMO_SAVE_PATH}/examples/epoch_{epoch}/first_3/"
+        first_3_img_and_captions, f"{DEMO_SAVE_PATH}/examples_0/epoch_{epoch}/first_3/"
     )
 
 
