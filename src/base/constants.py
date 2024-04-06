@@ -5,14 +5,14 @@ import nltk
 import spacy
 
 # set this path to where you want to save results
-BASE_DIR = "/projectnb/ds598/projects/tgardos/sp2024_midterm/"
+BASE_DIR = "/projectnb/ds598/students/nikhitam/sp2024_midterm/"
 
 # Do not edit. This points to the dataset folder
 DATA_BASE_DIR = "/projectnb/ds598/materials/datasets/vizwiz/captions/"
 
 os.environ["SPACY_DATA"] = BASE_DIR + "/misc/spacy_data"
 
-nltk_data_directory = BASE_DIR + "misc/nltk_data"
+nltk_data_directory = BASE_DIR + "/misc/nltk_data"
 nltk.data.path.append(nltk_data_directory)
 nltk.download("punkt", download_dir=nltk_data_directory)
 

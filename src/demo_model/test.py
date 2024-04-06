@@ -16,6 +16,10 @@ from tqdm import tqdm
 
 CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
 
+DEMO_SAVE_PATH = BASE_DIR + "RESULTS/GIT"
+
+
+
 create_directory(DEMO_SAVE_PATH)  # src/base/helpers.py
 create_directory(DEMO_SAVE_PATH + "/examples")
 
@@ -23,7 +27,7 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 MODEL_PATH = f"{DEMO_SAVE_PATH}/best_model"
 
 # Load your fine tuned model
-model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
+model = AutoModelForCausalLM.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
 
 ## TODO
 # You can use the AutoProcessor.from_pretrained() method to load the HuggingFace
@@ -33,10 +37,13 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
 #
 # Of course you should use the same model you trained with.
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
+
+if torch.cuda.device_count() > 1:
+    model = torch.nn.DataParallel(model)
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = model.to(device)
@@ -61,7 +68,10 @@ for data in tqdm(test_dataset, total=len(test_dataset)):
     pixel_values = pixel_values.to(device)
 
     with torch.no_grad():
-        output = model.generate(pixel_values=pixel_values, max_length=50)
+        if torch.cuda.device_count() > 1:
+            output = model.module.generate(pixel_values=pixel_values, max_length=50)
+        else:
+            output = model.generate(pixel_values=pixel_values, max_length=50)
 
     caption = processor.decode(output[0], skip_special_tokens=True)
 

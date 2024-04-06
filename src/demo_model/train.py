@@ -6,36 +6,27 @@ from src.base.helpers import *
 from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
 from dataset import DemoDataset   ## This is a local import from dataset.pyA
 from tqdm import tqdm
-from transformers import AutoProcessor
+from transformers import AutoProcessor, AutoImageProcessor
 from transformers import AutoModelForCausalLM
 from PIL import Image
 import matplotlib.pyplot as plt
 import os
 import json
 
-################################################################################
-# This is template code that will not run as is since a model is not defined but
-# is has much of the infrastructure needed to fine-tune a model on the VizWiz
-# dataset.
-#
-# At a minimum you will have to complete code indicated by TODO comments.
-################################################################################
-
 CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
 
 create_directory(DEMO_SAVE_PATH)
 create_directory(DEMO_SAVE_PATH + "/examples")
 
-## TODO
-# You can use the AutoProcessor.from_pretrained() method to load the HuggingFace
-# processor for the model you are using. This will allow you to use the processor
-# to encode and decode text and images.
-# https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
+
+
+# from transformers import BlipProcessor, BlipForConditionalGeneration
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
+
 
 train_dataset = DemoDataset(
     processor=processor,
@@ -49,12 +40,8 @@ val_dataset = DemoDataset(
     image_folder=VAL_IMAGE_FOLDER,
     transforms=None,
 )
-
-### Use the Subset while debugging ###
-# train_dataset = Subset(train_dataset, range(100))
-# val_dataset = Subset(val_dataset, range(10))
-
-### Since, subset is used above, the dataset object needs to be called with a .dataset, to access the original dataset. So while using the full dataset, the below is done. ###
+#train_dataset = Subset(train_dataset, range(100))
+#val_dataset = Subset(val_dataset, range(10))
 train_dataset = Subset(train_dataset, range(len(train_dataset)))
 val_dataset = Subset(val_dataset, range(len(val_dataset)))
 
@@ -63,29 +50,21 @@ print(f"LEN TRAIN IMAGE IDS: {len(train_dataset.dataset.image_ids)}")
 print(f"LEN VAL IMAGE IDS: {len(val_dataset.dataset.image_ids)}")
 print("SANITY CHECK DONE!!")
 
-
 train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
 val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
 
-## TODO
-# You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
-# model you want to fine-tune. This will allow you to use the model to train and evaluate
-# on the VizWiz dataset.
 try:
-    model = AutoModelForCausalLM.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    model = AutoModelForCausalLM.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
-## TODO Select your model optimizer
 try:
-    raise NotImplementedError("Select your model optimizer")
-    optimizer = None   # pick one from torch.optim
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.00001)   # pick one from torch.optim
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
 
-# Wrap the model with DataParallel only if more than one GPU is available
 if torch.cuda.device_count() > 1:
     model = torch.nn.DataParallel(model)
 
@@ -97,17 +76,21 @@ method = "CIDEr"  # method used for comparsions
 logger = Logger(f"{DEMO_SAVE_PATH}/logs.log")
 
 
+
+
+
 def train(loger, train_dataloader, model, optimizer, device, processor):
     model.train()
 
     for idx, batch in progress_bar:
         input_ids = batch.pop("input_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
+        attention_mask = batch.pop("attention_mask").to(device)
 
         optimizer.zero_grad()
 
         outputs = model(
-            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids
+            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids, attention_mask=attention_mask
         )
 
         loss = outputs.loss
@@ -122,7 +105,6 @@ def train(loger, train_dataloader, model, optimizer, device, processor):
 
     return loss.item()
 
-
 def evaluate(
     logger, epoch, save_path, best_score, val_dataloader, model, processor, device
 ):
@@ -133,8 +115,12 @@ def evaluate(
         image_ids = batch.pop("image_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
 
+
         with torch.no_grad():
-            outputs = model.generate(pixel_values=pixel_values, max_length=50)
+            if torch.cuda.device_count() > 1:
+                outputs = model.module.generate(pixel_values=pixel_values, max_length=50)
+            else:
+                outputs = model.generate(pixel_values=pixel_values, max_length=50)
 
         # Decode the generated ids to text
         generated_captions = processor.batch_decode(outputs, skip_special_tokens=True)
@@ -223,7 +209,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
 
 best_score = 0
-for epoch in range(3):
+for epoch in range(10):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
@@ -249,7 +235,10 @@ for epoch in range(3):
         score = vizwizEval.eval[method]
         if score > best_score:
             best_score = score
-            model.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            if torch.cuda.device_count() > 1:
+                model.module.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
+            else:
+                model.save_pretrained(f"{DEMO_SAVE_PATH}/best_model")
             logger.info(f"New best score: {best_score}. Model saved")
 
         get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method)
