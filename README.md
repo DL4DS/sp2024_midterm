@@ -32,11 +32,11 @@ Here are two examples of the model's predictions:
 
 Good example:
 
-![good example](https://i.postimg.cc/rzyv09gc/good-example.png)
+![good example](https://i.postimg.cc/HWbHNZyJ/good-example.png)
 
 Bad example:
 
-![bad example](https://i.postimg.cc/SYK5Byjj/bad-example.png)
+![bad example](https://i.postimg.cc/qqcTCqTc/bad-example.png)
 
 ### Test Results
 
