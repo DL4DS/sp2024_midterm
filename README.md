@@ -28,6 +28,16 @@ At Epoch 7, the training loss was 1.3944. The performance scores for this epoch 
 | BLEU-4  | 0.2419  |
 | **CIDEr**   | **0.7261**  |
 
+Here are two examples of the model's predictions:
+
+Good example:
+
+![good example](https://i.postimg.cc/rzyv09gc/good-example.png)
+
+Bad example:
+
+![bad example](https://i.postimg.cc/SYK5Byjj/bad-example.png)
+
 ### Test Results
 
 I submitted my test results to the VizWiz Image Captioning [Evaluation Server](https://eval.ai/web/challenges/challenge-page/739/overview). Here are the performance scores obtained:
