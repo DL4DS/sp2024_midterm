@@ -26,7 +26,7 @@ At Epoch 7, the training loss was 1.3944. The performance scores for this epoch 
 | BLEU-2  | 0.4938  |
 | BLEU-3  | 0.3489  |
 | BLEU-4  | 0.2419  |
-| CIDEr   | 0.7261  |
+| **CIDEr**   | **0.7261**  |
 
 ### Test Results
 
