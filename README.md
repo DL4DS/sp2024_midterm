@@ -33,7 +33,7 @@ Step-by-step instructions will be added here shortly.
 State-of-the-art CIDEr-D scores on VizWiz Image Captioning is ~125. We're asking that you get a **minimum CIDEr-D test score of 50**.
 
 ## Limitation and Reflection
-1. Facing with challenges such as debugging empty predictions, CUDA version mismatches, limited computational resources, and long training times. Consequently, my experimentation was limited to a few models such as [blip-image-captioning-base model](https://huggingface.co/Salesforce/blip-image-captioning-base), [blip-image-captioning-large model](https://huggingface.co/Salesforce/blip-image-captioning-large), and [git-base](https://huggingface.co/microsoft/git-base) for fine-tuning. 
+1. Facing with challenges such as debugging empty predictions, CUDA version mismatches, limited computational resources, and long training times, my experimentation was limited to a few models such as [blip-image-captioning-base model](https://huggingface.co/Salesforce/blip-image-captioning-base), [blip-image-captioning-large model](https://huggingface.co/Salesforce/blip-image-captioning-large), and [git-base](https://huggingface.co/microsoft/git-base) for fine-tuning. 
 
 2. I didn't try methods like data augmentation and dropout that could have potentially improved the model's robustness and generalization capabilities.
 
@@ -41,7 +41,7 @@ State-of-the-art CIDEr-D scores on VizWiz Image Captioning is ~125. We're asking
 1. [CIDEr: Consensus-based image description evaluation](https://ieeexplore.ieee.org/document/7299087)
 2. [BLEU: A Misunderstood Metric from Another Age](https://towardsdatascience.com/bleu-a-misunderstood-metric-from-another-age-d434e18f1b37), Medium Post
 3. [BLEU Metric](https://huggingface.co/spaces/evaluate-metric/bleu), HuggingFace space
-4. 
+4. [image-to-text models](https://huggingface.co/models?pipeline_tag=image-to-text&sort=trending)
 5. [image_captioning](https://huggingface.co/docs/transformers/main/en/tasks/image_captioning)
 6. [BlipForConditionalGeneration](https://huggingface.co/docs/transformers/en/model_doc/blip#transformers.BlipForConditionalGeneration)
 
