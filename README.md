@@ -43,6 +43,12 @@ I submitted my test results to the VizWiz Image Captioning [Evaluation Server](h
 | **CIDEr**   | **75.37** |
 | SPICE   | 17.48 |
 
+## Implementation Suggestions
+
+1. Explore trending image-to-text models on the [huggingface repository](https://huggingface.co/models?pipeline_tag=image-to-text&sort=trending) for alternatives, and feed dataset images into the reference API to evaluate the pre-trained models' outputs.
+
+2. The default learning rates for optimizers such as SGD, Adam, and AdamW are too high for fine-tuning, potentially leading to similar outputs across different inputs. It is recommended to adjust the learning rate to between 1e-5 and 5e-4.
+
 ## Limitation and Reflection
 1. Facing with challenges such as debugging empty predictions, CUDA version mismatches, limited computational resources, and long training times, my experimentation was limited to a few models such as [blip-image-captioning-base model](https://huggingface.co/Salesforce/blip-image-captioning-base), [blip-image-captioning-large model](https://huggingface.co/Salesforce/blip-image-captioning-large), and [git-base](https://huggingface.co/microsoft/git-base) for fine-tuning. 
 
