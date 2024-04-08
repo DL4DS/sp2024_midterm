@@ -2,6 +2,8 @@
 
 # Set SCC project
 #$ -P ds598
+#$ -m beas
+#$ -M xyz0906@bu.edu
 
 module load miniconda
 module load academic-ml/spring-2024
@@ -9,7 +11,7 @@ module load academic-ml/spring-2024
 conda activate spring-2024-pyt
 
 # Change this path to point to your project directory
-export PYTHONPATH="/projectnb/ds598/admin/tgardos/sp2024_midterm:$PYTHONPATH" # Set this!!!
+export PYTHONPATH="/usr4/ds598/xyz0906/sp2024_midterm:$PYTHONPATH" # Set this!!!
 
 python src/demo_model/test.py
 
