@@ -5,7 +5,7 @@ import nltk
 import spacy
 
 # set this path to where you want to save results
-BASE_DIR = "/projectnb/ds598/projects/tgardos/sp2024_midterm/"
+BASE_DIR = "/projectnb/ds598/students/jun/vizwiz-image-captioning/"
 
 # Do not edit. This points to the dataset folder
 DATA_BASE_DIR = "/projectnb/ds598/materials/datasets/vizwiz/captions/"
@@ -25,7 +25,7 @@ os.environ["TORCH_HOME"] = BASE_DIR + "misc"
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # DATA PATHS
-# Data was loaded here from the VizWiz website 
+# Data was loaded here from the VizWiz website
 # `wget https://vizwiz.cs.colorado.edu/VizWiz_final/caption/annotations.zip` then unzip annotations.zip
 TRAIN_ANNOTATION_FILE = (
     DATA_BASE_DIR + "annotations/train.json"
