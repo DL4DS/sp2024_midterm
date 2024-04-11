@@ -13,6 +13,9 @@ import matplotlib.pyplot as plt
 import os
 import json
 
+from transformers import BlipProcessor, BlipForConditionalGeneration
+
+
 ################################################################################
 # This is template code that will not run as is since a model is not defined but
 # is has much of the infrastructure needed to fine-tune a model on the VizWiz
@@ -32,7 +35,9 @@ create_directory(DEMO_SAVE_PATH + "/examples")
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    # processor = AutoProcessor.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
+
+    processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -64,23 +69,24 @@ print(f"LEN VAL IMAGE IDS: {len(val_dataset.dataset.image_ids)}")
 print("SANITY CHECK DONE!!")
 
 
-train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8)
-val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32)
+train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=8) #original 8
+val_dataloader = DataLoader(val_dataset, shuffle=False, batch_size=32) # original 32
 
 ## TODO
 # You can use the AutoModelForCausalLM.from_pretrained() method to load the HuggingFace
 # model you want to fine-tune. This will allow you to use the model to train and evaluate
 # on the VizWiz dataset.
 try:
-    model = AutoModelForCausalLM.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    # model = AutoModelForCausalLM.from_pretrained("microsoft/git-base", cache_dir=CACHE_DIR)
+    model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", cache_dir=CACHE_DIR)
+
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
 
 ## TODO Select your model optimizer
 try:
-    raise NotImplementedError("Select your model optimizer")
-    optimizer = None   # pick one from torch.optim
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5)  
 except Exception as e:
     print("You need to pick an optimizer from torch.optim.")
     print("Exception: ", e)
@@ -103,11 +109,11 @@ def train(loger, train_dataloader, model, optimizer, device, processor):
     for idx, batch in progress_bar:
         input_ids = batch.pop("input_ids").to(device)
         pixel_values = batch.pop("pixel_values").to(device)
-
+        attention_mask = batch.pop("attention_mask").to(device)
         optimizer.zero_grad()
 
         outputs = model(
-            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids
+            input_ids=input_ids, pixel_values=pixel_values, labels=input_ids, attention_mask = attention_mask
         )
 
         loss = outputs.loss
@@ -223,7 +229,7 @@ def get_val_examples(vizwizEval, vizwizRes, plot_captions_dict, epoch, method="C
 
 
 best_score = 0
-for epoch in range(3):
+for epoch in range(13):
     print(f"Epoch: {epoch+1}")
     # Wrap the dataloader with tqdm for a progress bar
     progress_bar = tqdm(
