@@ -31,9 +31,11 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
 # to encode and decode text and images.
 # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoProcessor
 #
+
+# some models have beam parameters.
 # Of course you should use the same model you trained with.
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -61,7 +63,7 @@ for data in tqdm(test_dataset, total=len(test_dataset)):
     pixel_values = pixel_values.to(device)
 
     with torch.no_grad():
-        output = model.generate(pixel_values=pixel_values, max_length=50)
+        output = model.generate(num_beams = 10,pixel_values=pixel_values, max_length=50)
 
     caption = processor.decode(output[0], skip_special_tokens=True)
 
@@ -70,7 +72,7 @@ for data in tqdm(test_dataset, total=len(test_dataset)):
         {"image_id": img_id.item(), "caption": caption}
     )  # Used for VizWizEvalCap
 
-with open(DEMO_SAVE_PATH + "/test_captions.json", "w") as f:
+with open(DEMO_SAVE_PATH + "/test_captions_num_beams_10.json", "w") as f:
     json.dump(caption_val, f, indent=4)
 
 print("Test captions saved to disk!!")

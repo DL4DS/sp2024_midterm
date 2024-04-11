@@ -39,6 +39,7 @@ class DemoDataset(CustomDataset):
             anns = self.vizwiz.imgToAnns[img_id]
             # caption = anns[0]['caption'] if 'caption' in anns[0] else anns[1]['caption']
             # randomly select a caption
+            # each image has 5 coptions,
             caption = random.choice(
                 [ann["caption"] for ann in anns if "caption" in ann]
             )
