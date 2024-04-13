@@ -4,7 +4,7 @@ from torchvision import transforms
 from src.base.constants import *
 from src.base.helpers import *
 from src.base.vizwiz_eval_cap.eval import VizWizEvalCap
-from dataset import DemoDataset
+from dataset import GITLargeDataset
 from tqdm import tqdm
 from transformers import AutoProcessor
 from transformers import AutoModelForCausalLM
@@ -14,13 +14,22 @@ import os
 import json
 from tqdm import tqdm
 
+
+## TODO
+# set the saved folder name and path with respect to model and its hyperparameters
+optim = "AdamW"
+(beta1,beta2) = (0.9,0.999)
+lr = 1e-5
+DEMO_SAVE_PATH_1 = DEMO_SAVE_PATH + f"/full/{optim}_{lr}_{beta1}_{beta2}"
+
+
 CACHE_DIR = os.environ.get("TRANSFORMERS_CACHE")
 
-create_directory(DEMO_SAVE_PATH)  # src/base/helpers.py
-create_directory(DEMO_SAVE_PATH + "/examples")
+create_directory(DEMO_SAVE_PATH_1)  # src/base/helpers.py
+create_directory(DEMO_SAVE_PATH_1 + "/examples")
 
 # The path below points to the location where the model was saved
-MODEL_PATH = f"{DEMO_SAVE_PATH}/best_model"
+MODEL_PATH = f"{DEMO_SAVE_PATH_1}/best_model"
 
 # Load your fine tuned model
 model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
@@ -33,7 +42,7 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
 #
 # Of course you should use the same model you trained with.
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    processor = AutoProcessor.from_pretrained("microsoft/git-large", cache_dir=CACHE_DIR)
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -41,7 +50,7 @@ except Exception as e:
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = model.to(device)
 
-test_dataset = DemoDataset(
+test_dataset = GITLargeDataset(
     processor=processor,
     annotation_file=TEST_ANNOTATION_FILE,
     image_folder=TEST_IMAGE_FOLDER,
@@ -70,7 +79,7 @@ for data in tqdm(test_dataset, total=len(test_dataset)):
         {"image_id": img_id.item(), "caption": caption}
     )  # Used for VizWizEvalCap
 
-with open(DEMO_SAVE_PATH + "/test_captions.json", "w") as f:
+with open(DEMO_SAVE_PATH_1 + "/test_captions.json", "w") as f:
     json.dump(caption_val, f, indent=4)
 
 print("Test captions saved to disk!!")
