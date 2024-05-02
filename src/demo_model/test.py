@@ -33,7 +33,8 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, cache_dir=CACHE_DIR)
 #
 # Of course you should use the same model you trained with.
 try:
-    processor = AutoProcessor.from_pretrained("replace-with-model-choice", cache_dir=CACHE_DIR)
+    ## ******** UPDATED MODEL ******** ##
+    processor = AutoProcessor.from_pretrained("microsoft/git-large")
 except Exception as e:
     print("You need to pick a pre-trained model from HuggingFace.")
     print("Exception: ", e)
@@ -61,7 +62,7 @@ for data in tqdm(test_dataset, total=len(test_dataset)):
     pixel_values = pixel_values.to(device)
 
     with torch.no_grad():
-        output = model.generate(pixel_values=pixel_values, max_length=50)
+        output = model.generate(pixel_values=pixel_values, max_length=50, num_beams=5) # added number of beams
 
     caption = processor.decode(output[0], skip_special_tokens=True)
 
